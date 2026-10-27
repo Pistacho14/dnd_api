@@ -162,3 +162,12 @@ buildNumber.properties
 ######################
 
 uml/
+
+######################
+######   JavaFX  ######
+######################
+
+# Local JavaFX SDK/JMOD installations
+javafx-sdk-*/
+javafx-jmods-*/
+*.jmod
