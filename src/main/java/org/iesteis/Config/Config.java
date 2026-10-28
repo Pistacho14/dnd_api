@@ -1,4 +1,4 @@
-package org.iesteis.Config;
+package org.iesteis.config;
 
 import java.io.InputStream;
 import java.util.Properties;
