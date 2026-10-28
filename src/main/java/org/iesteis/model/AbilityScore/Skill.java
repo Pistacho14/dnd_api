@@ -5,6 +5,12 @@ public class Skill {
     private String index;
     private String url;
 
+    public Skill(String name, String index, String url) {
+        this.name = name;
+        this.index = index;
+        this.url = url;
+    }
+    
     public String getName() { return name; }
     public void setName(String value) { this.name = value; }
 
