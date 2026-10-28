@@ -34,4 +34,16 @@ public class Config {
         }
     }
 
+    public static String getDatabaseUrl() {
+        return databaseUrl;
+    }
+
+    public static String getDatabaseUser() {
+        return databaseUser;
+    }
+
+    public static String getDatabasePassword() {
+        return databasePassword;
+    }
+
 }
