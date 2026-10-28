@@ -1,16 +1,18 @@
 package org.iesteis;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+import org.iesteis.model.Response;
+
+import tools.jackson.databind.ObjectMapper;
 
 
-public class MainApp extends Application {
-    private static Stage stage;
+public class MainApp{
+/*    private static Stage stage;
 
     @Override
     public void start(@SuppressWarnings("exports") Stage s) throws IOException {
@@ -33,10 +35,36 @@ public class MainApp extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("/fxml/"+fxml + ".fxml"));
         return fxmlLoader.load();
     }
+*/
+    static void readAPIRest() {
+        ObjectMapper mapper = new ObjectMapper();
+        HttpClient client = HttpClient.newHttpClient();
+
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                                    .uri(URI.create("https://www.dnd5eapi.co/api/2024"))
+                                    .GET()
+                                    .build();
+            HttpResponse<String> response = client
+                                            .send(
+                                    request,
+                                    HttpResponse.BodyHandlers.ofString());
+            
+            Response r = mapper.readValue(response.body(), Response.class);
+            System.out.println(r.getDamageTypes());                        
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
     public static void main(String[] args) {
-        launch(args);
+        // launch(args);
+        readAPIRest();
     }
+
+    
 
 }
