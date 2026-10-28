@@ -5,6 +5,8 @@ module org.iesteis {
     requires tools.jackson.dataformat.xml;
     requires com.fasterxml.jackson.annotation;
     requires java.net.http;
+    requires java.sql;
+    requires org.slf4j;
     opens org.iesteis to javafx.fxml;
     opens org.iesteis.model to tools.jackson.databind;
     opens org.iesteis.model.AbilityScore to tools.jackson.databind;
