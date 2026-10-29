@@ -1,22 +1,25 @@
 package org.iesteis.database;
 
-import org.iesteis.config.Config;
-import org.iesteis.database.DatabaseManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import repository.EstudiantesRepositoryImpl;
-
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.io.Reader;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.iesteis.config.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DatabaseService implements DatabaseManager {
 
@@ -24,7 +27,7 @@ public class DatabaseService implements DatabaseManager {
 
     private Connection connection = null;
 
-    /*public DatabaseService() {
+    public DatabaseService() {
         initConexion();
         if (Config.getDatabaseInitTables()) {
             initTablas();
@@ -32,7 +35,7 @@ public class DatabaseService implements DatabaseManager {
         if (Config.getDatabaseInitData()) {
             initData();
         }
-    }*/
+    }
 
     private void initConexion() {
         logger.debug("Iniciando conexión con la base de datos");
@@ -52,9 +55,13 @@ public class DatabaseService implements DatabaseManager {
             URL resourceUrl = ClassLoader.getSystemResource("tables.sql");
             Path path = Paths.get(resourceUrl.toURI());
             String tables = Files.readString(path);
-            PreparedStatement statement = connection.prepareStatement(tables);
-            statement.executeUpdate();
-
+            try (Statement statement = connection.createStatement()) {
+                for (String sql : tables.split(";")) {
+                    if (!sql.isBlank()) {
+                        statement.executeUpdate(sql);
+                    }
+                }
+            }
             logger.debug("Tabla estudiantes creada");
         } catch (Exception e) {
             logger.error("Error al crear las tablas: " + e.getMessage());
