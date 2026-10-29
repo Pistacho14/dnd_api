@@ -1,18 +1,14 @@
 package org.iesteis.repository.abilityScore;
 
-import org.iesteis.database.DatabaseManager;
-import org.iesteis.model.AbilityScore.Skill;
-import org.iesteis.database.DatabaseService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.math.BigInteger;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import org.iesteis.database.DatabaseManager;
+import org.iesteis.database.DatabaseService;
+import org.iesteis.model.AbilityScore.Skill;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SkillsRepositoryImpl implements SkillsRepository {
 
@@ -35,6 +31,18 @@ public class SkillsRepositoryImpl implements SkillsRepository {
         return db.select(sql).stream()
                 .map(this::toModel)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Skill findById(String id) {
+        logger.debug("Buscando habilidad por id: " + id);
+
+        String sql = "SELECT * FROM skills WHERE \"index\" = ?";
+        List<Map<String, Object>> result = db.select(sql, id);
+        if (result.isEmpty()) {
+            return null;
+        }
+        return toModel(result.get(0));
     }
 
     public Skill findByKey(String name) {
@@ -65,25 +73,21 @@ public class SkillsRepositoryImpl implements SkillsRepository {
                 skill.getURL());
     }
 
-    public Skill update(int id, Skill item) {
+    public Skill update(String id, Skill item) {
         logger.debug("Actualizando estudiante por id: " + id);
 
         Skill estudiante = findById(id);
         if (estudiante == null) {
             return null;
-        }
-
-        LocalDateTime timeStamp = LocalDateTime.now();
+        };
 
         String sql = "UPDATE Estudiantes SET nombre = ?, fecha_nacimiento = ?, calificacion = ?, repetidor = ?, updated_at = ? WHERE id = ?";
 
         int result = db.update(
                 sql,
-                item.getNombre(),
-                item.getFechaNacimiento().toString(),
-                item.getCalificacion(),
-                item.isRepetidor(),
-                timeStamp,
+                item.getName(),
+                item.getIndex(),
+                item.getURL(),
                 id);
 
         if (result <= 0) {
@@ -92,16 +96,12 @@ public class SkillsRepositoryImpl implements SkillsRepository {
 
         return new Skill(
                 id,
-                item.getNombre(),
-                item.getFechaNacimiento(),
-                item.getCalificacion(),
-                item.isRepetidor(),
-                item.getCreatedAt(),
-                timeStamp);
+                item.getIndex(),
+                item.getURL());
     }
 
     public Skill delete(String name) {
-        logger.debug("Borrando estudiante por id: " + id);
+        logger.debug("Borrando estudiante por id: " + name);
 
         Skill skill = findByKey(name);
         if (skill == null) {
@@ -109,19 +109,16 @@ public class SkillsRepositoryImpl implements SkillsRepository {
         }
 
         String sql = "DELETE FROM Estudiantes WHERE id = ?";
-        int result = db.delete(sql, id);
+        int result = db.delete(sql, name);
         if (result <= 0) {
             return null;
         }
 
         return new Skill(
-                skill.getId(),
-                skill.getNombre(),
-                skill.getFechaNacimiento(),
-                skill.getCalificacion(),
-                skill.isRepetidor(),
-                skill.getCreatedAt(),
-                LocalDateTime.now());
+            skill.getName(),
+            skill.getIndex(),
+            skill.getURL()
+        );
     }
 
     @Override
@@ -136,7 +133,7 @@ public class SkillsRepositoryImpl implements SkillsRepository {
 
     @Override
     public List<Skill> findByUrl(String url) {
-        logger.debug("Buscando estudiantes por calificación: " + calificacion);
+        logger.debug("Buscando estudiantes por calificación: " + url);
 
         String sql = "SELECT * FROM Estudiantes WHERE calificacion = ?";
         return db.select(sql, url).stream()
@@ -146,7 +143,7 @@ public class SkillsRepositoryImpl implements SkillsRepository {
 
     @Override
     public List<Skill> findByIndex(String index) {
-        logger.debug("Buscando estudiantes por repetidor: " + repetidor);
+        logger.debug("Buscando estudiantes por repetidor: " + index);
 
         String sql = "SELECT * FROM Estudiantes WHERE repetidor = ?";
         return db.select(sql, index).stream()
