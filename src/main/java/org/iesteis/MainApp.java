@@ -7,6 +7,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 import org.iesteis.model.Response;
+import org.iesteis.repository.abilityScore.SkillsRepositoryImpl;
 
 import tools.jackson.databind.ObjectMapper;
 
@@ -63,6 +64,8 @@ public class MainApp{
     public static void main(String[] args) {
         // launch(args);
         readAPIRest();
+        SkillsRepositoryImpl skillsRepository = new SkillsRepositoryImpl();
+        
     }
 
     
