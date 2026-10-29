@@ -4,7 +4,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class Config {
-    private static String databaseUrl = "jdbc:mysql:dndDatabase.db";
+    private static String databaseUrl = "jdbc:mysql:dnddatabase.db";
     private static boolean databaseInitTables = true;
     private static boolean databaseInitData = true;
     private static String storageData = "data";
@@ -19,7 +19,7 @@ public class Config {
 
         if(input != null) {
             properties.load(input);
-            databaseUrl = properties.getProperty("databaseUrl", databaseUrl);
+            databaseUrl = properties.getProperty("database.url", databaseUrl);
             databaseInitTables = Boolean.parseBoolean(properties.getProperty("database.init.tables", String.valueOf(databaseInitTables)));
             databaseInitData = Boolean.parseBoolean(properties.getProperty("database.init.data", String.valueOf(databaseInitData)));
             storageData = properties.getProperty("storage.data", storageData);
@@ -46,4 +46,11 @@ public class Config {
         return databasePassword;
     }
 
+    public static boolean getDatabaseInitTables() {
+        return databaseInitTables;
+    }
+
+    public static boolean  getDatabaseInitData() {
+        return databaseInitData;
+    }
 }
