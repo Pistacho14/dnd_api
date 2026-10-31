@@ -38,11 +38,14 @@ public class MainApp{
 
     public static void main(String[] args) {
         // launch(args);
-        readAPIRest();
-        SkillsRepositoryImpl skillsRepository = new SkillsRepositoryImpl();
         
+        Response response = DndApiClient.readAPIRest();
+
+        ApiListResponse<Skill> skills = DndApiClient.readAPIRest(response.getSkills(), new TypeReference<ApiListResponse<Skill>>() {});
+
+        SkillsRepositoryImpl skillsRepository = new SkillsRepositoryImpl();
+
+        skills.getResults().stream().forEach(skillsRepository::save);
+
     }
-
-    
-
 }
