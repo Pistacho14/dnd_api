@@ -25,7 +25,7 @@ public class SkillsRepositoryImpl implements SkillsRepository {
     }
 
     public List<Skill> findAll() {
-        logger.debug("Buscando todos los estudiantes");
+        logger.debug("Buscando todas las skills");
 
         String sql = "SELECT * FROM skills";
         return db.select(sql).stream()
@@ -35,7 +35,7 @@ public class SkillsRepositoryImpl implements SkillsRepository {
 
     @Override
     public Skill findById(String id) {
-        logger.debug("Buscando habilidad por id: " + id);
+        logger.debug("Buscando skills por id: " + id);
 
         String sql = "SELECT * FROM skills WHERE \"index\" = ?";
         List<Map<String, Object>> result = db.select(sql, id);
@@ -46,9 +46,9 @@ public class SkillsRepositoryImpl implements SkillsRepository {
     }
 
     public Skill findByKey(String name) {
-        logger.debug("Buscando estudiante por id: " + name);
+        logger.debug("Buscando skillsestudiante por key: " + name);
 
-        String sql = "SELECT * FROM Estudiantes WHERE id = ?";
+        String sql = "SELECT * FROM skills WHERE id = ?";
         List<Map<String, Object>> result = db.select(sql, name);
         if (result.isEmpty()) {
             return null;
@@ -59,18 +59,18 @@ public class SkillsRepositoryImpl implements SkillsRepository {
     public Skill save(Skill skill) {
         logger.debug("Guardando estudiante: " + skill);
 
-        String sql = "INSERT INTO skills (index, name, url) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO skills (`index`, name, url) VALUES (?, ?, ?)";
 
-        Object generatedId = db.insertAndGetId(
+        db.insert(
                 sql,
-                skill.getName(),
                 skill.getIndex(),
-                skill.getURL());
+                skill.getName(),
+                skill.getUrl());
 
         return new Skill(
-                skill.getName(),
                 skill.getIndex(),
-                skill.getURL());
+                skill.getName(),
+                skill.getUrl());
     }
 
     public Skill update(String id, Skill item) {
@@ -79,7 +79,7 @@ public class SkillsRepositoryImpl implements SkillsRepository {
         Skill estudiante = findById(id);
         if (estudiante == null) {
             return null;
-        };
+        }
 
         String sql = "UPDATE Estudiantes SET nombre = ?, fecha_nacimiento = ?, calificacion = ?, repetidor = ?, updated_at = ? WHERE id = ?";
 
@@ -87,7 +87,7 @@ public class SkillsRepositoryImpl implements SkillsRepository {
                 sql,
                 item.getName(),
                 item.getIndex(),
-                item.getURL(),
+                item.getUrl(),
                 id);
 
         if (result <= 0) {
@@ -97,11 +97,11 @@ public class SkillsRepositoryImpl implements SkillsRepository {
         return new Skill(
                 id,
                 item.getIndex(),
-                item.getURL());
+                item.getUrl());
     }
 
     public Skill delete(String name) {
-        logger.debug("Borrando estudiante por id: " + name);
+        logger.debug("Borrando skill por id: " + name);
 
         Skill skill = findByKey(name);
         if (skill == null) {
@@ -115,10 +115,9 @@ public class SkillsRepositoryImpl implements SkillsRepository {
         }
 
         return new Skill(
-            skill.getName(),
-            skill.getIndex(),
-            skill.getURL()
-        );
+                skill.getName(),
+                skill.getIndex(),
+                skill.getUrl());
     }
 
     @Override
