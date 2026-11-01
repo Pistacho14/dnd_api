@@ -1,4 +1,4 @@
-package org.iesteis.model.Classes;
+package org.iesteis.model.classes;
 
 public class PrerequisiteOptionsFrom {
     private OptionSetType optionSetType;

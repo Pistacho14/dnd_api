@@ -1,4 +1,4 @@
-package org.iesteis.model.EquipmentCategories;
+package org.iesteis.model.equipmentCategories;
 
 public class EquipmentCategories {
     private String index;

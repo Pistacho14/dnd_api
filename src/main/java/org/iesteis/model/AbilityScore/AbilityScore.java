@@ -1,4 +1,4 @@
-package org.iesteis.model.AbilityScore;
+package org.iesteis.model.abilityScore;
 
 public class AbilityScore {
     private String index;

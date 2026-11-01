@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import org.iesteis.database.DatabaseManager;
 import org.iesteis.database.DatabaseService;
-import org.iesteis.model.AbilityScore.Skill;
+import org.iesteis.model.abilityScore.Skill;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

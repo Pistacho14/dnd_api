@@ -1,4 +1,4 @@
-package org.iesteis.model.Alignments;
+package org.iesteis.model.alignments;
 
 public class Alignments {
     private String index;

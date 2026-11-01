@@ -4,10 +4,10 @@ import tools.jackson.core.type.TypeReference;
 
 import org.iesteis.api.DndApiClient;
 import org.iesteis.model.ApiListResponse;
-import org.iesteis.model.AbilityScore.Skill;
 import org.iesteis.repository.abilityScore.SkillsRepository;
 import org.iesteis.repository.abilityScore.SkillsRepositoryImpl;
 import org.iesteis.model.Response;
+import org.iesteis.model.abilityScore.Skill;
 
 
 public class MainApp{
@@ -46,6 +46,8 @@ public class MainApp{
         SkillsRepositoryImpl skillsRepository = new SkillsRepositoryImpl();
 
         skills.getResults().stream().forEach(skillsRepository::save);
+
+        
 
     }
 }

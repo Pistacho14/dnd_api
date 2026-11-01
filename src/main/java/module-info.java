@@ -9,13 +9,13 @@ module org.iesteis {
     requires org.slf4j;
     opens org.iesteis to javafx.fxml;
     opens org.iesteis.model to tools.jackson.databind;
-    opens org.iesteis.model.AbilityScore to tools.jackson.databind;
-    opens org.iesteis.model.Alignments to tools.jackson.databind;
-    opens org.iesteis.model.Background to tools.jackson.databind;
-    opens org.iesteis.model.Classes to tools.jackson.databind;
-    opens org.iesteis.model.Conditions to tools.jackson.databind;
-    opens org.iesteis.model.DamageTypes to tools.jackson.databind;
-    opens org.iesteis.model.Equipment to tools.jackson.databind;
-    opens org.iesteis.model.Feats to tools.jackson.databind;
+    opens org.iesteis.model.abilityScore to tools.jackson.databind;
+    opens org.iesteis.model.alignments to tools.jackson.databind;
+    opens org.iesteis.model.background to tools.jackson.databind;
+    opens org.iesteis.model.classes to tools.jackson.databind;
+    opens org.iesteis.model.conditions to tools.jackson.databind;
+    opens org.iesteis.model.damageTypes to tools.jackson.databind;
+    opens org.iesteis.model.equipment to tools.jackson.databind;
+    opens org.iesteis.model.feats to tools.jackson.databind;
     exports org.iesteis;
 }

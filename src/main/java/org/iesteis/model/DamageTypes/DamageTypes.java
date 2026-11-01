@@ -1,4 +1,4 @@
-package org.iesteis.model.DamageTypes;
+package org.iesteis.model.damageTypes;
 
 public class DamageTypes {
     private String index;

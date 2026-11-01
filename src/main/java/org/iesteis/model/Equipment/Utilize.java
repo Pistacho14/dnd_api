@@ -1,4 +1,4 @@
-package org.iesteis.model.Equipment;
+package org.iesteis.model.equipment;
 
 public class Utilize {
     private String name;

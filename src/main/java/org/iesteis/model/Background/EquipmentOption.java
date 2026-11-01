@@ -1,5 +1,5 @@
 
-package org.iesteis.model.Background;
+package org.iesteis.model.background;
 
 public class EquipmentOption {
     private String desc;
