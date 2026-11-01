@@ -4,8 +4,8 @@ import tools.jackson.core.type.TypeReference;
 
 import org.iesteis.api.DndApiClient;
 import org.iesteis.model.ApiListResponse;
-import org.iesteis.repository.abilityScore.SkillsRepository;
-import org.iesteis.repository.abilityScore.SkillsRepositoryImpl;
+import org.iesteis.repository.abilityScore.SkillRepository;
+import org.iesteis.repository.abilityScore.SkillRepositoryImpl;
 import org.iesteis.model.Response;
 import org.iesteis.model.abilityScore.Skill;
 
@@ -43,7 +43,7 @@ public class MainApp{
 
         ApiListResponse<Skill> skills = DndApiClient.readAPIRest(response.getSkills(), new TypeReference<ApiListResponse<Skill>>() {});
 
-        SkillsRepositoryImpl skillsRepository = new SkillsRepositoryImpl();
+        SkillRepositoryImpl skillsRepository = new SkillRepositoryImpl();
 
         skills.getResults().stream().forEach(skillsRepository::save);
 
