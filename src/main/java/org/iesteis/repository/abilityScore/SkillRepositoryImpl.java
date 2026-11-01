@@ -24,6 +24,7 @@ public class SkillRepositoryImpl implements SkillRepository {
         this.db = db;
     }
 
+    @Override
     public List<Skill> findAll() {
         logger.debug("Buscando todas las skills");
 
@@ -34,97 +35,70 @@ public class SkillRepositoryImpl implements SkillRepository {
     }
 
     @Override
-    public Skill findById(String id) {
-        logger.debug("Buscando skills por id: " + id);
+    public Skill findById(String index) {
+        logger.debug("Buscando skill por index: " + index);
 
-        String sql = "SELECT * FROM skills WHERE \"index\" = ?";
-        List<Map<String, Object>> result = db.select(sql, id);
+        String sql = "SELECT * FROM skills WHERE `index` = ?";
+        List<Map<String, Object>> result = db.select(sql, index);
         if (result.isEmpty()) {
             return null;
         }
         return toModel(result.get(0));
     }
 
-    public Skill findByKey(String name) {
-        logger.debug("Buscando skillsestudiante por key: " + name);
-
-        String sql = "SELECT * FROM skills WHERE id = ?";
-        List<Map<String, Object>> result = db.select(sql, name);
-        if (result.isEmpty()) {
-            return null;
-        }
-        return toModel(result.get(0));
-    }
-
+    @Override
     public Skill save(Skill skill) {
-        logger.debug("Guardando estudiante: " + skill);
+        logger.debug("Guardando skill: " + skill);
 
         String sql = "INSERT INTO skills (`index`, name, url) VALUES (?, ?, ?)";
-
-        db.insert(
-                sql,
-                skill.getIndex(),
-                skill.getName(),
-                skill.getUrl());
-
-        return new Skill(
-                skill.getIndex(),
-                skill.getName(),
-                skill.getUrl());
-    }
-
-    public Skill update(String id, Skill item) {
-        logger.debug("Actualizando estudiante por id: " + id);
-
-        Skill estudiante = findById(id);
-        if (estudiante == null) {
-            return null;
-        }
-
-        String sql = "UPDATE Estudiantes SET nombre = ?, fecha_nacimiento = ?, calificacion = ?, repetidor = ?, updated_at = ? WHERE id = ?";
-
-        int result = db.update(
-                sql,
-                item.getName(),
-                item.getIndex(),
-                item.getUrl(),
-                id);
-
+        int result = db.insert(sql, skill.getIndex(), skill.getName(), skill.getUrl());
         if (result <= 0) {
             return null;
         }
 
-        return new Skill(
-                id,
-                item.getIndex(),
-                item.getUrl());
+        return new Skill(skill.getIndex(), skill.getName(), skill.getUrl());
     }
 
-    public Skill delete(String name) {
-        logger.debug("Borrando skill por id: " + name);
+    @Override
+    public Skill update(String index, Skill skill) {
+        logger.debug("Actualizando skill por index: " + index);
 
-        Skill skill = findByKey(name);
+        if (findById(index) == null) {
+            return null;
+        }
+
+        String sql = "UPDATE skills SET `index` = ?, name = ?, url = ? WHERE `index` = ?";
+        int result = db.update(sql, skill.getIndex(), skill.getName(), skill.getUrl(), index);
+        if (result <= 0) {
+            return null;
+        }
+
+        return new Skill(skill.getIndex(), skill.getName(), skill.getUrl());
+    }
+
+    @Override
+    public Skill delete(String index) {
+        logger.debug("Borrando skill por index: " + index);
+
+        Skill skill = findById(index);
         if (skill == null) {
             return null;
         }
 
-        String sql = "DELETE FROM Estudiantes WHERE id = ?";
-        int result = db.delete(sql, name);
+        String sql = "DELETE FROM skills WHERE `index` = ?";
+        int result = db.delete(sql, index);
         if (result <= 0) {
             return null;
         }
 
-        return new Skill(
-                skill.getName(),
-                skill.getIndex(),
-                skill.getUrl());
+        return skill;
     }
 
     @Override
     public List<Skill> findByName(String name) {
-        logger.debug("Buscando estudiantes por nombre: " + name);
+        logger.debug("Buscando skills por nombre: " + name);
 
-        String sql = "SELECT * FROM Estudiantes WHERE LOWER(nombre) LIKE LOWER(?)";
+        String sql = "SELECT * FROM skills WHERE LOWER(name) LIKE LOWER(?)";
         return db.select(sql, "%" + name + "%").stream()
                 .map(this::toModel)
                 .collect(Collectors.toList());
@@ -132,9 +106,9 @@ public class SkillRepositoryImpl implements SkillRepository {
 
     @Override
     public List<Skill> findByUrl(String url) {
-        logger.debug("Buscando estudiantes por calificación: " + url);
+        logger.debug("Buscando skills por url: " + url);
 
-        String sql = "SELECT * FROM Estudiantes WHERE calificacion = ?";
+        String sql = "SELECT * FROM skills WHERE url = ?";
         return db.select(sql, url).stream()
                 .map(this::toModel)
                 .collect(Collectors.toList());
@@ -142,19 +116,18 @@ public class SkillRepositoryImpl implements SkillRepository {
 
     @Override
     public List<Skill> findByIndex(String index) {
-        logger.debug("Buscando estudiantes por repetidor: " + index);
+        logger.debug("Buscando skills por index: " + index);
 
-        String sql = "SELECT * FROM Estudiantes WHERE repetidor = ?";
+        String sql = "SELECT * FROM skills WHERE `index` = ?";
         return db.select(sql, index).stream()
                 .map(this::toModel)
                 .collect(Collectors.toList());
     }
 
-    // Conversión del resultado del DB a modelo Estudiante
     private Skill toModel(Map<String, Object> entity) {
         return new Skill(
-                (String) entity.get("same"),
                 (String) entity.get("index"),
+                (String) entity.get("name"),
                 (String) entity.get("url"));
     }
 }
