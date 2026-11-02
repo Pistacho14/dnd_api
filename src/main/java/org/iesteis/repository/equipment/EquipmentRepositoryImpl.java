@@ -1,5 +1,15 @@
 package org.iesteis.repository.equipment;
 
+
+
+import org.iesteis.model.equipment.Content;
+import org.iesteis.model.equipment.Utilize;
+import org.iesteis.model.equipment.Ability;
+import org.iesteis.model.equipment.ArmorClass;
+import org.iesteis.model.equipment.Cost;
+import org.iesteis.model.equipment.Damage;
+import org.iesteis.model.equipment.Range;
+import org.iesteis.model.equipment.Time;
 import java.util.List;
 import java.util.Map;
 
@@ -76,30 +86,30 @@ public class EquipmentRepositoryImpl extends BaseRepository<Equipment> implement
         return new Equipment(
                 (String) entity.get("index"),
                 (String) entity.get("name"),
-                read(entity.get("equipment_categories"), org.iesteis.model.equipment.Ability[].class),
-                read(entity.get("cost"), org.iesteis.model.equipment.Cost.class),
+                read(entity.get("equipment_categories"), Ability[].class),
+                read(entity.get("cost"), Cost.class),
                 number(entity.get("weight"), Double.class),
                 lines(entity.get("description")),
                 (String) entity.get("url"),
-                read(entity.get("ability"), org.iesteis.model.equipment.Ability.class),
-                read(entity.get("craft"), org.iesteis.model.equipment.Ability[].class),
-                read(entity.get("utilize"), org.iesteis.model.equipment.Utilize[].class),
+                read(entity.get("ability"), Ability.class),
+                read(entity.get("craft"), Ability[].class),
+                read(entity.get("utilize"), Utilize[].class),
                 number(entity.get("quantity"), Long.class),
-                read(entity.get("storage"), org.iesteis.model.equipment.Ability.class),
+                read(entity.get("storage"), Ability.class),
                 (String) entity.get("image"),
-                read(entity.get("damage"), org.iesteis.model.equipment.Damage.class),
-                read(entity.get("range"), org.iesteis.model.equipment.Range.class),
-                read(entity.get("properties"), org.iesteis.model.equipment.Ability[].class),
-                read(entity.get("mastery"), org.iesteis.model.equipment.Ability.class),
-                read(entity.get("two_handed_damage"), org.iesteis.model.equipment.Damage.class),
-                read(entity.get("ammunition"), org.iesteis.model.equipment.Ability.class),
-                read(entity.get("armor_class"), org.iesteis.model.equipment.ArmorClass.class),
-                read(entity.get("don_time"), org.iesteis.model.equipment.Time.class),
-                read(entity.get("doff_time"), org.iesteis.model.equipment.Time.class),
+                read(entity.get("damage"), Damage.class),
+                read(entity.get("range"), Range.class),
+                read(entity.get("properties"), Ability[].class),
+                read(entity.get("mastery"), Ability.class),
+                read(entity.get("two_handed_damage"), Damage.class),
+                read(entity.get("ammunition"), Ability.class),
+                read(entity.get("armor_class"), ArmorClass.class),
+                read(entity.get("don_time"), Time.class),
+                read(entity.get("doff_time"), Time.class),
                 (Boolean) entity.get("stealth_disadvantage"),
                 number(entity.get("str_minimum"), Long.class),
-                read(entity.get("contents"), org.iesteis.model.equipment.Content[].class),
-                read(entity.get("throw_range"), org.iesteis.model.equipment.Range.class),
+                read(entity.get("contents"), Content[].class),
+                read(entity.get("throw_range"), Range.class),
                 read(entity.get("notes"), String[].class));
     }
 
