@@ -1,5 +1,13 @@
 package org.iesteis.repository.classes;
 
+
+
+import org.iesteis.model.classes.Proficiency;
+import org.iesteis.model.classes.ProficiencyChoice;
+import org.iesteis.model.classes.StartingEquipmentOption;
+import org.iesteis.model.classes.MultiClassing;
+import org.iesteis.model.classes.PrimaryAbility;
+import org.iesteis.model.classes.Spellcasting;
 import java.util.List;
 import java.util.Map;
 
@@ -63,18 +71,18 @@ public class ClassesRepositoryImpl extends BaseRepository<Classes> implements Cl
         return new Classes(
                 (String) entity.get("index"),
                 (String) entity.get("name"),
-                read(entity.get("primary_ability"), org.iesteis.model.classes.PrimaryAbility.class),
+                read(entity.get("primary_ability"), PrimaryAbility.class),
                 ((Number) entity.get("hit_die")).longValue(),
-                read(entity.get("proficiency_choices"), org.iesteis.model.classes.ProficiencyChoice[].class),
-                read(entity.get("proficiencies"), org.iesteis.model.classes.Proficiency[].class),
-                read(entity.get("saving_throws"), org.iesteis.model.classes.Proficiency[].class),
+                read(entity.get("proficiency_choices"), ProficiencyChoice[].class),
+                read(entity.get("proficiencies"), Proficiency[].class),
+                read(entity.get("saving_throws"), Proficiency[].class),
                 read(entity.get("starting_equipment_options"),
-                        org.iesteis.model.classes.StartingEquipmentOption[].class),
+                        StartingEquipmentOption[].class),
                 (String) entity.get("class_levels"),
-                read(entity.get("multi_classing"), org.iesteis.model.classes.MultiClassing.class),
-                read(entity.get("subclasses"), org.iesteis.model.classes.Proficiency[].class),
+                read(entity.get("multi_classing"), MultiClassing.class),
+                read(entity.get("subclasses"), Proficiency[].class),
                 (String) entity.get("url"),
-                read(entity.get("spellcasting"), org.iesteis.model.classes.Spellcasting.class),
+                read(entity.get("spellcasting"), Spellcasting.class),
                 (String) entity.get("spells"));
     }
 
