@@ -1,11 +1,14 @@
 package org.iesteis.model.classes;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.io.IOException;
 
 public enum PurpleOptionType {
     CHOICE, REFERENCE;
+
+    @JsonValue
 
     public String toValue() {
         switch (this) {
