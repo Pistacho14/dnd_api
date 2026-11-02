@@ -1,9 +1,24 @@
 package org.iesteis.model.classes;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class AbilityScoreOptions {
+    public AbilityScoreOptions(String desc, long choose, String type, AbilityScoreOptionsFrom from) {
+        this.desc = desc;
+        this.choose = choose;
+        this.type = type;
+        this.from = from;
+    }
+
+    public AbilityScoreOptions() {}
+
+    @JsonProperty("desc")
     private String desc;
+    @JsonProperty("choose")
     private long choose;
+    @JsonProperty("type")
     private String type;
+    @JsonProperty("from")
     private AbilityScoreOptionsFrom from;
 
     public String getDesc() { return desc; }
