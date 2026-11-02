@@ -1,5 +1,7 @@
 package org.iesteis.model.classes;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.io.IOException;
 
 public enum ItemOptionType {
@@ -14,6 +16,7 @@ public enum ItemOptionType {
         return null;
     }
 
+    @JsonCreator
     public static ItemOptionType forValue(String value) throws IOException {
         if (value.equals("choice")) return CHOICE;
         if (value.equals("counted_reference")) return COUNTED_REFERENCE;
