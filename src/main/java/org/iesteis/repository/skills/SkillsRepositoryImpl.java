@@ -10,8 +10,11 @@ import org.iesteis.model.skills.AbilityScore;
 import org.iesteis.model.skills.Skills;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tools.jackson.databind.ObjectMapper;
 
 public class SkillsRepositoryImpl implements SkillsRepository {
+
+    private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
 
     private final DatabaseManager db;
 
@@ -52,13 +55,13 @@ public class SkillsRepositoryImpl implements SkillsRepository {
         logger.debug("Guardando skill: " + skill.getIndex());
 
         String sql = "INSERT INTO skills "
-                + "(`index`, name, description, ability_score_index, url) VALUES (?, ?, ?, ?, ?)";
+                + "(`index`, name, description, ability_score, url) VALUES (?, ?, ?, ?, ?)";
         int result = db.insert(
                 sql,
                 skill.getIndex(),
                 skill.getName(),
                 skill.getDescription(),
-                getAbilityScoreIndex(skill),
+                JSON_MAPPER.writeValueAsString(skill.getAbilityScore()),
                 skill.getUrl());
         if (result <= 0) {
             return null;
@@ -76,13 +79,13 @@ public class SkillsRepositoryImpl implements SkillsRepository {
         }
 
         String sql = "UPDATE skills SET `index` = ?, name = ?, description = ?, "
-                + "ability_score_index = ?, url = ? WHERE `index` = ?";
+                + "ability_score = ?, url = ? WHERE `index` = ?";
         int result = db.update(
                 sql,
                 skill.getIndex(),
                 skill.getName(),
                 skill.getDescription(),
-                getAbilityScoreIndex(skill),
+                JSON_MAPPER.writeValueAsString(skill.getAbilityScore()),
                 skill.getUrl(),
                 index);
         if (result <= 0) {
@@ -138,8 +141,10 @@ public class SkillsRepositoryImpl implements SkillsRepository {
     public List<Skills> findByAbilityScoreIndex(String abilityScoreIndex) {
         logger.debug("Buscando skills por ability score: " + abilityScoreIndex);
 
-        String sql = "SELECT * FROM skills WHERE ability_score_index = ?";
-        return findMany(sql, abilityScoreIndex);
+        return findAll().stream()
+                .filter(skill -> skill.getAbilityScore() != null
+                        && abilityScoreIndex.equals(skill.getAbilityScore().getIndex()))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -156,10 +161,6 @@ public class SkillsRepositoryImpl implements SkillsRepository {
                 .collect(Collectors.toList());
     }
 
-    private String getAbilityScoreIndex(Skills skill) {
-        return skill.getAbilityScore() == null ? null : skill.getAbilityScore().getIndex();
-    }
-
     private Skills toModel(Map<String, Object> entity) {
         Skills skill = new Skills();
         skill.setIndex((String) entity.get("index"));
@@ -167,11 +168,9 @@ public class SkillsRepositoryImpl implements SkillsRepository {
         skill.setDescription((String) entity.get("description"));
         skill.setUrl((String) entity.get("url"));
 
-        String abilityScoreIndex = (String) entity.get("ability_score_index");
-        if (abilityScoreIndex != null) {
-            AbilityScore abilityScore = new AbilityScore();
-            abilityScore.setIndex(abilityScoreIndex);
-            skill.setAbilityScore(abilityScore);
+        Object abilityScore = entity.get("ability_score");
+        if (abilityScore != null) {
+            skill.setAbilityScore(JSON_MAPPER.readValue((String) abilityScore, AbilityScore.class));
         }
         return skill;
     }
