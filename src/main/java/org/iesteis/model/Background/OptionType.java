@@ -1,4 +1,4 @@
-package org.iesteis.model.Background;
+package org.iesteis.model.background;
 
 import java.io.IOException;
 

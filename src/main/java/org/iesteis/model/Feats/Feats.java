@@ -1,4 +1,4 @@
-package org.iesteis.model.Feats;
+package org.iesteis.model.feats;
 
 public class Feats {
     private String index;

@@ -1,15 +1,16 @@
 package org.iesteis;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import tools.jackson.core.type.TypeReference;
 
+import org.iesteis.api.DndApiClient;
+import org.iesteis.model.ApiListResponse;
+import org.iesteis.repository.abilityScore.AbilityScoresRepositoryImpl;
+import org.iesteis.repository.abilityScore.SkillRepositoryImpl;
+import org.iesteis.repository.skills.SkillsRepositoryImpl;
 import org.iesteis.model.Response;
-import org.iesteis.repository.abilityScore.SkillsRepositoryImpl;
-
-import tools.jackson.databind.ObjectMapper;
+import org.iesteis.model.abilityScores.AbilityScores;
+import org.iesteis.model.abilityScores.Skill;
+import org.iesteis.model.skills.Skills;
 
 
 public class MainApp{
@@ -37,37 +38,41 @@ public class MainApp{
         return fxmlLoader.load();
     }
 */
-    static void readAPIRest() {
-        ObjectMapper mapper = new ObjectMapper();
-        HttpClient client = HttpClient.newHttpClient();
-
-        try {
-            HttpRequest request = HttpRequest.newBuilder()
-                                    .uri(URI.create("https://www.dnd5eapi.co/api/2024"))
-                                    .GET()
-                                    .build();
-            HttpResponse<String> response = client
-                                            .send(
-                                    request,
-                                    HttpResponse.BodyHandlers.ofString());
-            
-            Response r = mapper.readValue(response.body(), Response.class);
-            System.out.println(r.getDamageTypes());                        
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 
     public static void main(String[] args) {
         // launch(args);
-        readAPIRest();
-        SkillsRepositoryImpl skillsRepository = new SkillsRepositoryImpl();
         
+        Response response = DndApiClient.readAPIRest();
+
+        ApiListResponse<Skill> skill = DndApiClient.readAPIRest(response.getSkills(), new TypeReference<ApiListResponse<Skill>>() {});
+
+        SkillRepositoryImpl skillRepository = new SkillRepositoryImpl();
+
+        skill.getResults().stream().forEach(skillRepository::save);
+
+        ApiListResponse<AbilityScores> abilityScore = DndApiClient.readAPIRest(response.getAbilityScores(), new TypeReference<ApiListResponse<AbilityScores>>() {});
+
+        AbilityScoresRepositoryImpl abilityScoreRepository = new  AbilityScoresRepositoryImpl();
+        
+        abilityScore.getResults().forEach(abilityScoreDetail -> {
+            AbilityScores detail = DndApiClient.readAPIRest(
+                    abilityScoreDetail.getUrl(),
+                    new TypeReference<AbilityScores>() {});
+            abilityScoreRepository.save(detail);
+        });
+
+        ApiListResponse<Skill> skills = DndApiClient.readAPIRest(
+                response.getSkills(),
+                new TypeReference<ApiListResponse<Skill>>() {});
+
+        SkillsRepositoryImpl skillsRepository = new SkillsRepositoryImpl();
+
+        skills.getResults().forEach(skillDetail -> {
+            Skills detail = DndApiClient.readAPIRest(
+                    skillDetail.getUrl(),
+                    new TypeReference<Skills>() {});
+            skillsRepository.save(detail);
+        });
+
     }
-
-    
-
 }

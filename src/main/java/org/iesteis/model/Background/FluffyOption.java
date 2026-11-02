@@ -1,4 +1,4 @@
-package org.iesteis.model.Background;
+package org.iesteis.model.background;
 
 public class FluffyOption {
     private String optionType;

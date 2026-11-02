@@ -1,4 +1,4 @@
-package org.iesteis.model.Conditions;
+package org.iesteis.model.conditions;
 
 public class Conditions {
     private String index;
