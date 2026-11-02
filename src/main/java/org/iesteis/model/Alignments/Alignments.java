@@ -1,10 +1,27 @@
 package org.iesteis.model.alignments;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Alignments {
+    public Alignments(String index, String name, String abbreviation, String description, String url) {
+        this.index = index;
+        this.name = name;
+        this.abbreviation = abbreviation;
+        this.description = description;
+        this.url = url;
+    }
+
+    public Alignments() {}
+
+    @JsonProperty("index")
     private String index;
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("abbreviation")
     private String abbreviation;
+    @JsonProperty("description")
     private String description;
+    @JsonProperty("url")
     private String url;
 
     public String getIndex() { return index; }
@@ -19,6 +36,6 @@ public class Alignments {
     public String getDescription() { return description; }
     public void setDescription(String value) { this.description = value; }
 
-    public String getURL() { return url; }
-    public void setURL(String value) { this.url = value; }
+    public String getUrl() { return url; }
+    public void setUrl(String value) { this.url = value; }
 }
