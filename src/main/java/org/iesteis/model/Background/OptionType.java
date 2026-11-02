@@ -1,23 +1,16 @@
 package org.iesteis.model.background;
 
-import java.io.IOException;
+import com.fasterxml.jackson.annotation.JsonCreator;
+
+import java.util.Locale;
 
 public enum OptionType {
-    CHOICE, COUNTED_REFERENCE, MONEY;
+    MONEY,
+    CHOICE,
+    COUNTED_REFERENCE;
 
-    public String toValue() {
-        switch (this) {
-            case CHOICE: return "choice";
-            case COUNTED_REFERENCE: return "counted_reference";
-            case MONEY: return "money";
-        }
-        return null;
-    }
-
-    public static OptionType forValue(String value) throws IOException {
-        if (value.equals("choice")) return CHOICE;
-        if (value.equals("counted_reference")) return COUNTED_REFERENCE;
-        if (value.equals("money")) return MONEY;
-        throw new IOException("Cannot deserialize OptionType");
+    @JsonCreator
+    public static OptionType fromJson(String value) {
+        return valueOf(value.toUpperCase(Locale.ROOT));
     }
 }
