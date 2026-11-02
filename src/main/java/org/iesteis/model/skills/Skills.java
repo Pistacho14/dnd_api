@@ -22,9 +22,7 @@ public class Skills {
         this.url = url;
     }
 
-    public Skills() {
-    }
-
+    public Skills() {}
     public String getIndex() {
         return index;
     }
