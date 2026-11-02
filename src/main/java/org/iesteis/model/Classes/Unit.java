@@ -1,5 +1,7 @@
 package org.iesteis.model.classes;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.io.IOException;
 
 public enum Unit {
@@ -12,6 +14,7 @@ public enum Unit {
         return null;
     }
 
+    @JsonCreator
     public static Unit forValue(String value) throws IOException {
         if (value.equals("gp")) return GP;
         throw new IOException("Cannot deserialize Unit");
