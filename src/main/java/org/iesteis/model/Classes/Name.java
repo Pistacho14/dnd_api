@@ -1,11 +1,14 @@
 package org.iesteis.model.classes;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.io.IOException;
 
 public enum Name {
     CANTRIPS, CHANGING_YOUR_PREPARED_SPELLS, PREPARED_SPELLS_OF_LEVEL_1, SPELLCASTING_ABILITY, SPELLCASTING_FOCUS, SPELL_SLOTS;
+
+    @JsonValue
 
     public String toValue() {
         switch (this) {
