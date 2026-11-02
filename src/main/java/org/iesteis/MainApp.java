@@ -1,6 +1,7 @@
 package org.iesteis;
 
 import tools.jackson.core.type.TypeReference;
+import java.util.List;
 
 import org.iesteis.api.DndApiClient;
 import org.iesteis.model.ApiListResponse;
@@ -13,6 +14,21 @@ import org.iesteis.repository.equipment.EquipmentRepositoryImpl;
 import org.iesteis.repository.equipmentCategories.EquipmentCategoriesRepositoryImpl;
 import org.iesteis.repository.feats.FeatsRepositoryImpl;
 import org.iesteis.repository.abilityScore.AbilityScoresRepositoryImpl;
+import org.iesteis.repository.features.FeaturesRepositoryImpl;
+import org.iesteis.repository.languages.LanguagesRepositoryImpl;
+import org.iesteis.repository.levels.LevelsRepositoryImpl;
+import org.iesteis.repository.magicItems.MagicItemsRepositoryImpl;
+import org.iesteis.repository.magicSchools.MagicSchoolsRepositoryImpl;
+import org.iesteis.repository.monsters.MonstersRepositoryImpl;
+import org.iesteis.repository.poisons.PoisonsRepositoryImpl;
+import org.iesteis.repository.proficiencies.ProficienciesRepositoryImpl;
+import org.iesteis.repository.species.SpeciesRepositoryImpl;
+import org.iesteis.repository.spells.SpellsRepositoryImpl;
+import org.iesteis.repository.subclasses.SubclassesRepositoryImpl;
+import org.iesteis.repository.subspecies.SubspeciesRepositoryImpl;
+import org.iesteis.repository.traits.TraitsRepositoryImpl;
+import org.iesteis.repository.weaponMasteryProperties.WeaponMasteryPropertiesRepositoryImpl;
+import org.iesteis.repository.weaponProperties.WeaponPropertiesRepositoryImpl;
 import org.iesteis.repository.skills.SkillsRepositoryImpl;
 import org.iesteis.model.Response;
 import org.iesteis.model.abilityScores.AbilityScores;
@@ -25,6 +41,21 @@ import org.iesteis.model.damageTypes.DamageTypes;
 import org.iesteis.model.equipment.Equipment;
 import org.iesteis.model.equipmentCategories.EquipmentCategories;
 import org.iesteis.model.feats.Feats;
+import org.iesteis.model.features.Features;
+import org.iesteis.model.languages.Languages;
+import org.iesteis.model.levels.Levels;
+import org.iesteis.model.magicItems.MagicItems;
+import org.iesteis.model.magicSchools.MagicSchools;
+import org.iesteis.model.monsters.Monster;
+import org.iesteis.model.poisons.Poisons;
+import org.iesteis.model.proficiencies.Proficiencies;
+import org.iesteis.model.species.Species;
+import org.iesteis.model.spells.Spells;
+import org.iesteis.model.subclasses.Subclasses;
+import org.iesteis.model.subspecies.Subspecies;
+import org.iesteis.model.traits.Traits;
+import org.iesteis.model.weaponMasteryProperties.WeaponMasteryProperties;
+import org.iesteis.model.weaponProperties.WeaponProperties;
 
 public class MainApp{
 /*    private static Stage stage;
@@ -57,7 +88,7 @@ public class MainApp{
 
         Response response = DndApiClient.readAPIRest();
 
-        ApiListResponse<AbilityScores> abilityScores = DndApiClient.readAPIRest(
+        /*ApiListResponse<AbilityScores> abilityScores = DndApiClient.readAPIRest(
                 response.getAbilityScores(),
                 new TypeReference<ApiListResponse<AbilityScores>>() {});
         AbilityScoresRepositoryImpl abilityScoresRepository = new AbilityScoresRepositoryImpl();
@@ -94,11 +125,21 @@ public class MainApp{
                 response.getClasses(),
                 new TypeReference<ApiListResponse<Classes>>() {});
         ClassesRepositoryImpl classesRepository = new ClassesRepositoryImpl();
+        LevelsRepositoryImpl levelsRepository = new LevelsRepositoryImpl();
         classes.getResults().forEach(item -> {
             Classes detail = DndApiClient.readAPIRest(
                     item.getUrl(),
                     new TypeReference<Classes>() {});
             classesRepository.save(detail);
+            List<Levels> levels = DndApiClient.readAPIRest(
+                    detail.getClassLevels(),
+                    new TypeReference<List<Levels>>() {});
+            levels.forEach(levelItem -> {
+                Levels levelDetail = DndApiClient.readAPIRest(
+                        levelItem.getUrl(),
+                        new TypeReference<Levels>() {});
+                levelsRepository.save(levelDetail);
+            });
         });
 
         ApiListResponse<Conditions> conditions = DndApiClient.readAPIRest(
@@ -166,6 +207,161 @@ public class MainApp{
                     item.getUrl(),
                     new TypeReference<Skills>() {});
             skillsRepository.save(detail);
+        });
+
+        ApiListResponse<Features> features = DndApiClient.readAPIRest(
+                response.getFeatures(),
+                new TypeReference<ApiListResponse<Features>>() {});
+        FeaturesRepositoryImpl featuresRepository = new FeaturesRepositoryImpl();
+        features.getResults().forEach(item -> {
+            Features detail = DndApiClient.readAPIRest(
+                    item.getUrl(),
+                    new TypeReference<Features>() {});
+            featuresRepository.save(detail);
+        });
+
+        ApiListResponse<Languages> languages = DndApiClient.readAPIRest(
+                response.getLanguages(),
+                new TypeReference<ApiListResponse<Languages>>() {});
+        LanguagesRepositoryImpl languagesRepository = new LanguagesRepositoryImpl();
+        languages.getResults().forEach(item -> {
+            Languages detail = DndApiClient.readAPIRest(
+                    item.getUrl(),
+                    new TypeReference<Languages>() {});
+            languagesRepository.save(detail);
+        });
+
+        ApiListResponse<MagicItems> magicItems = DndApiClient.readAPIRest(
+                response.getMagicItems(),
+                new TypeReference<ApiListResponse<MagicItems>>() {});
+        MagicItemsRepositoryImpl magicItemsRepository = new MagicItemsRepositoryImpl();
+        magicItems.getResults().forEach(item -> {
+            MagicItems detail = DndApiClient.readAPIRest(
+                    item.getUrl(),
+                    new TypeReference<MagicItems>() {});
+            magicItemsRepository.save(detail);
+        });
+
+        ApiListResponse<MagicSchools> magicSchools = DndApiClient.readAPIRest(
+                response.getMagicSchools(),
+                new TypeReference<ApiListResponse<MagicSchools>>() {});
+        MagicSchoolsRepositoryImpl magicSchoolsRepository = new MagicSchoolsRepositoryImpl();
+        magicSchools.getResults().forEach(item -> {
+            MagicSchools detail = DndApiClient.readAPIRest(
+                    item.getUrl(),
+                    new TypeReference<MagicSchools>() {});
+            magicSchoolsRepository.save(detail);
+        });
+
+        ApiListResponse<Monster> monsters = DndApiClient.readAPIRest(
+                response.getMonsters(),
+                new TypeReference<ApiListResponse<Monster>>() {});
+        MonstersRepositoryImpl monstersRepository = new MonstersRepositoryImpl();
+        monsters.getResults().forEach(item -> {
+            Monster detail = DndApiClient.readAPIRest(
+                    item.getUrl(),
+                    new TypeReference<Monster>() {});
+            monstersRepository.save(detail);
+        });
+
+        ApiListResponse<Poisons> poisons = DndApiClient.readAPIRest(
+                response.getPoisons(),
+                new TypeReference<ApiListResponse<Poisons>>() {});
+        PoisonsRepositoryImpl poisonsRepository = new PoisonsRepositoryImpl();
+        poisons.getResults().forEach(item -> {
+            Poisons detail = DndApiClient.readAPIRest(
+                    item.getUrl(),
+                    new TypeReference<Poisons>() {});
+            poisonsRepository.save(detail);
+        });
+*/
+        /* ApiListResponse<Proficiencies> proficiencies = DndApiClient.readAPIRest(
+                response.getProficiencies(),
+                new TypeReference<ApiListResponse<Proficiencies>>() {});
+        ProficienciesRepositoryImpl proficienciesRepository = new ProficienciesRepositoryImpl();
+        proficiencies.getResults().forEach(item -> {
+            Proficiencies detail = DndApiClient.readAPIRest(
+                    item.getUrl(),
+                    new TypeReference<Proficiencies>() {});
+            proficienciesRepository.save(detail);
+        }); */
+
+        ApiListResponse<Species> species = DndApiClient.readAPIRest(
+                response.getSpecies(),
+                new TypeReference<ApiListResponse<Species>>() {});
+        SpeciesRepositoryImpl speciesRepository = new SpeciesRepositoryImpl();
+        species.getResults().forEach(item -> {
+            Species detail = DndApiClient.readAPIRest(
+                    item.getUrl(),
+                    new TypeReference<Species>() {});
+            speciesRepository.save(detail);
+        });
+
+        ApiListResponse<Spells> spells = DndApiClient.readAPIRest(
+                response.getSpells(),
+                new TypeReference<ApiListResponse<Spells>>() {});
+        SpellsRepositoryImpl spellsRepository = new SpellsRepositoryImpl();
+        spells.getResults().forEach(item -> {
+            Spells detail = DndApiClient.readAPIRest(
+                    item.getUrl(),
+                    new TypeReference<Spells>() {});
+            spellsRepository.save(detail);
+        });
+
+        ApiListResponse<Subclasses> subclasses = DndApiClient.readAPIRest(
+                response.getSubclasses(),
+                new TypeReference<ApiListResponse<Subclasses>>() {});
+        SubclassesRepositoryImpl subclassesRepository = new SubclassesRepositoryImpl();
+        subclasses.getResults().forEach(item -> {
+            Subclasses detail = DndApiClient.readAPIRest(
+                    item.getUrl(),
+                    new TypeReference<Subclasses>() {});
+            subclassesRepository.save(detail);
+        });
+
+        ApiListResponse<Subspecies> subspecies = DndApiClient.readAPIRest(
+                response.getSubspecies(),
+                new TypeReference<ApiListResponse<Subspecies>>() {});
+        SubspeciesRepositoryImpl subspeciesRepository = new SubspeciesRepositoryImpl();
+        subspecies.getResults().forEach(item -> {
+            Subspecies detail = DndApiClient.readAPIRest(
+                    item.getUrl(),
+                    new TypeReference<Subspecies>() {});
+            subspeciesRepository.save(detail);
+        });
+
+        ApiListResponse<Traits> traits = DndApiClient.readAPIRest(
+                response.getTraits(),
+                new TypeReference<ApiListResponse<Traits>>() {});
+        TraitsRepositoryImpl traitsRepository = new TraitsRepositoryImpl();
+        traits.getResults().forEach(item -> {
+            Traits detail = DndApiClient.readAPIRest(
+                    item.getUrl(),
+                    new TypeReference<Traits>() {});
+            traitsRepository.save(detail);
+        });
+
+        ApiListResponse<WeaponMasteryProperties> weaponMasteryProperties = DndApiClient.readAPIRest(
+                response.getWeaponMasteryProperties(),
+                new TypeReference<ApiListResponse<WeaponMasteryProperties>>() {});
+        WeaponMasteryPropertiesRepositoryImpl weaponMasteryPropertiesRepository =
+                new WeaponMasteryPropertiesRepositoryImpl();
+        weaponMasteryProperties.getResults().forEach(item -> {
+            WeaponMasteryProperties detail = DndApiClient.readAPIRest(
+                    item.getUrl(),
+                    new TypeReference<WeaponMasteryProperties>() {});
+            weaponMasteryPropertiesRepository.save(detail);
+        });
+
+        ApiListResponse<WeaponProperties> weaponProperties = DndApiClient.readAPIRest(
+                response.getWeaponProperties(),
+                new TypeReference<ApiListResponse<WeaponProperties>>() {});
+        WeaponPropertiesRepositoryImpl weaponPropertiesRepository = new WeaponPropertiesRepositoryImpl();
+        weaponProperties.getResults().forEach(item -> {
+            WeaponProperties detail = DndApiClient.readAPIRest(
+                    item.getUrl(),
+                    new TypeReference<WeaponProperties>() {});
+            weaponPropertiesRepository.save(detail);
         });
     }
 }
