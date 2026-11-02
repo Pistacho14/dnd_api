@@ -3,35 +3,6 @@ package org.iesteis.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Response {
-    public Response(String abilityScores, String alignments, String backgrounds, String classes, String conditions, String damageTypes, String equipment, String equipmentCategories, String feats, String features, String languages, String magicItems, String magicSchools, String monsters, String poisons, String proficiencies, String skills, String species, String spells, String subclasses, String subspecies, String traits, String weaponMasteryProperties, String weaponProperties) {
-        this.abilityScores = abilityScores;
-        this.alignments = alignments;
-        this.backgrounds = backgrounds;
-        this.classes = classes;
-        this.conditions = conditions;
-        this.damageTypes = damageTypes;
-        this.equipment = equipment;
-        this.equipmentCategories = equipmentCategories;
-        this.feats = feats;
-        this.features = features;
-        this.languages = languages;
-        this.magicItems = magicItems;
-        this.magicSchools = magicSchools;
-        this.monsters = monsters;
-        this.poisons = poisons;
-        this.proficiencies = proficiencies;
-        this.skills = skills;
-        this.species = species;
-        this.spells = spells;
-        this.subclasses = subclasses;
-        this.subspecies = subspecies;
-        this.traits = traits;
-        this.weaponMasteryProperties = weaponMasteryProperties;
-        this.weaponProperties = weaponProperties;
-    }
-
-    public Response() {}
-
     @JsonProperty("ability-scores")
     private String abilityScores;
     @JsonProperty("alignments")
@@ -80,6 +51,34 @@ public class Response {
     private String weaponMasteryProperties;
     @JsonProperty("weapon-properties")
     private String weaponProperties;
+    public Response() {}
+
+    public Response(String abilityScores, String alignments, String backgrounds, String classes, String conditions, String damageTypes, String equipment, String equipmentCategories, String feats, String features, String languages, String magicItems, String magicSchools, String monsters, String poisons, String proficiencies, String skills, String species, String spells, String subclasses, String subspecies, String traits, String weaponMasteryProperties, String weaponProperties) {
+        this.abilityScores = abilityScores;
+        this.alignments = alignments;
+        this.backgrounds = backgrounds;
+        this.classes = classes;
+        this.conditions = conditions;
+        this.damageTypes = damageTypes;
+        this.equipment = equipment;
+        this.equipmentCategories = equipmentCategories;
+        this.feats = feats;
+        this.features = features;
+        this.languages = languages;
+        this.magicItems = magicItems;
+        this.magicSchools = magicSchools;
+        this.monsters = monsters;
+        this.poisons = poisons;
+        this.proficiencies = proficiencies;
+        this.skills = skills;
+        this.species = species;
+        this.spells = spells;
+        this.subclasses = subclasses;
+        this.subspecies = subspecies;
+        this.traits = traits;
+        this.weaponMasteryProperties = weaponMasteryProperties;
+        this.weaponProperties = weaponProperties;
+    }
 
     public String getAbilityScores() { return abilityScores; }
     public void setAbilityScores(String value) { this.abilityScores = value; }
