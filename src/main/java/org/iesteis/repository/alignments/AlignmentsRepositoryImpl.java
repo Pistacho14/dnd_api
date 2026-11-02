@@ -1,9 +1,10 @@
 package org.iesteis.repository.alignments;
 
+
+import org.iesteis.model.alignments.Alignments;
 import java.util.Map;
 
 import org.iesteis.database.DatabaseManager;
-import org.iesteis.model.alignments.Alignments;
 import org.iesteis.repository.BaseRepository;
 
 public class AlignmentsRepositoryImpl extends BaseRepository<Alignments> implements AlignmentsRepository {
