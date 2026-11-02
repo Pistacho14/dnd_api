@@ -1,10 +1,27 @@
 package org.iesteis.model.background;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Item {
+    public Item(OptionType optionType, Long count, Feat of, String unit, Choice choice) {
+        this.optionType = optionType;
+        this.count = count;
+        this.of = of;
+        this.unit = unit;
+        this.choice = choice;
+    }
+
+    public Item() {}
+
+    @JsonProperty("option_type")
     private OptionType optionType;
+    @JsonProperty("count")
     private Long count;
+    @JsonProperty("of")
     private Feat of;
+    @JsonProperty("unit")
     private String unit;
+    @JsonProperty("choice")
     private Choice choice;
 
     public OptionType getOptionType() { return optionType; }
