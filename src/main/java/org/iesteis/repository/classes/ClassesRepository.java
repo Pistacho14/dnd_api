@@ -1,8 +1,9 @@
 package org.iesteis.repository.classes;
 
-import java.util.List;
 
 import org.iesteis.model.classes.Classes;
+import java.util.List;
+
 import org.iesteis.repository.CrudRepository;
 
 public interface ClassesRepository extends CrudRepository<Classes> {
