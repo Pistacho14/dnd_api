@@ -1,5 +1,7 @@
 package org.iesteis.model.classes;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.io.IOException;
 
 public enum PurpleOptionType {
@@ -13,6 +15,7 @@ public enum PurpleOptionType {
         return null;
     }
 
+    @JsonCreator
     public static PurpleOptionType forValue(String value) throws IOException {
         if (value.equals("choice")) return CHOICE;
         if (value.equals("reference")) return REFERENCE;
