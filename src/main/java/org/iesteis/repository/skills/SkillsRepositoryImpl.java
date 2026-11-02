@@ -162,26 +162,24 @@ public class SkillsRepositoryImpl implements SkillsRepository {
     }
 
     private Skills toModel(Map<String, Object> entity) {
-        Skills skill = new Skills();
-        skill.setIndex((String) entity.get("index"));
-        skill.setName((String) entity.get("name"));
-        skill.setDescription((String) entity.get("description"));
-        skill.setUrl((String) entity.get("url"));
-
         Object abilityScore = entity.get("ability_score");
-        if (abilityScore != null) {
-            skill.setAbilityScore(JSON_MAPPER.readValue((String) abilityScore, AbilityScore.class));
-        }
-        return skill;
+
+        return new Skills(
+                (String) entity.get("index"),
+                (String) entity.get("name"),
+                (String) entity.get("description"),
+                abilityScore == null ? null : JSON_MAPPER.readValue((String) abilityScore, AbilityScore.class),
+                (String) entity.get("url")
+        );
     }
 
     private Skills toModel(Skills source) {
-        Skills skill = new Skills();
-        skill.setIndex(source.getIndex());
-        skill.setName(source.getName());
-        skill.setDescription(source.getDescription());
-        skill.setAbilityScore(source.getAbilityScore());
-        skill.setUrl(source.getUrl());
-        return skill;
+        return new Skills(
+                source.getIndex(),
+                source.getName(),
+                source.getDescription(),
+                source.getAbilityScore(),
+                source.getUrl()
+        );
     }
 }
