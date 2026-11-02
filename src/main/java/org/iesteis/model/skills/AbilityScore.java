@@ -1,8 +1,13 @@
 package org.iesteis.model.skills;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class AbilityScore {
+    @JsonProperty("index")
     private String index;
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("url")
     private String url;
 
     public AbilityScore(String index, String name, String url) {
