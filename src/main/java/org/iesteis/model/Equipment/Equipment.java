@@ -1,32 +1,93 @@
 package org.iesteis.model.equipment;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Equipment {
+    public Equipment(String index, String name, Ability[] equipmentCategories, Cost cost, Double weight, String[] description, String url, Ability ability, Ability[] craft, Utilize[] utilize, Long quantity, Ability storage, String image, Damage damage, Range range, Ability[] properties, Ability mastery, Damage twoHandedDamage, Ability ammunition, ArmorClass armorClass, Time donTime, Time doffTime, Boolean stealthDisadvantage, Long strMinimum, Content[] contents, Range throwRange, String[] notes) {
+        this.index = index;
+        this.name = name;
+        this.equipmentCategories = equipmentCategories;
+        this.cost = cost;
+        this.weight = weight;
+        this.description = description;
+        this.url = url;
+        this.ability = ability;
+        this.craft = craft;
+        this.utilize = utilize;
+        this.quantity = quantity;
+        this.storage = storage;
+        this.image = image;
+        this.damage = damage;
+        this.range = range;
+        this.properties = properties;
+        this.mastery = mastery;
+        this.twoHandedDamage = twoHandedDamage;
+        this.ammunition = ammunition;
+        this.armorClass = armorClass;
+        this.donTime = donTime;
+        this.doffTime = doffTime;
+        this.stealthDisadvantage = stealthDisadvantage;
+        this.strMinimum = strMinimum;
+        this.contents = contents;
+        this.throwRange = throwRange;
+        this.notes = notes;
+    }
+
+    public Equipment() {}
+
+    @JsonProperty("index")
     private String index;
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("equipment_categories")
     private Ability[] equipmentCategories;
+    @JsonProperty("cost")
     private Cost cost;
+    @JsonProperty("weight")
     private Double weight;
-    private String description;
+    @JsonProperty("description")
+    private String[] description;
+    @JsonProperty("url")
     private String url;
+    @JsonProperty("ability")
     private Ability ability;
+    @JsonProperty("craft")
     private Ability[] craft;
+    @JsonProperty("utilize")
     private Utilize[] utilize;
+    @JsonProperty("quantity")
     private Long quantity;
+    @JsonProperty("storage")
     private Ability storage;
+    @JsonProperty("image")
     private String image;
+    @JsonProperty("damage")
     private Damage damage;
+    @JsonProperty("range")
     private Range range;
+    @JsonProperty("properties")
     private Ability[] properties;
+    @JsonProperty("mastery")
     private Ability mastery;
+    @JsonProperty("two_handed_damage")
     private Damage twoHandedDamage;
+    @JsonProperty("ammunition")
     private Ability ammunition;
+    @JsonProperty("armor_class")
     private ArmorClass armorClass;
+    @JsonProperty("don_time")
     private Time donTime;
+    @JsonProperty("doff_time")
     private Time doffTime;
+    @JsonProperty("stealth_disadvantage")
     private Boolean stealthDisadvantage;
+    @JsonProperty("str_minimum")
     private Long strMinimum;
+    @JsonProperty("contents")
     private Content[] contents;
+    @JsonProperty("throw_range")
     private Range throwRange;
+    @JsonProperty("notes")
     private String[] notes;
 
     public String getIndex() { return index; }
@@ -44,11 +105,11 @@ public class Equipment {
     public Double getWeight() { return weight; }
     public void setWeight(Double value) { this.weight = value; }
 
-    public String getDescription() { return description; }
-    public void setDescription(String value) { this.description = value; }
+    public String[] getDescription() { return description; }
+    public void setDescription(String[] value) { this.description = value; }
 
-    public String getURL() { return url; }
-    public void setURL(String value) { this.url = value; }
+    public String getUrl() { return url; }
+    public void setUrl(String value) { this.url = value; }
 
     public Ability getAbility() { return ability; }
     public void setAbility(Ability value) { this.ability = value; }
