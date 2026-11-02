@@ -16,9 +16,7 @@ public class AbilityScore {
         this.url = url;
     }
 
-    public AbilityScore() {
-    }
-
+    public AbilityScore() {}
     public String getIndex() {
         return index;
     }
