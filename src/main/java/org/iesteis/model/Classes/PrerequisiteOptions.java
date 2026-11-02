@@ -3,20 +3,19 @@ package org.iesteis.model.classes;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PrerequisiteOptions {
-    public PrerequisiteOptions(String type, long choose, PrerequisiteOptionsFrom from) {
-        this.type = type;
-        this.choose = choose;
-        this.from = from;
-    }
-
-    public PrerequisiteOptions() {}
-
     @JsonProperty("type")
     private String type;
     @JsonProperty("choose")
     private long choose;
     @JsonProperty("from")
     private PrerequisiteOptionsFrom from;
+    public PrerequisiteOptions() {}
+
+    public PrerequisiteOptions(String type, long choose, PrerequisiteOptionsFrom from) {
+        this.type = type;
+        this.choose = choose;
+        this.from = from;
+    }
 
     public String getType() { return type; }
     public void setType(String value) { this.type = value; }
