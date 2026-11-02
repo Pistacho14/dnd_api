@@ -32,9 +32,6 @@ public class DatabaseService implements DatabaseManager {
         if (Config.getDatabaseInitTables()) {
             initTablas();
         }
-        if (Config.getDatabaseInitData()) {
-            initData();
-        }
     }
 
     private void initConexion() {
@@ -62,23 +59,9 @@ public class DatabaseService implements DatabaseManager {
                     }
                 }
             }
-            logger.debug("Tabla estudiantes creada");
+            logger.debug("Tablas creadas");
         } catch (Exception e) {
             logger.error("Error al crear las tablas: " + e.getMessage());
-        }
-    }
-
-    private void initData() {
-        logger.debug("Iniciando carga de datos");
-        try {
-            URL resourceUrl = ClassLoader.getSystemResource("data.sql");
-            Path path = Paths.get(resourceUrl.toURI());
-            String data = Files.readString(path);
-            PreparedStatement statement = connection.prepareStatement(data);
-            statement.executeUpdate();
-            logger.debug("Datos cargados");
-        } catch (Exception e) {
-            logger.error("Error al cargar los datos: " + e.getMessage());
         }
     }
 
