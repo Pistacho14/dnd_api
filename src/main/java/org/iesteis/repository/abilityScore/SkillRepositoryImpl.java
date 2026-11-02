@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import org.iesteis.database.DatabaseManager;
 import org.iesteis.database.DatabaseService;
-import org.iesteis.model.abilityScore.Skill;
+import org.iesteis.model.abilityScores.Skill;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +28,7 @@ public class SkillRepositoryImpl implements SkillRepository {
     public List<Skill> findAll() {
         logger.debug("Buscando todas las skills");
 
-        String sql = "SELECT * FROM skills";
+        String sql = "SELECT * FROM skill";
         return db.select(sql).stream()
                 .map(this::toModel)
                 .collect(Collectors.toList());
@@ -38,7 +38,7 @@ public class SkillRepositoryImpl implements SkillRepository {
     public Skill findById(String index) {
         logger.debug("Buscando skill por index: " + index);
 
-        String sql = "SELECT * FROM skills WHERE `index` = ?";
+        String sql = "SELECT * FROM skill WHERE `index` = ?";
         List<Map<String, Object>> result = db.select(sql, index);
         if (result.isEmpty()) {
             return null;
@@ -50,7 +50,7 @@ public class SkillRepositoryImpl implements SkillRepository {
     public Skill save(Skill skill) {
         logger.debug("Guardando skill: " + skill);
 
-        String sql = "INSERT INTO skills (`index`, name, url) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO skill (`index`, name, url) VALUES (?, ?, ?)";
         int result = db.insert(sql, skill.getIndex(), skill.getName(), skill.getUrl());
         if (result <= 0) {
             return null;
@@ -67,7 +67,7 @@ public class SkillRepositoryImpl implements SkillRepository {
             return null;
         }
 
-        String sql = "UPDATE skills SET `index` = ?, name = ?, url = ? WHERE `index` = ?";
+        String sql = "UPDATE skill SET `index` = ?, name = ?, url = ? WHERE `index` = ?";
         int result = db.update(sql, skill.getIndex(), skill.getName(), skill.getUrl(), index);
         if (result <= 0) {
             return null;
@@ -85,7 +85,7 @@ public class SkillRepositoryImpl implements SkillRepository {
             return null;
         }
 
-        String sql = "DELETE FROM skills WHERE `index` = ?";
+        String sql = "DELETE FROM skill WHERE `index` = ?";
         int result = db.delete(sql, index);
         if (result <= 0) {
             return null;
@@ -98,7 +98,7 @@ public class SkillRepositoryImpl implements SkillRepository {
     public List<Skill> findByName(String name) {
         logger.debug("Buscando skills por nombre: " + name);
 
-        String sql = "SELECT * FROM skills WHERE LOWER(name) LIKE LOWER(?)";
+        String sql = "SELECT * FROM skill WHERE LOWER(name) LIKE LOWER(?)";
         return db.select(sql, "%" + name + "%").stream()
                 .map(this::toModel)
                 .collect(Collectors.toList());
@@ -108,7 +108,7 @@ public class SkillRepositoryImpl implements SkillRepository {
     public List<Skill> findByUrl(String url) {
         logger.debug("Buscando skills por url: " + url);
 
-        String sql = "SELECT * FROM skills WHERE url = ?";
+        String sql = "SELECT * FROM skill WHERE url = ?";
         return db.select(sql, url).stream()
                 .map(this::toModel)
                 .collect(Collectors.toList());
@@ -118,7 +118,7 @@ public class SkillRepositoryImpl implements SkillRepository {
     public List<Skill> findByIndex(String index) {
         logger.debug("Buscando skills por index: " + index);
 
-        String sql = "SELECT * FROM skills WHERE `index` = ?";
+        String sql = "SELECT * FROM skill WHERE `index` = ?";
         return db.select(sql, index).stream()
                 .map(this::toModel)
                 .collect(Collectors.toList());
