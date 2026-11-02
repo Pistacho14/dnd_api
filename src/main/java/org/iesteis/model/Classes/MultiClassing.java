@@ -1,9 +1,24 @@
 package org.iesteis.model.classes;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class MultiClassing {
+    public MultiClassing(Prerequisite[] prerequisites, Proficiency[] proficiencies, AbilityScoreOptions[] proficiencyChoices, PrerequisiteOptions prerequisiteOptions) {
+        this.prerequisites = prerequisites;
+        this.proficiencies = proficiencies;
+        this.proficiencyChoices = proficiencyChoices;
+        this.prerequisiteOptions = prerequisiteOptions;
+    }
+
+    public MultiClassing() {}
+
+    @JsonProperty("prerequisites")
     private Prerequisite[] prerequisites;
+    @JsonProperty("proficiencies")
     private Proficiency[] proficiencies;
+    @JsonProperty("proficiency_choices")
     private AbilityScoreOptions[] proficiencyChoices;
+    @JsonProperty("prerequisite_options")
     private PrerequisiteOptions prerequisiteOptions;
 
     public Prerequisite[] getPrerequisites() { return prerequisites; }
