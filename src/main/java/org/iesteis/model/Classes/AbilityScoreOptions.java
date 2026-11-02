@@ -3,15 +3,6 @@ package org.iesteis.model.classes;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AbilityScoreOptions {
-    public AbilityScoreOptions(String desc, long choose, String type, AbilityScoreOptionsFrom from) {
-        this.desc = desc;
-        this.choose = choose;
-        this.type = type;
-        this.from = from;
-    }
-
-    public AbilityScoreOptions() {}
-
     @JsonProperty("desc")
     private String desc;
     @JsonProperty("choose")
@@ -20,6 +11,14 @@ public class AbilityScoreOptions {
     private String type;
     @JsonProperty("from")
     private AbilityScoreOptionsFrom from;
+    public AbilityScoreOptions() {}
+
+    public AbilityScoreOptions(String desc, long choose, String type, AbilityScoreOptionsFrom from) {
+        this.desc = desc;
+        this.choose = choose;
+        this.type = type;
+        this.from = from;
+    }
 
     public String getDesc() { return desc; }
     public void setDesc(String value) { this.desc = value; }
