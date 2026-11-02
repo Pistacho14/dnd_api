@@ -1,19 +1,54 @@
 package org.iesteis.model.classes;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Classes {
+    public Classes(String index, String name, PrimaryAbility primaryAbility, long hitDie, ProficiencyChoice[] proficiencyChoices, Proficiency[] proficiencies, Proficiency[] savingThrows, StartingEquipmentOption[] startingEquipmentOptions, String classLevels, MultiClassing multiClassing, Proficiency[] subclasses, String url, Spellcasting spellcasting, String spells) {
+        this.index = index;
+        this.name = name;
+        this.primaryAbility = primaryAbility;
+        this.hitDie = hitDie;
+        this.proficiencyChoices = proficiencyChoices;
+        this.proficiencies = proficiencies;
+        this.savingThrows = savingThrows;
+        this.startingEquipmentOptions = startingEquipmentOptions;
+        this.classLevels = classLevels;
+        this.multiClassing = multiClassing;
+        this.subclasses = subclasses;
+        this.url = url;
+        this.spellcasting = spellcasting;
+        this.spells = spells;
+    }
+
+    public Classes() {}
+
+    @JsonProperty("index")
     private String index;
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("primary_ability")
     private PrimaryAbility primaryAbility;
+    @JsonProperty("hit_die")
     private long hitDie;
+    @JsonProperty("proficiency_choices")
     private ProficiencyChoice[] proficiencyChoices;
+    @JsonProperty("proficiencies")
     private Proficiency[] proficiencies;
+    @JsonProperty("saving_throws")
     private Proficiency[] savingThrows;
+    @JsonProperty("starting_equipment_options")
     private StartingEquipmentOption[] startingEquipmentOptions;
+    @JsonProperty("class_levels")
     private String classLevels;
+    @JsonProperty("multi_classing")
     private MultiClassing multiClassing;
+    @JsonProperty("subclasses")
     private Proficiency[] subclasses;
+    @JsonProperty("url")
     private String url;
+    @JsonProperty("spellcasting")
     private Spellcasting spellcasting;
+    @JsonProperty("spells")
     private String spells;
 
     public String getIndex() { return index; }
@@ -49,8 +84,8 @@ public class Classes {
     public Proficiency[] getSubclasses() { return subclasses; }
     public void setSubclasses(Proficiency[] value) { this.subclasses = value; }
 
-    public String getURL() { return url; }
-    public void setURL(String value) { this.url = value; }
+    public String getUrl() { return url; }
+    public void setUrl(String value) { this.url = value; }
 
     public Spellcasting getSpellcasting() { return spellcasting; }
     public void setSpellcasting(Spellcasting value) { this.spellcasting = value; }
