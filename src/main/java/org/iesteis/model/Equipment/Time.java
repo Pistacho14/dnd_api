@@ -1,5 +1,7 @@
 package org.iesteis.model.equipment;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.io.IOException;
 
 public enum Time {
@@ -14,6 +16,7 @@ public enum Time {
         return null;
     }
 
+    @JsonCreator
     public static Time forValue(String value) throws IOException {
         if (value.equals("10 minutes")) return THE_10_MINUTES;
         if (value.equals("1 minute")) return THE_1_MINUTE;
