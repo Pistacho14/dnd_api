@@ -3,16 +3,6 @@ package org.iesteis.model.classes;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Item {
-    public Item(ItemOptionType optionType, Long count, Proficiency of, Unit unit, ItemChoice choice) {
-        this.optionType = optionType;
-        this.count = count;
-        this.of = of;
-        this.unit = unit;
-        this.choice = choice;
-    }
-
-    public Item() {}
-
     @JsonProperty("option_type")
     private ItemOptionType optionType;
     @JsonProperty("count")
@@ -23,6 +13,15 @@ public class Item {
     private Unit unit;
     @JsonProperty("choice")
     private ItemChoice choice;
+    public Item() {}
+
+    public Item(ItemOptionType optionType, Long count, Proficiency of, Unit unit, ItemChoice choice) {
+        this.optionType = optionType;
+        this.count = count;
+        this.of = of;
+        this.unit = unit;
+        this.choice = choice;
+    }
 
     public ItemOptionType getOptionType() { return optionType; }
     public void setOptionType(ItemOptionType value) { this.optionType = value; }
