@@ -1,13 +1,14 @@
 package org.iesteis.repository.abilityScore;
 
+
+import org.iesteis.model.abilityScores.AbilityScores;
+import org.iesteis.model.abilityScores.Skill;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.iesteis.database.DatabaseManager;
 import org.iesteis.database.DatabaseService;
-import org.iesteis.model.abilityScores.AbilityScores;
-import org.iesteis.model.abilityScores.Skill;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tools.jackson.databind.ObjectMapper;
@@ -162,30 +163,32 @@ public class AbilityScoresRepositoryImpl implements AbilityScoresRepository {
     }
 
     private AbilityScores toModel(Map<String, Object> entity) {
-        AbilityScores abilityScore = new AbilityScores();
-        abilityScore.setIndex((String) entity.get("index"));
-        abilityScore.setName((String) entity.get("name"));
-        abilityScore.setFullName((String) entity.get("full_name"));
-        abilityScore.setDescription((String) entity.get("description"));
         Object skills = entity.get("skills");
         if (skills != null) {
             if (!(skills instanceof String)) {
                 throw new IllegalStateException("El campo skills debe recibirse como JSON en formato texto");
             }
-            abilityScore.setSkills(JSON_MAPPER.readValue((String) skills, Skill[].class));
+
         }
-        abilityScore.setUrl((String) entity.get("url"));
-        return abilityScore;
+
+        return new AbilityScores(
+                (String) entity.get("index"),
+                (String) entity.get("name"),
+                (String) entity.get("full_name"),
+                (String) entity.get("description"),
+                skills == null ? null : JSON_MAPPER.readValue((String) skills, Skill[].class),
+                (String) entity.get("url")
+        );
     }
 
     private AbilityScores toModel(AbilityScores source) {
-        AbilityScores abilityScore = new AbilityScores();
-        abilityScore.setIndex(source.getIndex());
-        abilityScore.setName(source.getName());
-        abilityScore.setFullName(source.getFullName());
-        abilityScore.setDescription(source.getDescription());
-        abilityScore.setSkills(source.getSkills());
-        abilityScore.setUrl(source.getUrl());
-        return abilityScore;
+        return new AbilityScores(
+                source.getIndex(),
+                source.getName(),
+                source.getFullName(),
+                source.getDescription(),
+                source.getSkills(),
+                source.getUrl()
+        );
     }
 }
