@@ -18,6 +18,7 @@ module org.iesteis {
     opens org.iesteis.model.damageTypes to tools.jackson.databind;
     opens org.iesteis.model.equipment to tools.jackson.databind;
     opens org.iesteis.model.feats to tools.jackson.databind;
+    opens org.iesteis.model.equipmentCategories to tools.jackson.databind;
     opens org.iesteis.model.skills to tools.jackson.databind;
     exports org.iesteis;
     exports org.iesteis.model.skills;
