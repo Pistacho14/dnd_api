@@ -3,19 +3,6 @@ package org.iesteis.model.background;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Background {
-    public Background(String index, String name, Feat[] abilityScores, Feat feat, Feat[] proficiencies, EquipmentOption[] equipmentOptions, String url, ProficiencyChoice[] proficiencyChoices) {
-        this.index = index;
-        this.name = name;
-        this.abilityScores = abilityScores;
-        this.feat = feat;
-        this.proficiencies = proficiencies;
-        this.equipmentOptions = equipmentOptions;
-        this.url = url;
-        this.proficiencyChoices = proficiencyChoices;
-    }
-
-    public Background() {}
-
     @JsonProperty("index")
     private String index;
     @JsonProperty("name")
@@ -32,6 +19,18 @@ public class Background {
     private String url;
     @JsonProperty("proficiency_choices")
     private ProficiencyChoice[] proficiencyChoices;
+    public Background() {}
+
+    public Background(String index, String name, Feat[] abilityScores, Feat feat, Feat[] proficiencies, EquipmentOption[] equipmentOptions, String url, ProficiencyChoice[] proficiencyChoices) {
+        this.index = index;
+        this.name = name;
+        this.abilityScores = abilityScores;
+        this.feat = feat;
+        this.proficiencies = proficiencies;
+        this.equipmentOptions = equipmentOptions;
+        this.url = url;
+        this.proficiencyChoices = proficiencyChoices;
+    }
 
     public String getIndex() { return index; }
     public void setIndex(String value) { this.index = value; }
