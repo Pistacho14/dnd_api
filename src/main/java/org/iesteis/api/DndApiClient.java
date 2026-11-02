@@ -40,7 +40,7 @@ public class DndApiClient {
         }
     }
 
-    public static <T> ApiListResponse<T> readAPIRest(String url, TypeReference<ApiListResponse<T>> typeReference) {
+    public static <T> T readAPIRest(String url, TypeReference<T> typeReference) {
         ObjectMapper mapper = new ObjectMapper();
         HttpClient client = HttpClient.newHttpClient();
 
