@@ -3,15 +3,6 @@ package org.iesteis.model.classes;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ItemChoice {
-    public ItemChoice(String desc, long choose, ChoiceType type, FluffyFrom from) {
-        this.desc = desc;
-        this.choose = choose;
-        this.type = type;
-        this.from = from;
-    }
-
-    public ItemChoice() {}
-
     @JsonProperty("desc")
     private String desc;
     @JsonProperty("choose")
@@ -20,6 +11,14 @@ public class ItemChoice {
     private ChoiceType type;
     @JsonProperty("from")
     private FluffyFrom from;
+    public ItemChoice() {}
+
+    public ItemChoice(String desc, long choose, ChoiceType type, FluffyFrom from) {
+        this.desc = desc;
+        this.choose = choose;
+        this.type = type;
+        this.from = from;
+    }
 
     public String getDesc() { return desc; }
     public void setDesc(String value) { this.desc = value; }
