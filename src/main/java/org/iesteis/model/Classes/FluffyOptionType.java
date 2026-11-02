@@ -1,5 +1,7 @@
 package org.iesteis.model.classes;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.io.IOException;
 
 public enum FluffyOptionType {
@@ -13,6 +15,7 @@ public enum FluffyOptionType {
         return null;
     }
 
+    @JsonCreator
     public static FluffyOptionType forValue(String value) throws IOException {
         if (value.equals("money")) return MONEY;
         if (value.equals("multiple")) return MULTIPLE;
