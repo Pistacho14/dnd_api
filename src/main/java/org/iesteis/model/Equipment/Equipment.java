@@ -3,38 +3,6 @@ package org.iesteis.model.equipment;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Equipment {
-    public Equipment(String index, String name, Ability[] equipmentCategories, Cost cost, Double weight, String[] description, String url, Ability ability, Ability[] craft, Utilize[] utilize, Long quantity, Ability storage, String image, Damage damage, Range range, Ability[] properties, Ability mastery, Damage twoHandedDamage, Ability ammunition, ArmorClass armorClass, Time donTime, Time doffTime, Boolean stealthDisadvantage, Long strMinimum, Content[] contents, Range throwRange, String[] notes) {
-        this.index = index;
-        this.name = name;
-        this.equipmentCategories = equipmentCategories;
-        this.cost = cost;
-        this.weight = weight;
-        this.description = description;
-        this.url = url;
-        this.ability = ability;
-        this.craft = craft;
-        this.utilize = utilize;
-        this.quantity = quantity;
-        this.storage = storage;
-        this.image = image;
-        this.damage = damage;
-        this.range = range;
-        this.properties = properties;
-        this.mastery = mastery;
-        this.twoHandedDamage = twoHandedDamage;
-        this.ammunition = ammunition;
-        this.armorClass = armorClass;
-        this.donTime = donTime;
-        this.doffTime = doffTime;
-        this.stealthDisadvantage = stealthDisadvantage;
-        this.strMinimum = strMinimum;
-        this.contents = contents;
-        this.throwRange = throwRange;
-        this.notes = notes;
-    }
-
-    public Equipment() {}
-
     @JsonProperty("index")
     private String index;
     @JsonProperty("name")
@@ -89,6 +57,37 @@ public class Equipment {
     private Range throwRange;
     @JsonProperty("notes")
     private String[] notes;
+    public Equipment() {}
+
+    public Equipment(String index, String name, Ability[] equipmentCategories, Cost cost, Double weight, String[] description, String url, Ability ability, Ability[] craft, Utilize[] utilize, Long quantity, Ability storage, String image, Damage damage, Range range, Ability[] properties, Ability mastery, Damage twoHandedDamage, Ability ammunition, ArmorClass armorClass, Time donTime, Time doffTime, Boolean stealthDisadvantage, Long strMinimum, Content[] contents, Range throwRange, String[] notes) {
+        this.index = index;
+        this.name = name;
+        this.equipmentCategories = equipmentCategories;
+        this.cost = cost;
+        this.weight = weight;
+        this.description = description;
+        this.url = url;
+        this.ability = ability;
+        this.craft = craft;
+        this.utilize = utilize;
+        this.quantity = quantity;
+        this.storage = storage;
+        this.image = image;
+        this.damage = damage;
+        this.range = range;
+        this.properties = properties;
+        this.mastery = mastery;
+        this.twoHandedDamage = twoHandedDamage;
+        this.ammunition = ammunition;
+        this.armorClass = armorClass;
+        this.donTime = donTime;
+        this.doffTime = doffTime;
+        this.stealthDisadvantage = stealthDisadvantage;
+        this.strMinimum = strMinimum;
+        this.contents = contents;
+        this.throwRange = throwRange;
+        this.notes = notes;
+    }
 
     public String getIndex() { return index; }
     public void setIndex(String value) { this.index = value; }
