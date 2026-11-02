@@ -1,8 +1,9 @@
 package org.iesteis.repository.abilityScore;
 
-import java.util.List;
 
 import org.iesteis.model.abilityScores.AbilityScores;
+import java.util.List;
+
 import org.iesteis.repository.CrudRepository;
 
 public interface AbilityScoresRepository extends CrudRepository<AbilityScores> {
