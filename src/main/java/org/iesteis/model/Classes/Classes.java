@@ -3,25 +3,6 @@ package org.iesteis.model.classes;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Classes {
-    public Classes(String index, String name, PrimaryAbility primaryAbility, long hitDie, ProficiencyChoice[] proficiencyChoices, Proficiency[] proficiencies, Proficiency[] savingThrows, StartingEquipmentOption[] startingEquipmentOptions, String classLevels, MultiClassing multiClassing, Proficiency[] subclasses, String url, Spellcasting spellcasting, String spells) {
-        this.index = index;
-        this.name = name;
-        this.primaryAbility = primaryAbility;
-        this.hitDie = hitDie;
-        this.proficiencyChoices = proficiencyChoices;
-        this.proficiencies = proficiencies;
-        this.savingThrows = savingThrows;
-        this.startingEquipmentOptions = startingEquipmentOptions;
-        this.classLevels = classLevels;
-        this.multiClassing = multiClassing;
-        this.subclasses = subclasses;
-        this.url = url;
-        this.spellcasting = spellcasting;
-        this.spells = spells;
-    }
-
-    public Classes() {}
-
     @JsonProperty("index")
     private String index;
     @JsonProperty("name")
@@ -50,6 +31,24 @@ public class Classes {
     private Spellcasting spellcasting;
     @JsonProperty("spells")
     private String spells;
+    public Classes() {}
+
+    public Classes(String index, String name, PrimaryAbility primaryAbility, long hitDie, ProficiencyChoice[] proficiencyChoices, Proficiency[] proficiencies, Proficiency[] savingThrows, StartingEquipmentOption[] startingEquipmentOptions, String classLevels, MultiClassing multiClassing, Proficiency[] subclasses, String url, Spellcasting spellcasting, String spells) {
+        this.index = index;
+        this.name = name;
+        this.primaryAbility = primaryAbility;
+        this.hitDie = hitDie;
+        this.proficiencyChoices = proficiencyChoices;
+        this.proficiencies = proficiencies;
+        this.savingThrows = savingThrows;
+        this.startingEquipmentOptions = startingEquipmentOptions;
+        this.classLevels = classLevels;
+        this.multiClassing = multiClassing;
+        this.subclasses = subclasses;
+        this.url = url;
+        this.spellcasting = spellcasting;
+        this.spells = spells;
+    }
 
     public String getIndex() { return index; }
     public void setIndex(String value) { this.index = value; }
