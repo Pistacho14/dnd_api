@@ -1,11 +1,14 @@
 package org.iesteis.model.equipment;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.io.IOException;
 
 public enum Time {
     THE_10_MINUTES, THE_1_MINUTE, THE_5_MINUTES;
+
+    @JsonValue
 
     public String toValue() {
         switch (this) {
