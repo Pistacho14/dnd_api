@@ -19,7 +19,7 @@ public class Feats {
     private Object prerequisiteOptions;
     @JsonProperty("url")
     private String url;
-    
+
     public Feats(String index, String name, String description, String type, String repeatable, Object prerequisites,
             Object prerequisiteOptions, String url) {
         this.index = index;
@@ -33,7 +33,6 @@ public class Feats {
     }
 
     public Feats() {}
-
     public String getIndex() { return index; }
     public void setIndex(String value) { this.index = value; }
 
