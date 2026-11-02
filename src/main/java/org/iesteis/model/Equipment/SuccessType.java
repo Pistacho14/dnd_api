@@ -1,5 +1,7 @@
 package org.iesteis.model.equipment;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.io.IOException;
 
 public enum SuccessType {
@@ -12,6 +14,7 @@ public enum SuccessType {
         return null;
     }
 
+    @JsonCreator
     public static SuccessType forValue(String value) throws IOException {
         if (value.equals("none")) return NONE;
         throw new IOException("Cannot deserialize SuccessType");
