@@ -4,15 +4,6 @@ package org.iesteis.model.background;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class EquipmentOption {
-    public EquipmentOption(String desc, long choose, String type, EquipmentOptionFrom from) {
-        this.desc = desc;
-        this.choose = choose;
-        this.type = type;
-        this.from = from;
-    }
-
-    public EquipmentOption() {}
-
     @JsonProperty("desc")
     private String desc;
     @JsonProperty("choose")
@@ -21,6 +12,14 @@ public class EquipmentOption {
     private String type;
     @JsonProperty("from")
     private EquipmentOptionFrom from;
+    public EquipmentOption() {}
+
+    public EquipmentOption(String desc, long choose, String type, EquipmentOptionFrom from) {
+        this.desc = desc;
+        this.choose = choose;
+        this.type = type;
+        this.from = from;
+    }
 
     public String getDesc() { return desc; }
     public void setDesc(String value) { this.desc = value; }
