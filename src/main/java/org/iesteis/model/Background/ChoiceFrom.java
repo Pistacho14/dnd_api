@@ -1,7 +1,18 @@
 package org.iesteis.model.background;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ChoiceFrom {
+    public ChoiceFrom(String optionSetType, Feat equipmentCategory) {
+        this.optionSetType = optionSetType;
+        this.equipmentCategory = equipmentCategory;
+    }
+
+    public ChoiceFrom() {}
+
+    @JsonProperty("option_set_type")
     private String optionSetType;
+    @JsonProperty("equipment_category")
     private Feat equipmentCategory;
 
     public String getOptionSetType() { return optionSetType; }
