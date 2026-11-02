@@ -3,15 +3,6 @@ package org.iesteis.model.classes;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class StickyOption {
-    public StickyOption(FluffyOptionType optionType, Item[] items, Long count, Unit unit) {
-        this.optionType = optionType;
-        this.items = items;
-        this.count = count;
-        this.unit = unit;
-    }
-
-    public StickyOption() {}
-
     @JsonProperty("option_type")
     private FluffyOptionType optionType;
     @JsonProperty("items")
@@ -20,6 +11,14 @@ public class StickyOption {
     private Long count;
     @JsonProperty("unit")
     private Unit unit;
+    public StickyOption() {}
+
+    public StickyOption(FluffyOptionType optionType, Item[] items, Long count, Unit unit) {
+        this.optionType = optionType;
+        this.items = items;
+        this.count = count;
+        this.unit = unit;
+    }
 
     public FluffyOptionType getOptionType() { return optionType; }
     public void setOptionType(FluffyOptionType value) { this.optionType = value; }
