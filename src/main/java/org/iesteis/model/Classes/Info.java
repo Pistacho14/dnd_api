@@ -1,7 +1,18 @@
 package org.iesteis.model.classes;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Info {
+    public Info(Name name, String[] desc) {
+        this.name = name;
+        this.desc = desc;
+    }
+
+    public Info() {}
+
+    @JsonProperty("name")
     private Name name;
+    @JsonProperty("desc")
     private String[] desc;
 
     public Name getName() { return name; }
