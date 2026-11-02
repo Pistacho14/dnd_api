@@ -7,10 +7,14 @@ import java.util.stream.Collectors;
 import org.iesteis.database.DatabaseManager;
 import org.iesteis.database.DatabaseService;
 import org.iesteis.model.abilityScores.AbilityScores;
+import org.iesteis.model.abilityScores.Skill;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tools.jackson.databind.ObjectMapper;
 
 public class AbilityScoresRepositoryImpl implements AbilityScoresRepository {
+
+    private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
 
     private final DatabaseManager db;
 
@@ -51,13 +55,14 @@ public class AbilityScoresRepositoryImpl implements AbilityScoresRepository {
         logger.debug("Guardando ability score: " + abilityScore.getIndex());
 
         String sql = "INSERT INTO ability_scores "
-                + "(`index`, name, full_name, description, url) VALUES (?, ?, ?, ?, ?)";
+                + "(`index`, name, full_name, description, skills, url) VALUES (?, ?, ?, ?, ?, ?)";
         int result = db.insert(
                 sql,
                 abilityScore.getIndex(),
                 abilityScore.getName(),
                 abilityScore.getFullName(),
                 abilityScore.getDescription(),
+                JSON_MAPPER.writeValueAsString(abilityScore.getSkills()),
                 abilityScore.getUrl());
         if (result <= 0) {
             return null;
@@ -75,13 +80,14 @@ public class AbilityScoresRepositoryImpl implements AbilityScoresRepository {
         }
 
         String sql = "UPDATE ability_scores SET `index` = ?, name = ?, full_name = ?, "
-                + "description = ?, url = ? WHERE `index` = ?";
+                + "description = ?, skills = ?, url = ? WHERE `index` = ?";
         int result = db.update(
                 sql,
                 abilityScore.getIndex(),
                 abilityScore.getName(),
                 abilityScore.getFullName(),
                 abilityScore.getDescription(),
+                JSON_MAPPER.writeValueAsString(abilityScore.getSkills()),
                 abilityScore.getUrl(),
                 index);
         if (result <= 0) {
@@ -161,6 +167,13 @@ public class AbilityScoresRepositoryImpl implements AbilityScoresRepository {
         abilityScore.setName((String) entity.get("name"));
         abilityScore.setFullName((String) entity.get("full_name"));
         abilityScore.setDescription((String) entity.get("description"));
+        Object skills = entity.get("skills");
+        if (skills != null) {
+            if (!(skills instanceof String)) {
+                throw new IllegalStateException("El campo skills debe recibirse como JSON en formato texto");
+            }
+            abilityScore.setSkills(JSON_MAPPER.readValue((String) skills, Skill[].class));
+        }
         abilityScore.setUrl((String) entity.get("url"));
         return abilityScore;
     }
