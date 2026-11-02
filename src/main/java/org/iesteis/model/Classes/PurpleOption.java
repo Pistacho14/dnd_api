@@ -1,8 +1,21 @@
 package org.iesteis.model.classes;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class PurpleOption {
+    public PurpleOption(String optionType, Proficiency abilityScore, long minimumScore) {
+        this.optionType = optionType;
+        this.abilityScore = abilityScore;
+        this.minimumScore = minimumScore;
+    }
+
+    public PurpleOption() {}
+
+    @JsonProperty("option_type")
     private String optionType;
+    @JsonProperty("ability_score")
     private Proficiency abilityScore;
+    @JsonProperty("minimum_score")
     private long minimumScore;
 
     public String getOptionType() { return optionType; }
