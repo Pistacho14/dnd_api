@@ -4,10 +4,13 @@ import tools.jackson.core.type.TypeReference;
 
 import org.iesteis.api.DndApiClient;
 import org.iesteis.model.ApiListResponse;
-import org.iesteis.repository.abilityScore.SkillRepository;
+import org.iesteis.repository.abilityScore.AbilityScoresRepositoryImpl;
 import org.iesteis.repository.abilityScore.SkillRepositoryImpl;
+import org.iesteis.repository.skills.SkillsRepositoryImpl;
 import org.iesteis.model.Response;
-import org.iesteis.model.abilityScore.Skill;
+import org.iesteis.model.abilityScores.AbilityScores;
+import org.iesteis.model.abilityScores.Skill;
+import org.iesteis.model.skills.Skills;
 
 
 public class MainApp{
@@ -41,13 +44,35 @@ public class MainApp{
         
         Response response = DndApiClient.readAPIRest();
 
-        ApiListResponse<Skill> skills = DndApiClient.readAPIRest(response.getSkills(), new TypeReference<ApiListResponse<Skill>>() {});
+        ApiListResponse<Skill> skill = DndApiClient.readAPIRest(response.getSkills(), new TypeReference<ApiListResponse<Skill>>() {});
 
-        SkillRepositoryImpl skillsRepository = new SkillRepositoryImpl();
+        SkillRepositoryImpl skillRepository = new SkillRepositoryImpl();
 
-        skills.getResults().stream().forEach(skillsRepository::save);
+        skill.getResults().stream().forEach(skillRepository::save);
 
+        ApiListResponse<AbilityScores> abilityScore = DndApiClient.readAPIRest(response.getAbilityScores(), new TypeReference<ApiListResponse<AbilityScores>>() {});
+
+        AbilityScoresRepositoryImpl abilityScoreRepository = new  AbilityScoresRepositoryImpl();
         
+        abilityScore.getResults().forEach(abilityScoreDetail -> {
+            AbilityScores detail = DndApiClient.readAPIRest(
+                    abilityScoreDetail.getUrl(),
+                    new TypeReference<AbilityScores>() {});
+            abilityScoreRepository.save(detail);
+        });
+
+        ApiListResponse<Skill> skills = DndApiClient.readAPIRest(
+                response.getSkills(),
+                new TypeReference<ApiListResponse<Skill>>() {});
+
+        SkillsRepositoryImpl skillsRepository = new SkillsRepositoryImpl();
+
+        skills.getResults().forEach(skillDetail -> {
+            Skills detail = DndApiClient.readAPIRest(
+                    skillDetail.getUrl(),
+                    new TypeReference<Skills>() {});
+            skillsRepository.save(detail);
+        });
 
     }
 }
