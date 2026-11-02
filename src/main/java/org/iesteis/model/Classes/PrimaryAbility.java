@@ -1,8 +1,21 @@
 package org.iesteis.model.classes;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class PrimaryAbility {
+    public PrimaryAbility(String desc, Proficiency[] abilityScores, AbilityScoreOptions abilityScoreOptions) {
+        this.desc = desc;
+        this.abilityScores = abilityScores;
+        this.abilityScoreOptions = abilityScoreOptions;
+    }
+
+    public PrimaryAbility() {}
+
+    @JsonProperty("desc")
     private String desc;
+    @JsonProperty("ability_scores")
     private Proficiency[] abilityScores;
+    @JsonProperty("ability_score_options")
     private AbilityScoreOptions abilityScoreOptions;
 
     public String getDesc() { return desc; }
