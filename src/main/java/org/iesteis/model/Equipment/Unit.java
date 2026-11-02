@@ -1,5 +1,7 @@
 package org.iesteis.model.equipment;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.io.IOException;
 
 public enum Unit {
@@ -14,6 +16,7 @@ public enum Unit {
         return null;
     }
 
+    @JsonCreator
     public static Unit forValue(String value) throws IOException {
         if (value.equals("cp")) return CP;
         if (value.equals("gp")) return GP;
