@@ -1,7 +1,18 @@
 package org.iesteis.model.classes;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Prerequisite {
+    public Prerequisite(Proficiency abilityScore, long minimumScore) {
+        this.abilityScore = abilityScore;
+        this.minimumScore = minimumScore;
+    }
+
+    public Prerequisite() {}
+
+    @JsonProperty("ability_score")
     private Proficiency abilityScore;
+    @JsonProperty("minimum_score")
     private long minimumScore;
 
     public Proficiency getAbilityScore() { return abilityScore; }
