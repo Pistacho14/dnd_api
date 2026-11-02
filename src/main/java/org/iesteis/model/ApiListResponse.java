@@ -1,9 +1,20 @@
 package org.iesteis.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class ApiListResponse<T> {
+    public ApiListResponse(int count, List<T> results) {
+        this.count = count;
+        this.results = results;
+    }
+
+    public ApiListResponse() {}
+
+    @JsonProperty("count")
     private int count;
+    @JsonProperty("results")
     private List<T> results;
 
     public int getCount() {
