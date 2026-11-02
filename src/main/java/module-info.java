@@ -19,7 +19,22 @@ module org.iesteis {
     opens org.iesteis.model.equipment to tools.jackson.databind;
     opens org.iesteis.model.feats to tools.jackson.databind;
     opens org.iesteis.model.equipmentCategories to tools.jackson.databind;
+    opens org.iesteis.model.features to tools.jackson.databind;
+    opens org.iesteis.model.languages to tools.jackson.databind;
+    opens org.iesteis.model.levels to tools.jackson.databind;
+    opens org.iesteis.model.magicItems to tools.jackson.databind;
+    opens org.iesteis.model.magicSchools to tools.jackson.databind;
+    opens org.iesteis.model.monsters to tools.jackson.databind;
+    opens org.iesteis.model.poisons to tools.jackson.databind;
+    opens org.iesteis.model.proficiencies to tools.jackson.databind;
     opens org.iesteis.model.skills to tools.jackson.databind;
+    opens org.iesteis.model.species to tools.jackson.databind;
+    opens org.iesteis.model.spells to tools.jackson.databind;
+    opens org.iesteis.model.subclasses to tools.jackson.databind;
+    opens org.iesteis.model.subspecies to tools.jackson.databind;
+    opens org.iesteis.model.traits to tools.jackson.databind;
+    opens org.iesteis.model.weaponMasteryProperties to tools.jackson.databind;
+    opens org.iesteis.model.weaponProperties to tools.jackson.databind;
     exports org.iesteis;
     exports org.iesteis.model.skills;
 }
