@@ -1,6 +1,6 @@
 package org.iesteis.repository.abilityScore;
 
-import org.iesteis.model.abilityScore.Skill;
+import org.iesteis.model.abilityScores.Skill;
 import org.iesteis.repository.CrudRepository;
 
 import java.util.List;
