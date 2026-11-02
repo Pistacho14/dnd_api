@@ -1,9 +1,24 @@
 package org.iesteis.model.classes;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class StartingEquipmentOption {
+    public StartingEquipmentOption(String desc, long choose, ChoiceType type, StartingEquipmentOptionFrom from) {
+        this.desc = desc;
+        this.choose = choose;
+        this.type = type;
+        this.from = from;
+    }
+
+    public StartingEquipmentOption() {}
+
+    @JsonProperty("desc")
     private String desc;
+    @JsonProperty("choose")
     private long choose;
+    @JsonProperty("type")
     private ChoiceType type;
+    @JsonProperty("from")
     private StartingEquipmentOptionFrom from;
 
     public String getDesc() { return desc; }
