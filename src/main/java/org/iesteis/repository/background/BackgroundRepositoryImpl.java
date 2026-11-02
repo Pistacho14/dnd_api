@@ -1,10 +1,15 @@
 package org.iesteis.repository.background;
 
+
+
+import org.iesteis.model.background.Background;
+import org.iesteis.model.background.EquipmentOption;
+import org.iesteis.model.background.Feat;
+import org.iesteis.model.background.ProficiencyChoice;
 import java.util.List;
 import java.util.Map;
 
 import org.iesteis.database.DatabaseManager;
-import org.iesteis.model.background.Background;
 import org.iesteis.repository.BaseRepository;
 import tools.jackson.databind.ObjectMapper;
 
@@ -58,13 +63,13 @@ public class BackgroundRepositoryImpl extends BaseRepository<Background> impleme
         return new Background(
                 (String) entity.get("index"),
                 (String) entity.get("name"),
-                read(entity.get("ability_scores"), org.iesteis.model.background.Feat[].class),
-                read(entity.get("feat"), org.iesteis.model.background.Feat.class),
-                read(entity.get("proficiencies"), org.iesteis.model.background.Feat[].class),
-                read(entity.get("equipment_options"), org.iesteis.model.background.EquipmentOption[].class),
+                read(entity.get("ability_scores"), Feat[].class),
+                read(entity.get("feat"), Feat.class),
+                read(entity.get("proficiencies"), Feat[].class),
+                read(entity.get("equipment_options"), EquipmentOption[].class),
                 (String) entity.get("url"),
                 read(entity.get("proficiency_choices"),
-                        org.iesteis.model.background.ProficiencyChoice[].class));
+                        ProficiencyChoice[].class));
     }
 
     private <V> V read(Object value, Class<V> type) {
