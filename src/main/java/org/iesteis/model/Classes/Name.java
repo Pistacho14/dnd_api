@@ -1,5 +1,7 @@
 package org.iesteis.model.classes;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.io.IOException;
 
 public enum Name {
@@ -17,6 +19,7 @@ public enum Name {
         return null;
     }
 
+    @JsonCreator
     public static Name forValue(String value) throws IOException {
         if (value.equals("Cantrips")) return CANTRIPS;
         if (value.equals("Changing Your Prepared Spells")) return CHANGING_YOUR_PREPARED_SPELLS;
