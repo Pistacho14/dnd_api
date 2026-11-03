@@ -57,34 +57,30 @@ import org.iesteis.model.traits.Traits;
 import org.iesteis.model.weaponMasteryProperties.WeaponMasteryProperties;
 import org.iesteis.model.weaponProperties.WeaponProperties;
 
-public class MainApp{
-/*    private static Stage stage;
+import javafx.application.Application;
+import java.io.IOException;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-    @Override
-    public void start(@SuppressWarnings("exports") Stage s) throws IOException {
-        stage=s;
-        setRoot("primary","");
-    }
+public class MainApp extends Application {
 
-    static void setRoot(String fxml) throws IOException {
-        setRoot(fxml,stage.getTitle());
-    }
+    public static Scene scene;
 
-    static void setRoot(String fxml, String title) throws IOException {
-        Scene scene = new Scene(loadFXML(fxml));
-        stage.setTitle(title);
+    @Override 
+    public void start(Stage stage) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/primary.fxml"));
+        
+        scene = new Scene(loader.load(), 1280, 800);
+        stage.setTitle("Dungeon and Dragons API");
         stage.setScene(scene);
+        stage.setMaximized(true);
         stage.show();
     }
 
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("/fxml/"+fxml + ".fxml"));
-        return fxmlLoader.load();
-    }
-*/
-
     public static void main(String[] args) {
-        // launch(args);
+        launch();
 
         Response response = DndApiClient.readAPIRest();
 
@@ -274,8 +270,7 @@ public class MainApp{
                     new TypeReference<Poisons>() {});
             poisonsRepository.save(detail);
         });
-        
-        /* ApiListResponse<Proficiencies> proficiencies = DndApiClient.readAPIRest(
+        /*ApiListResponse<Proficiencies> proficiencies = DndApiClient.readAPIRest(
                 response.getProficiencies(),
                 new TypeReference<ApiListResponse<Proficiencies>>() {});
         ProficienciesRepositoryImpl proficienciesRepository = new ProficienciesRepositoryImpl();
@@ -363,5 +358,5 @@ public class MainApp{
                     new TypeReference<WeaponProperties>() {});
             weaponPropertiesRepository.save(detail);
         });
-    }
+    }  
 }
