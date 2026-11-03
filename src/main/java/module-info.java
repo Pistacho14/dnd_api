@@ -7,6 +7,7 @@ module org.iesteis {
     requires tools.jackson.databind;
     requires java.net.http;
     requires java.sql;
+    requires org.apache.commons.csv;
     requires org.slf4j;
     opens org.iesteis to javafx.fxml;
     opens org.iesteis.model to tools.jackson.databind;
