@@ -88,7 +88,7 @@ public class MainApp{
 
         Response response = DndApiClient.readAPIRest();
 
-        /*ApiListResponse<AbilityScores> abilityScores = DndApiClient.readAPIRest(
+        ApiListResponse<AbilityScores> abilityScores = DndApiClient.readAPIRest(
                 response.getAbilityScores(),
                 new TypeReference<ApiListResponse<AbilityScores>>() {});
         AbilityScoresRepositoryImpl abilityScoresRepository = new AbilityScoresRepositoryImpl();
@@ -274,7 +274,7 @@ public class MainApp{
                     new TypeReference<Poisons>() {});
             poisonsRepository.save(detail);
         });
-*/
+        
         /* ApiListResponse<Proficiencies> proficiencies = DndApiClient.readAPIRest(
                 response.getProficiencies(),
                 new TypeReference<ApiListResponse<Proficiencies>>() {});
