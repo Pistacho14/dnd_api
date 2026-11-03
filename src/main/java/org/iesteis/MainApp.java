@@ -270,7 +270,7 @@ public class MainApp extends Application {
                     new TypeReference<Poisons>() {});
             poisonsRepository.save(detail);
         });
-        /*ApiListResponse<Proficiencies> proficiencies = DndApiClient.readAPIRest(
+        /* ApiListResponse<Proficiencies> proficiencies = DndApiClient.readAPIRest(
                 response.getProficiencies(),
                 new TypeReference<ApiListResponse<Proficiencies>>() {});
         ProficienciesRepositoryImpl proficienciesRepository = new ProficienciesRepositoryImpl();
