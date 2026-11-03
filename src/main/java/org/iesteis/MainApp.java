@@ -73,6 +73,8 @@ public class MainApp extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainMenu.fxml"));
         
         scene = new Scene(loader.load(), 1280, 800);
+        scene.getStylesheets().add(
+                getClass().getResource("/styles/Styles.css").toExternalForm());
         stage.setTitle("Dungeon and Dragons API");
         stage.setScene(scene);
         stage.setMaximized(true);
