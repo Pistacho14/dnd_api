@@ -1,201 +1,152 @@
 /*
-Made by:  Jasper Potts
-Date: Dec 20, 2011
-Purpose: CSS options for JavaFX
-http://fxexperience.com/2011/12/styling-fx-buttons-with-css/
+ * Dungeon & Dragons theme
+ * Palette: obsidian, parchment, antique gold and dragon crimson.
+ */
 
-*/
-
-
-.round-red {
-    -fx-background-color: linear-gradient(#ff5400, #be1d00);
-    -fx-background-radius: 30;
-    -fx-background-insets: 0;
-    -fx-text-fill: white;
-}
-.bevel-grey {
-    -fx-background-color:
-        linear-gradient(#f2f2f2, #d6d6d6),
-        linear-gradient(#fcfcfc 0%, #d9d9d9 20%, #d6d6d6 100%),
-        linear-gradient(#dddddd 0%, #f6f6f6 50%);
-    -fx-background-radius: 8,7,6;
-    -fx-background-insets: 0,1,2;
-    -fx-text-fill: black;
-    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+.root {
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 13px;
+    -fx-background-color: #17151d;
+    -fx-text-fill: #f3ead4;
 }
 
-.shiny-orange {
-    -fx-background-color:
-        linear-gradient(#ffd65b, #e68400),
-        linear-gradient(#ffef84, #f2ba44),
-        linear-gradient(#ffea6a, #efaa22),
-        linear-gradient(#ffe657 0%, #f8c202 50%, #eea10b 100%),
-        linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0));
-    -fx-background-radius: 30;
-    -fx-background-insets: 0,1,2,3,0;
-    -fx-text-fill: #654b00;
-    -fx-padding: 10 20 10 20;
+.label {
+    -fx-text-fill: #f3ead4;
 }
-.dark-blue {
-    -fx-background-color:
-        #090a0c,
-        linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
-        linear-gradient(#20262b, #191d22),
-        radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
-    -fx-background-radius: 5,4,3,5;
-    -fx-background-insets: 0,1,2,0;
-    -fx-text-fill: white;
-    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
-    -fx-text-fill: linear-gradient(white, #d0d0d0);
-    -fx-padding: 10 20 10 20;
-}
-.dark-blue Text {
-    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.9) , 1, 0.0 , 0 , 1 );
-}
-.record-sales {
-    -fx-padding: 8 15 15 15;
-    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
-    -fx-background-radius: 8;
-    -fx-background-color:
-        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
-        #9d4024,
-        #d86e3a,
-        radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);
-    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
 
+.text-field,
+.text-area,
+.combo-box,
+.choice-box,
+.date-picker {
+    -fx-background-color: #25222d;
+    -fx-border-color: #51465a;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-text-fill: #f7eedc;
+    -fx-prompt-text-fill: #a99caf;
+    -fx-padding: 8px 10px;
 }
-.record-sales:hover {
-    -fx-background-color:
-        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
-        #9d4024,
-        #d86e3a,
-        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
-}
-.record-sales:pressed {
-    -fx-padding: 10 15 13 15;
-    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
-}
-.record-sales Text {
-    -fx-fill: white;
-    -fx-effect: dropshadow( gaussian , #a30000 , 0,0,0,2 );
-}
-.rich-blue {
-    -fx-background-color:
-        #000000,
-        linear-gradient(#7ebcea, #2f4b8f),
-        linear-gradient(#426ab7, #263e75),
-        linear-gradient(#395cab, #223768);
-    -fx-background-insets: 0,1,2,3;
-    -fx-background-radius: 3,2,2,2;
-    -fx-padding: 12 30 12 30;
-    -fx-text-fill: white;
 
+.text-field:focused,
+.text-area:focused,
+.combo-box:focused,
+.choice-box:focused,
+.date-picker:focused {
+    -fx-border-color: #d7ad55;
+    -fx-effect: dropshadow(gaussian, rgba(215, 173, 85, 0.25), 8, 0, 0, 0);
 }
-.rich-blue Text {
-    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.8) , 0, 0.0 , 0 , 1);
-}
-.big-yellow {
-    -fx-background-color:
-        #ecebe9,
-        rgba(0,0,0,0.05),
-        linear-gradient(#dcca8a, #c7a740),
-        linear-gradient(#f9f2d6 0%, #f4e5bc 20%, #e6c75d 80%, #e2c045 100%),
-        linear-gradient(#f6ebbe, #e6c34d);
-    -fx-background-insets: 0,9 9 8 9,9,10,11;
-    -fx-background-radius: 50;
-    -fx-padding: 15 30 15 30;
-    -fx-text-fill: #311c09;
-    -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.1) , 2, 0.0 , 0 , 1);
-}
-.big-yellow Text {
-    -fx-effect: dropshadow( one-pass-box , rgba(255,255,255,0.5) , 0, 0.0 , 0 , 1);
-}
-.iphone-toolbar {
-    -fx-background-color: linear-gradient(#98a8bd 0%, #8195af 25%, #6d86a4 100%);
-}
-.iphone {
-    -fx-background-color:
-        #a6b5c9,
-        linear-gradient(#303842 0%, #3e5577 20%, #375074 100%),
-        linear-gradient(#768aa5 0%, #849cbb 5%, #5877a2 50%, #486a9a 51%, #4a6c9b 100%);
-    -fx-background-insets: 0 0 -1 0,0,1;
-    -fx-background-radius: 5,5,4;
-    -fx-padding: 7 30 7 30;
-    -fx-text-fill: #242d35;
-    -fx-text-fill: white;
-}
-.iphone Text {
-    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.8) , 0, 0.0 , 0 , -1 );
-}
-.ipad-dark-grey {
-    -fx-background-color:
-        linear-gradient(#686868 0%, #232723 25%, #373837 75%, #757575 100%),
-        linear-gradient(#020b02, #3a3a3a),
-        linear-gradient(#9d9e9d 0%, #6b6a6b 20%, #343534 80%, #242424 100%),
-        linear-gradient(#8a8a8a 0%, #6b6a6b 20%, #343534 80%, #262626 100%),
-        linear-gradient(#777777 0%, #606060 50%, #505250 51%, #2a2b2a 100%);
-    -fx-background-insets: 0,1,4,5,6;
-    -fx-background-radius: 9,8,5,4,3;
-    -fx-padding: 15 30 15 30;
-    -fx-text-fill: white;
-    -fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.2) , 1, 0.0 , 0 , 1);
-}
-.ipad-dark-grey Text {
-    -fx-effect: dropshadow( one-pass-box , black , 0, 0.0 , 0 , -1 );
-}
-.ipad-grey {
-    -fx-background-color:
-        linear-gradient(#686868 0%, #232723 25%, #373837 75%, #757575 100%),
-        linear-gradient(#020b02, #3a3a3a),
-        linear-gradient(#b9b9b9 0%, #c2c2c2 20%, #afafaf 80%, #c8c8c8 100%),
-        linear-gradient(#f5f5f5 0%, #dbdbdb 50%, #cacaca 51%, #d7d7d7 100%);
-    -fx-background-insets: 0,1,4,5;
-    -fx-background-radius: 9,8,5,4;
-    -fx-padding: 15 30 15 30;
-    -fx-text-fill: #333333;
-    -fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.2) , 1, 0.0 , 0 , 1);
-}
-.ipad-grey Text {
-    -fx-effect: dropshadow( one-pass-box , white , 0, 0.0 , 0 , 1 );
-}
-.lion-default {
-    -fx-background-color:
-        rgba(0,0,0,0.08),
-        linear-gradient(#5a61af, #51536d),
-        linear-gradient(#e4fbff 0%,#cee6fb 10%, #a5d3fb 50%, #88c6fb 51%, #d5faff 100%);
-    -fx-background-insets: 0 0 -1 0,0,1;
-    -fx-background-radius: 5,5,4;
-    -fx-padding: 3 30 3 30;
-    -fx-text-fill: #242d35;
-}
-.lion {
-    -fx-background-color:
-        rgba(0,0,0,0.08),
-        linear-gradient(#9a9a9a, #909090),
-        linear-gradient(white 0%, #f3f3f3 50%, #ececec 51%, #f2f2f2 100%);
-    -fx-background-insets: 0 0 -1 0,0,1;
-    -fx-background-radius: 5,5,4;
-    -fx-padding: 3 30 3 30;
-    -fx-text-fill: #242d35;
-}
-.windows7-default {
-    -fx-background-color:
-        #3c7fb1,
-        linear-gradient(#fafdfe, #e8f5fc),
-        linear-gradient(#eaf6fd 0%, #d9f0fc 49%, #bee6fd 50%, #a7d9f5 100%);
-    -fx-background-insets: 0,1,2;
-    -fx-background-radius: 3,2,1;
-    -fx-padding: 3 30 3 30;
-    -fx-text-fill: black;
-}
-.windows7 {
-    -fx-background-color:
-        #707070,
-        linear-gradient(#fcfcfc, #f3f3f3),
-        linear-gradient(#f2f2f2 0%, #ebebeb 49%, #dddddd 50%, #cfcfcf 100%);
-    -fx-background-insets: 0,1,2;
-    -fx-background-radius: 3,2,1;
-    -fx-padding: 3 30 3 30;
-    -fx-text-fill: black;
 
+.button {
+    -fx-background-color: linear-gradient(to bottom, #9d2935, #701d2a);
+    -fx-background-radius: 5px;
+    -fx-border-color: #c88d48;
+    -fx-border-radius: 5px;
+    -fx-border-width: 1px;
+    -fx-text-fill: #fff5df;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 16px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(to bottom, #bd3541, #8b2431);
+    -fx-border-color: #f0c86c;
+}
+
+.button:pressed {
+    -fx-background-color: #551723;
+    -fx-translate-y: 1px;
+}
+
+.split-pane,
+.split-pane:horizontal,
+.split-pane:vertical {
+    -fx-background-color: #17151d;
+}
+
+.split-pane-divider {
+    -fx-background-color: #5e4d35;
+    -fx-padding: 0 1px;
+}
+
+.anchor-pane,
+.v-box,
+.h-box {
+    -fx-background-color: #1d1a24;
+}
+
+.table-view {
+    -fx-background-color: #201d27;
+    -fx-control-inner-background: #201d27;
+    -fx-table-cell-border-color: #39313e;
+    -fx-border-color: #51465a;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: linear-gradient(to bottom, #403229, #2c2525);
+}
+
+.table-view .column-header,
+.table-view .filler {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #806238 transparent;
+    -fx-padding: 9px 8px;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #e8bd67;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell {
+    -fx-background-color: #201d27;
+    -fx-text-fill: #f3ead4;
+    -fx-border-color: transparent transparent #332d38 transparent;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #25212c;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #382d36;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #71313a;
+    -fx-text-fill: #fff5df;
+}
+
+.table-cell {
+    -fx-text-fill: #f3ead4;
+    -fx-padding: 8px;
+}
+
+.scroll-bar {
+    -fx-background-color: #1b1821;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #6d5943;
+    -fx-background-radius: 8px;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #a07a4d;
+}
+
+.separator .line {
+    -fx-border-color: #806238;
+    -fx-border-width: 1px 0 0 0;
+}
+
+.tooltip {
+    -fx-background-color: #2a2224;
+    -fx-border-color: #c88d48;
+    -fx-text-fill: #fff5df;
+    -fx-padding: 7px 10px;
 }
