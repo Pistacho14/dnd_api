@@ -70,7 +70,7 @@ public class MainApp extends Application {
 
     @Override 
     public void start(Stage stage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/primary.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainMenu.fxml"));
         
         scene = new Scene(loader.load(), 1280, 800);
         stage.setTitle("Dungeon and Dragons API");
