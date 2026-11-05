@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
@@ -22,6 +23,8 @@
     <VBox styleClass="table-content" spacing="12.0" minHeight="0.0" minWidth="0.0">
       <children>
         <Label fx:id="selectedTableName" text="Selecciona una tabla" styleClass="section-title" />
+        <!-- Barra para filtrar las filas cargadas de la tabla actual. -->
+        <TextField fx:id="tableSearch" promptText="Buscar en la tabla..." />
         <TableView fx:id="tableContent" VBox.vgrow="ALWAYS" />
         <!-- Barra de acciones para las operaciones disponibles sobre la tabla. -->
         <HBox spacing="8.0" styleClass="table-actions">
