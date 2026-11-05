@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,6 +90,43 @@ public class DatabaseService implements DatabaseManager {
 
         logger.debug("Consulta finalizada con " + result.size() + " resultados");
         return result;
+    }
+
+    @Override
+    public List<String> listTables() {
+        // Obtiene las tablas mediante los metadatos de la conexión para no fijar nombres.
+        List<String> tables = new ArrayList<>();
+        initConexion();
+
+        try (ResultSet resultSet = connection.getMetaData().getTables(
+                connection.getCatalog(), null, "%", new String[] {"TABLE"})) {
+            while (resultSet.next()) {
+                tables.add(resultSet.getString("TABLE_NAME"));
+            }
+        } catch (SQLException e) {
+            logger.error("Error al obtener las tablas: " + e.getMessage());
+        }
+
+        Collections.sort(tables);
+        return tables;
+    }
+
+    @Override
+    public List<String> listTableColumns(String tableName) {
+        // Obtiene dinámicamente la estructura de la tabla elegida.
+        List<String> columns = new ArrayList<>();
+        initConexion();
+
+        try (ResultSet resultSet = connection.getMetaData().getColumns(
+                connection.getCatalog(), null, tableName, "%")) {
+            while (resultSet.next()) {
+                columns.add(resultSet.getString("COLUMN_NAME"));
+            }
+        } catch (SQLException e) {
+            logger.error("Error al obtener las columnas de la tabla: " + e.getMessage());
+        }
+
+        return columns;
     }
 
     @Override
