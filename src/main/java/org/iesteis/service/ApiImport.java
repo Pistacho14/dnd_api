@@ -1,6 +1,14 @@
 package org.iesteis.service;
 
 import java.util.List;
+import java.util.ArrayList;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.iesteis.api.DndApiClient;
 import org.iesteis.model.ApiListResponse;
@@ -57,282 +65,280 @@ import org.iesteis.repository.weaponProperties.WeaponPropertiesRepositoryImpl;
 import tools.jackson.core.type.TypeReference;
 
 public class ApiImport {
-    public static void apiImport() {
-        Response response = DndApiClient.readAPIRest();
 
-        ApiListResponse<AbilityScores> abilityScores = DndApiClient.readAPIRest(
-                response.getAbilityScores(),
-                new TypeReference<ApiListResponse<AbilityScores>>() {});
-        AbilityScoresRepositoryImpl abilityScoresRepository = new AbilityScoresRepositoryImpl();
-        abilityScores.getResults().forEach(item -> {
-            AbilityScores detail = DndApiClient.readAPIRest(
-                    item.getUrl(),
-                    new TypeReference<AbilityScores>() {});
-            abilityScoresRepository.save(detail);
+
+
+        private static final ExecutorService DETAIL_EXECUTOR = Executors.newFixedThreadPool(32, runnable -> {
+                Thread thread = new Thread(runnable, "api-detail-loader");
+                thread.setDaemon(true);
+                return thread;
         });
 
-        ApiListResponse<Alignments> alignments = DndApiClient.readAPIRest(
-                response.getAlignments(),
-                new TypeReference<ApiListResponse<Alignments>>() {});
-        AlignmentsRepositoryImpl alignmentsRepository = new AlignmentsRepositoryImpl();
-        alignments.getResults().forEach(item -> {
-            Alignments detail = DndApiClient.readAPIRest(
-                    item.getUrl(),
-                    new TypeReference<Alignments>() {});
-            alignmentsRepository.save(detail);
-        });
+        // Descarga en paralelo los detalles para reducir el tiempo de espera de la API.
+        private static <S, D> void fetchDetailsInParallel(
+                        List<S> summaries,
+                        Function<S, String> urlExtractor,
+                        TypeReference<D> typeReference,
+                        Consumer<D> detailConsumer) {
+                List<Callable<D>> tasks = summaries.stream()
+                                .map(summary -> (Callable<D>) () -> DndApiClient.readAPIRest(
+                                                urlExtractor.apply(summary), typeReference))
+                                .toList();
 
-        ApiListResponse<Background> backgrounds = DndApiClient.readAPIRest(
-                response.getBackgrounds(),
-                new TypeReference<ApiListResponse<Background>>() {});
-        BackgroundRepositoryImpl backgroundsRepository = new BackgroundRepositoryImpl();
-        backgrounds.getResults().forEach(item -> {
-            Background detail = DndApiClient.readAPIRest(
-                    item.getUrl(),
-                    new TypeReference<Background>() {});
-            backgroundsRepository.save(detail);
-        });
+                try {
+                        for (Future<D> result : DETAIL_EXECUTOR.invokeAll(tasks)) {
+                                detailConsumer.accept(result.get());
+                        }
+                } catch (InterruptedException exception) {
+                        Thread.currentThread().interrupt();
+                        throw new IllegalStateException("Se interrumpió la descarga de detalles de la API", exception);
+                } catch (ExecutionException exception) {
+                        throw new IllegalStateException("No se pudo descargar un detalle de la API",
+                                        exception.getCause());
+                }
+        }
 
-        ApiListResponse<Classes> classes = DndApiClient.readAPIRest(
-                response.getClasses(),
-                new TypeReference<ApiListResponse<Classes>>() {});
-        ClassesRepositoryImpl classesRepository = new ClassesRepositoryImpl();
-        LevelsRepositoryImpl levelsRepository = new LevelsRepositoryImpl();
-        classes.getResults().forEach(item -> {
-            Classes detail = DndApiClient.readAPIRest(
-                    item.getUrl(),
-                    new TypeReference<Classes>() {});
-            classesRepository.save(detail);
-            List<Levels> levels = DndApiClient.readAPIRest(
-                    detail.getClassLevels(),
-                    new TypeReference<List<Levels>>() {});
-            levels.forEach(levelItem -> {
-                Levels levelDetail = DndApiClient.readAPIRest(
-                        levelItem.getUrl(),
-                        new TypeReference<Levels>() {});
-                levelsRepository.save(levelDetail);
-            });
-        });
+        private static <S, D> List<D> fetchDetailsInParallel(
+                        List<S> summaries,
+                        Function<S, String> urlExtractor,
+                        TypeReference<D> typeReference) {
+                List<D> details = new ArrayList<>();
+                fetchDetailsInParallel(summaries, urlExtractor, typeReference, details::add);
+                return details;
+        }
 
-        ApiListResponse<Conditions> conditions = DndApiClient.readAPIRest(
-                response.getConditions(),
-                new TypeReference<ApiListResponse<Conditions>>() {});
-        ConditionsRepositoryImpl conditionsRepository = new ConditionsRepositoryImpl();
-        conditions.getResults().forEach(item -> {
-            Conditions detail = DndApiClient.readAPIRest(
-                    item.getUrl(),
-                    new TypeReference<Conditions>() {});
-            conditionsRepository.save(detail);
-        });
+        public static void apiImport() {
+                Response response = DndApiClient.readAPIRest();
 
-        ApiListResponse<DamageTypes> damageTypes = DndApiClient.readAPIRest(
-                response.getDamageTypes(),
-                new TypeReference<ApiListResponse<DamageTypes>>() {});
-        DamageTypesRepositoryImpl damageTypesRepository = new DamageTypesRepositoryImpl();
-        damageTypes.getResults().forEach(item -> {
-            DamageTypes detail = DndApiClient.readAPIRest(
-                    item.getUrl(),
-                    new TypeReference<DamageTypes>() {});
-            damageTypesRepository.save(detail);
-        });
+                ApiListResponse<AbilityScores> abilityScores = DndApiClient.readAPIRest(
+                                response.getAbilityScores(),
+                                new TypeReference<ApiListResponse<AbilityScores>>() {
+                                });
+                AbilityScoresRepositoryImpl abilityScoresRepository = new AbilityScoresRepositoryImpl();
+                fetchDetailsInParallel(abilityScores.getResults(), AbilityScores::getUrl,
+                                new TypeReference<AbilityScores>() {
+                                }, abilityScoresRepository::save);
 
-        ApiListResponse<EquipmentCategories> equipmentCategories = DndApiClient.readAPIRest(
-                response.getEquipmentCategories(),
-                new TypeReference<ApiListResponse<EquipmentCategories>>() {});
-        EquipmentCategoriesRepositoryImpl equipmentCategoriesRepository =
-                new EquipmentCategoriesRepositoryImpl();
-        equipmentCategories.getResults().forEach(item -> {
-            EquipmentCategories detail = DndApiClient.readAPIRest(
-                    item.getUrl(),
-                    new TypeReference<EquipmentCategories>() {});
-            equipmentCategoriesRepository.save(detail);
-        });
+                ApiListResponse<Alignments> alignments = DndApiClient.readAPIRest(
+                                response.getAlignments(),
+                                new TypeReference<ApiListResponse<Alignments>>() {
+                                });
+                AlignmentsRepositoryImpl alignmentsRepository = new AlignmentsRepositoryImpl();
+                fetchDetailsInParallel(alignments.getResults(), Alignments::getUrl,
+                                new TypeReference<Alignments>() {
+                                }, alignmentsRepository::save);
 
-        ApiListResponse<Equipment> equipment = DndApiClient.readAPIRest(
-                response.getEquipment(),
-                new TypeReference<ApiListResponse<Equipment>>() {});
-        EquipmentRepositoryImpl equipmentRepository = new EquipmentRepositoryImpl();
-        equipment.getResults().forEach(item -> {
-            Equipment detail = DndApiClient.readAPIRest(
-                    item.getUrl(),
-                    new TypeReference<Equipment>() {});
-            equipmentRepository.save(detail);
-        });
+                ApiListResponse<Background> backgrounds = DndApiClient.readAPIRest(
+                                response.getBackgrounds(),
+                                new TypeReference<ApiListResponse<Background>>() {
+                                });
+                BackgroundRepositoryImpl backgroundsRepository = new BackgroundRepositoryImpl();
+                fetchDetailsInParallel(backgrounds.getResults(), Background::getUrl,
+                                new TypeReference<Background>() {
+                                }, backgroundsRepository::save);
 
-        ApiListResponse<Feats> feats = DndApiClient.readAPIRest(
-                response.getFeats(),
-                new TypeReference<ApiListResponse<Feats>>() {});
-        FeatsRepositoryImpl featsRepository = new FeatsRepositoryImpl();
-        feats.getResults().forEach(item -> {
-            Feats detail = DndApiClient.readAPIRest(
-                    item.getUrl(),
-                    new TypeReference<Feats>() {});
-            featsRepository.save(detail);
-        });
+                ApiListResponse<Classes> classes = DndApiClient.readAPIRest(
+                                response.getClasses(),
+                                new TypeReference<ApiListResponse<Classes>>() {
+                                });
+                ClassesRepositoryImpl classesRepository = new ClassesRepositoryImpl();
+                LevelsRepositoryImpl levelsRepository = new LevelsRepositoryImpl();
+                List<Classes> classDetails = fetchDetailsInParallel(
+                                classes.getResults(), Classes::getUrl, new TypeReference<Classes>() {
+                                });
+                classDetails.forEach(detail -> {
+                        classesRepository.save(detail);
+                        List<Levels> levels = DndApiClient.readAPIRest(
+                                        detail.getClassLevels(),
+                                        new TypeReference<List<Levels>>() {
+                                        });
+                        fetchDetailsInParallel(levels, Levels::getUrl,
+                                        new TypeReference<Levels>() {
+                                        }, levelsRepository::save);
+                });
 
-        ApiListResponse<Skills> skills = DndApiClient.readAPIRest(
-                response.getSkills(),
-                new TypeReference<ApiListResponse<Skills>>() {});
-        SkillsRepositoryImpl skillsRepository = new SkillsRepositoryImpl();
-        skills.getResults().forEach(item -> {
-            Skills detail = DndApiClient.readAPIRest(
-                    item.getUrl(),
-                    new TypeReference<Skills>() {});
-            skillsRepository.save(detail);
-        });
+                ApiListResponse<Conditions> conditions = DndApiClient.readAPIRest(
+                                response.getConditions(),
+                                new TypeReference<ApiListResponse<Conditions>>() {
+                                });
+                ConditionsRepositoryImpl conditionsRepository = new ConditionsRepositoryImpl();
+                fetchDetailsInParallel(conditions.getResults(), Conditions::getUrl,
+                                new TypeReference<Conditions>() {
+                                }, conditionsRepository::save);
 
-        ApiListResponse<Features> features = DndApiClient.readAPIRest(
-                response.getFeatures(),
-                new TypeReference<ApiListResponse<Features>>() {});
-        FeaturesRepositoryImpl featuresRepository = new FeaturesRepositoryImpl();
-        features.getResults().forEach(item -> {
-            Features detail = DndApiClient.readAPIRest(
-                    item.getUrl(),
-                    new TypeReference<Features>() {});
-            featuresRepository.save(detail);
-        });
+                ApiListResponse<DamageTypes> damageTypes = DndApiClient.readAPIRest(
+                                response.getDamageTypes(),
+                                new TypeReference<ApiListResponse<DamageTypes>>() {
+                                });
+                DamageTypesRepositoryImpl damageTypesRepository = new DamageTypesRepositoryImpl();
+                fetchDetailsInParallel(damageTypes.getResults(), DamageTypes::getUrl,
+                                new TypeReference<DamageTypes>() {
+                                }, damageTypesRepository::save);
 
-        ApiListResponse<Languages> languages = DndApiClient.readAPIRest(
-                response.getLanguages(),
-                new TypeReference<ApiListResponse<Languages>>() {});
-        LanguagesRepositoryImpl languagesRepository = new LanguagesRepositoryImpl();
-        languages.getResults().forEach(item -> {
-            Languages detail = DndApiClient.readAPIRest(
-                    item.getUrl(),
-                    new TypeReference<Languages>() {});
-            languagesRepository.save(detail);
-        });
+                ApiListResponse<EquipmentCategories> equipmentCategories = DndApiClient.readAPIRest(
+                                response.getEquipmentCategories(),
+                                new TypeReference<ApiListResponse<EquipmentCategories>>() {
+                                });
+                EquipmentCategoriesRepositoryImpl equipmentCategoriesRepository = new EquipmentCategoriesRepositoryImpl();
+                fetchDetailsInParallel(equipmentCategories.getResults(), EquipmentCategories::getUrl,
+                                new TypeReference<EquipmentCategories>() {
+                                }, equipmentCategoriesRepository::save);
 
-        ApiListResponse<MagicItems> magicItems = DndApiClient.readAPIRest(
-                response.getMagicItems(),
-                new TypeReference<ApiListResponse<MagicItems>>() {});
-        MagicItemsRepositoryImpl magicItemsRepository = new MagicItemsRepositoryImpl();
-        magicItems.getResults().forEach(item -> {
-            MagicItems detail = DndApiClient.readAPIRest(
-                    item.getUrl(),
-                    new TypeReference<MagicItems>() {});
-            magicItemsRepository.save(detail);
-        });
+                ApiListResponse<Equipment> equipment = DndApiClient.readAPIRest(
+                                response.getEquipment(),
+                                new TypeReference<ApiListResponse<Equipment>>() {
+                                });
+                EquipmentRepositoryImpl equipmentRepository = new EquipmentRepositoryImpl();
+                fetchDetailsInParallel(equipment.getResults(), Equipment::getUrl,
+                                new TypeReference<Equipment>() {
+                                }, equipmentRepository::save);
 
-        ApiListResponse<MagicSchools> magicSchools = DndApiClient.readAPIRest(
-                response.getMagicSchools(),
-                new TypeReference<ApiListResponse<MagicSchools>>() {});
-        MagicSchoolsRepositoryImpl magicSchoolsRepository = new MagicSchoolsRepositoryImpl();
-        magicSchools.getResults().forEach(item -> {
-            MagicSchools detail = DndApiClient.readAPIRest(
-                    item.getUrl(),
-                    new TypeReference<MagicSchools>() {});
-            magicSchoolsRepository.save(detail);
-        });
+                ApiListResponse<Feats> feats = DndApiClient.readAPIRest(
+                                response.getFeats(),
+                                new TypeReference<ApiListResponse<Feats>>() {
+                                });
+                FeatsRepositoryImpl featsRepository = new FeatsRepositoryImpl();
+                fetchDetailsInParallel(feats.getResults(), Feats::getUrl,
+                                new TypeReference<Feats>() {
+                                }, featsRepository::save);
 
-        ApiListResponse<Monster> monsters = DndApiClient.readAPIRest(
-                response.getMonsters(),
-                new TypeReference<ApiListResponse<Monster>>() {});
-        MonstersRepositoryImpl monstersRepository = new MonstersRepositoryImpl();
-        monsters.getResults().forEach(item -> {
-            Monster detail = DndApiClient.readAPIRest(
-                    item.getUrl(),
-                    new TypeReference<Monster>() {});
-            monstersRepository.save(detail);
-        });
+                ApiListResponse<Skills> skills = DndApiClient.readAPIRest(
+                                response.getSkills(),
+                                new TypeReference<ApiListResponse<Skills>>() {
+                                });
+                SkillsRepositoryImpl skillsRepository = new SkillsRepositoryImpl();
+                fetchDetailsInParallel(skills.getResults(), Skills::getUrl,
+                                new TypeReference<Skills>() {
+                                }, skillsRepository::save);
 
-        ApiListResponse<Poisons> poisons = DndApiClient.readAPIRest(
-                response.getPoisons(),
-                new TypeReference<ApiListResponse<Poisons>>() {});
-        PoisonsRepositoryImpl poisonsRepository = new PoisonsRepositoryImpl();
-        poisons.getResults().forEach(item -> {
-            Poisons detail = DndApiClient.readAPIRest(
-                    item.getUrl(),
-                    new TypeReference<Poisons>() {});
-            poisonsRepository.save(detail);
-        });
-        /*ApiListResponse<Proficiencies> proficiencies = DndApiClient.readAPIRest(
-                response.getProficiencies(),
-                new TypeReference<ApiListResponse<Proficiencies>>() {});
-        ProficienciesRepositoryImpl proficienciesRepository = new ProficienciesRepositoryImpl();
-        proficiencies.getResults().forEach(item -> {
-            Proficiencies detail = DndApiClient.readAPIRest(
-                    item.getUrl(),
-                    new TypeReference<Proficiencies>() {});
-            proficienciesRepository.save(detail);
-        }); */
+                ApiListResponse<Features> features = DndApiClient.readAPIRest(
+                                response.getFeatures(),
+                                new TypeReference<ApiListResponse<Features>>() {
+                                });
+                FeaturesRepositoryImpl featuresRepository = new FeaturesRepositoryImpl();
+                fetchDetailsInParallel(features.getResults(), Features::getUrl,
+                                new TypeReference<Features>() {
+                                }, featuresRepository::save);
 
-        ApiListResponse<Species> species = DndApiClient.readAPIRest(
-                response.getSpecies(),
-                new TypeReference<ApiListResponse<Species>>() {});
-        SpeciesRepositoryImpl speciesRepository = new SpeciesRepositoryImpl();
-        species.getResults().forEach(item -> {
-            Species detail = DndApiClient.readAPIRest(
-                    item.getUrl(),
-                    new TypeReference<Species>() {});
-            speciesRepository.save(detail);
-        });
+                ApiListResponse<Languages> languages = DndApiClient.readAPIRest(
+                                response.getLanguages(),
+                                new TypeReference<ApiListResponse<Languages>>() {
+                                });
+                LanguagesRepositoryImpl languagesRepository = new LanguagesRepositoryImpl();
+                fetchDetailsInParallel(languages.getResults(), Languages::getUrl,
+                                new TypeReference<Languages>() {
+                                }, languagesRepository::save);
 
-        ApiListResponse<Spells> spells = DndApiClient.readAPIRest(
-                response.getSpells(),
-                new TypeReference<ApiListResponse<Spells>>() {});
-        SpellsRepositoryImpl spellsRepository = new SpellsRepositoryImpl();
-        spells.getResults().forEach(item -> {
-            Spells detail = DndApiClient.readAPIRest(
-                    item.getUrl(),
-                    new TypeReference<Spells>() {});
-            spellsRepository.save(detail);
-        });
+                ApiListResponse<MagicItems> magicItems = DndApiClient.readAPIRest(
+                                response.getMagicItems(),
+                                new TypeReference<ApiListResponse<MagicItems>>() {
+                                });
+                MagicItemsRepositoryImpl magicItemsRepository = new MagicItemsRepositoryImpl();
+                fetchDetailsInParallel(magicItems.getResults(), MagicItems::getUrl,
+                                new TypeReference<MagicItems>() {
+                                }, magicItemsRepository::save);
 
-        ApiListResponse<Subclasses> subclasses = DndApiClient.readAPIRest(
-                response.getSubclasses(),
-                new TypeReference<ApiListResponse<Subclasses>>() {});
-        SubclassesRepositoryImpl subclassesRepository = new SubclassesRepositoryImpl();
-        subclasses.getResults().forEach(item -> {
-            Subclasses detail = DndApiClient.readAPIRest(
-                    item.getUrl(),
-                    new TypeReference<Subclasses>() {});
-            subclassesRepository.save(detail);
-        });
+                ApiListResponse<MagicSchools> magicSchools = DndApiClient.readAPIRest(
+                                response.getMagicSchools(),
+                                new TypeReference<ApiListResponse<MagicSchools>>() {
+                                });
+                MagicSchoolsRepositoryImpl magicSchoolsRepository = new MagicSchoolsRepositoryImpl();
+                fetchDetailsInParallel(magicSchools.getResults(), MagicSchools::getUrl,
+                                new TypeReference<MagicSchools>() {
+                                }, magicSchoolsRepository::save);
 
-        ApiListResponse<Subspecies> subspecies = DndApiClient.readAPIRest(
-                response.getSubspecies(),
-                new TypeReference<ApiListResponse<Subspecies>>() {});
-        SubspeciesRepositoryImpl subspeciesRepository = new SubspeciesRepositoryImpl();
-        subspecies.getResults().forEach(item -> {
-            Subspecies detail = DndApiClient.readAPIRest(
-                    item.getUrl(),
-                    new TypeReference<Subspecies>() {});
-            subspeciesRepository.save(detail);
-        });
+                ApiListResponse<Monster> monsters = DndApiClient.readAPIRest(
+                                response.getMonsters(),
+                                new TypeReference<ApiListResponse<Monster>>() {
+                                });
+                MonstersRepositoryImpl monstersRepository = new MonstersRepositoryImpl();
+                fetchDetailsInParallel(monsters.getResults(), Monster::getUrl,
+                                new TypeReference<Monster>() {
+                                }, monstersRepository::save);
 
-        ApiListResponse<Traits> traits = DndApiClient.readAPIRest(
-                response.getTraits(),
-                new TypeReference<ApiListResponse<Traits>>() {});
-        TraitsRepositoryImpl traitsRepository = new TraitsRepositoryImpl();
-        traits.getResults().forEach(item -> {
-            Traits detail = DndApiClient.readAPIRest(
-                    item.getUrl(),
-                    new TypeReference<Traits>() {});
-            traitsRepository.save(detail);
-        });
+                ApiListResponse<Poisons> poisons = DndApiClient.readAPIRest(
+                                response.getPoisons(),
+                                new TypeReference<ApiListResponse<Poisons>>() {
+                                });
+                PoisonsRepositoryImpl poisonsRepository = new PoisonsRepositoryImpl();
+                fetchDetailsInParallel(poisons.getResults(), Poisons::getUrl,
+                                new TypeReference<Poisons>() {
+                                }, poisonsRepository::save);
+                /*
+                 * ApiListResponse<Proficiencies> proficiencies = DndApiClient.readAPIRest(
+                 * response.getProficiencies(),
+                 * new TypeReference<ApiListResponse<Proficiencies>>() {});
+                 * ProficienciesRepositoryImpl proficienciesRepository = new
+                 * ProficienciesRepositoryImpl();
+                 * proficiencies.getResults().forEach(item -> {
+                 * Proficiencies detail = DndApiClient.readAPIRest(
+                 * item.getUrl(),
+                 * new TypeReference<Proficiencies>() {});
+                 * proficienciesRepository.save(detail);
+                 * });
+                 */
 
-        ApiListResponse<WeaponMasteryProperties> weaponMasteryProperties = DndApiClient.readAPIRest(
-                response.getWeaponMasteryProperties(),
-                new TypeReference<ApiListResponse<WeaponMasteryProperties>>() {});
-        WeaponMasteryPropertiesRepositoryImpl weaponMasteryPropertiesRepository =
-                new WeaponMasteryPropertiesRepositoryImpl();
-        weaponMasteryProperties.getResults().forEach(item -> {
-            WeaponMasteryProperties detail = DndApiClient.readAPIRest(
-                    item.getUrl(),
-                    new TypeReference<WeaponMasteryProperties>() {});
-            weaponMasteryPropertiesRepository.save(detail);
-        });
+                ApiListResponse<Species> species = DndApiClient.readAPIRest(
+                                response.getSpecies(),
+                                new TypeReference<ApiListResponse<Species>>() {
+                                });
+                SpeciesRepositoryImpl speciesRepository = new SpeciesRepositoryImpl();
+                fetchDetailsInParallel(species.getResults(), Species::getUrl,
+                                new TypeReference<Species>() {
+                                }, speciesRepository::save);
 
-        ApiListResponse<WeaponProperties> weaponProperties = DndApiClient.readAPIRest(
-                response.getWeaponProperties(),
-                new TypeReference<ApiListResponse<WeaponProperties>>() {});
-        WeaponPropertiesRepositoryImpl weaponPropertiesRepository = new WeaponPropertiesRepositoryImpl();
-        weaponProperties.getResults().forEach(item -> {
-            WeaponProperties detail = DndApiClient.readAPIRest(
-                    item.getUrl(),
-                    new TypeReference<WeaponProperties>() {});
-            weaponPropertiesRepository.save(detail);
-        });
+                ApiListResponse<Spells> spells = DndApiClient.readAPIRest(
+                                response.getSpells(),
+                                new TypeReference<ApiListResponse<Spells>>() {
+                                });
+                SpellsRepositoryImpl spellsRepository = new SpellsRepositoryImpl();
+                fetchDetailsInParallel(spells.getResults(), Spells::getUrl,
+                                new TypeReference<Spells>() {
+                                }, spellsRepository::save);
+
+                ApiListResponse<Subclasses> subclasses = DndApiClient.readAPIRest(
+                                response.getSubclasses(),
+                                new TypeReference<ApiListResponse<Subclasses>>() {
+                                });
+                SubclassesRepositoryImpl subclassesRepository = new SubclassesRepositoryImpl();
+                fetchDetailsInParallel(subclasses.getResults(), Subclasses::getUrl,
+                                new TypeReference<Subclasses>() {
+                                }, subclassesRepository::save);
+
+                ApiListResponse<Subspecies> subspecies = DndApiClient.readAPIRest(
+                                response.getSubspecies(),
+                                new TypeReference<ApiListResponse<Subspecies>>() {
+                                });
+                SubspeciesRepositoryImpl subspeciesRepository = new SubspeciesRepositoryImpl();
+                fetchDetailsInParallel(subspecies.getResults(), Subspecies::getUrl,
+                                new TypeReference<Subspecies>() {
+                                }, subspeciesRepository::save);
+
+                ApiListResponse<Traits> traits = DndApiClient.readAPIRest(
+                                response.getTraits(),
+                                new TypeReference<ApiListResponse<Traits>>() {
+                                });
+                TraitsRepositoryImpl traitsRepository = new TraitsRepositoryImpl();
+                fetchDetailsInParallel(traits.getResults(), Traits::getUrl,
+                                new TypeReference<Traits>() {
+                                }, traitsRepository::save);
+
+                ApiListResponse<WeaponMasteryProperties> weaponMasteryProperties = DndApiClient.readAPIRest(
+                                response.getWeaponMasteryProperties(),
+                                new TypeReference<ApiListResponse<WeaponMasteryProperties>>() {
+                                });
+                WeaponMasteryPropertiesRepositoryImpl weaponMasteryPropertiesRepository = new WeaponMasteryPropertiesRepositoryImpl();
+                fetchDetailsInParallel(weaponMasteryProperties.getResults(), WeaponMasteryProperties::getUrl,
+                                new TypeReference<WeaponMasteryProperties>() {
+                                }, weaponMasteryPropertiesRepository::save);
+
+                ApiListResponse<WeaponProperties> weaponProperties = DndApiClient.readAPIRest(
+                                response.getWeaponProperties(),
+                                new TypeReference<ApiListResponse<WeaponProperties>>() {
+                                });
+                WeaponPropertiesRepositoryImpl weaponPropertiesRepository = new WeaponPropertiesRepositoryImpl();
+                fetchDetailsInParallel(weaponProperties.getResults(), WeaponProperties::getUrl,
+                                new TypeReference<WeaponProperties>() {
+                                }, weaponPropertiesRepository::save);
         }
 }
