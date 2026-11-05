@@ -4,12 +4,13 @@ import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.iesteis.importer.ApiImport;
+import org.iesteis.service.ApiImport;
 
 import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
@@ -18,43 +19,46 @@ public class MainApp extends Application {
 
         private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
-    @Override 
-    public void start(Stage stage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainMenu.fxml"));
-        
+        @Override
+        public void start(Stage stage) throws IOException {
 
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainMenu.fxml"));
 
-        scene = new Scene(loader.load(), 1280, 800);
-        scene.getStylesheets().add(
-                getClass().getResource("/styles/Styles.css").toExternalForm());
-        stage.setTitle("Dungeon and Dragons API");
-        stage.setScene(scene);
-        stage.setMaximized(true);
-        stage.show();
+                // Icono de la ventana.
+                Image icon = new Image(getClass().getResourceAsStream("/image/icon.png"));
+                stage.getIcons().add(icon);
 
-        iniciarImportacion();
-    }
+                scene = new Scene(loader.load(), 1280, 800);
+                scene.getStylesheets().add(
+                                getClass().getResource("/styles/Styles.css").toExternalForm());
+                stage.setTitle("Dungeon and Dragons API");
+                stage.setScene(scene);
+                stage.setMaximized(true);
+                stage.show();
 
-    private void iniciarImportacion() {
+                iniciarImportacion();
+        }
 
-        Task<Void> importacion = new Task<>() {
-                @Override
-                protected Void call() throws Exception {
-                        ApiImport.apiImport();
-                        return null;
-                }
-        };
+        private void iniciarImportacion() {
 
-        executor.submit(importacion);
-    }
+                Task<Void> importacion = new Task<>() {
+                        @Override
+                        protected Void call() throws Exception {
+                                ApiImport.apiImport();
+                                return null;
+                        }
+                };
 
-    @Override
-    public void stop() {
-        executor.shutdown();
-    }
+                executor.submit(importacion);
+        }
 
-    public static void main(String[] args) {
-        launch();
+        @Override
+        public void stop() {
+                executor.shutdown();
+        }
 
-    }  
+        public static void main(String[] args) {
+                launch();
+
+        }
 }
