@@ -8,47 +8,24 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.iesteis.database.DatabaseManager;
-import org.iesteis.database.DatabaseService;
+import org.iesteis.repository.BaseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tools.jackson.databind.ObjectMapper;
 
-public class AbilityScoresRepositoryImpl implements AbilityScoresRepository {
+public class AbilityScoresRepositoryImpl extends BaseRepository<AbilityScores>
+        implements AbilityScoresRepository {
 
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
-
-    private final DatabaseManager db;
 
     private final Logger logger = LoggerFactory.getLogger(AbilityScoresRepositoryImpl.class.getName());
 
     public AbilityScoresRepositoryImpl() {
-        this.db = new DatabaseService();
+        super();
     }
 
     public AbilityScoresRepositoryImpl(DatabaseManager db) {
-        this.db = db;
-    }
-
-    @Override
-    public List<AbilityScores> findAll() {
-        logger.debug("Buscando todas las ability scores");
-
-        String sql = "SELECT * FROM ability_scores";
-        return db.select(sql).stream()
-                .map(this::toModel)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public AbilityScores findById(String index) {
-        logger.debug("Buscando ability score por index: " + index);
-
-        String sql = "SELECT * FROM ability_scores WHERE `index` = ?";
-        List<Map<String, Object>> result = db.select(sql, index);
-        if (result.isEmpty()) {
-            return null;
-        }
-        return toModel(result.get(0));
+        super(db);
     }
 
     @Override
@@ -69,11 +46,11 @@ public class AbilityScoresRepositoryImpl implements AbilityScoresRepository {
             return null;
         }
 
-        return toModel(abilityScore);
+        return copy(abilityScore);
     }
 
     @Override
-    public AbilityScores update(String index, AbilityScores abilityScore) {
+    protected AbilityScores updateItem(String index, AbilityScores abilityScore) {
         logger.debug("Actualizando ability score por index: " + index);
 
         if (findById(index) == null) {
@@ -95,25 +72,7 @@ public class AbilityScoresRepositoryImpl implements AbilityScoresRepository {
             return null;
         }
 
-        return toModel(abilityScore);
-    }
-
-    @Override
-    public AbilityScores delete(String index) {
-        logger.debug("Borrando ability score por index: " + index);
-
-        AbilityScores abilityScore = findById(index);
-        if (abilityScore == null) {
-            return null;
-        }
-
-        String sql = "DELETE FROM ability_scores WHERE `index` = ?";
-        int result = db.delete(sql, index);
-        if (result <= 0) {
-            return null;
-        }
-
-        return abilityScore;
+        return copy(abilityScore);
     }
 
     @Override
@@ -156,13 +115,13 @@ public class AbilityScoresRepositoryImpl implements AbilityScoresRepository {
         return findMany(sql, url);
     }
 
-    private List<AbilityScores> findMany(String sql, Object parameter) {
-        return db.select(sql, parameter).stream()
-                .map(this::toModel)
-                .collect(Collectors.toList());
+    @Override
+    protected String tableName() {
+        return "ability_scores";
     }
 
-    private AbilityScores toModel(Map<String, Object> entity) {
+    @Override
+    protected AbilityScores toModel(Map<String, Object> entity) {
         Object skills = entity.get("skills");
         if (skills != null) {
             if (!(skills instanceof String)) {
@@ -181,7 +140,8 @@ public class AbilityScoresRepositoryImpl implements AbilityScoresRepository {
         );
     }
 
-    private AbilityScores toModel(AbilityScores source) {
+    @Override
+    protected AbilityScores copy(AbilityScores source) {
         return new AbilityScores(
                 source.getIndex(),
                 source.getName(),
