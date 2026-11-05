@@ -68,7 +68,7 @@ public class ApiImport {
 
 
 
-        private static final ExecutorService DETAIL_EXECUTOR = Executors.newFixedThreadPool(32, runnable -> {
+        private static final ExecutorService DETAIL_EXECUTOR = Executors.newFixedThreadPool(8, runnable -> {
                 Thread thread = new Thread(runnable, "api-detail-loader");
                 thread.setDaemon(true);
                 return thread;
