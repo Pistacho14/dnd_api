@@ -23,7 +23,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Window;
 import javafx.util.Duration;
 
-public class mainMenuController {
+public class MainMenuController {
 
     // Lista de tablas disponibles para seleccionar en el panel izquierdo.
     @FXML
