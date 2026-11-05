@@ -1,9 +1,17 @@
 package org.iesteis.repository;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.iesteis.database.DatabaseManager;
 import org.iesteis.database.DatabaseService;
 
@@ -61,5 +69,39 @@ public abstract class BaseRepository<T> implements CrudRepository<T> {
         }
         int result = db.delete("DELETE FROM " + tableName() + " WHERE `index` = ?", index);
         return result <= 0 ? null : item;
+    }
+
+    public void exportAsCsv(Path directorio) throws IOException {
+        exportTableAsCsv(db, tableName(), directorio);
+    }
+
+    public static void exportTableAsCsv(
+            DatabaseManager database, String tableName, Path directorio) throws IOException {
+        String safeTableName = tableName.replace("`", "``");
+        String sql = "SELECT * FROM `" + safeTableName + "`";
+        List<Map<String, Object>> filas = database.select(sql);
+        Path outputFile = directorio.resolve(tableName + ".csv");
+
+        // Crea o reemplaza el archivo usando los canales de escritura de java.nio.
+        try (CSVPrinter csv = new CSVPrinter(
+                Files.newBufferedWriter(
+                        outputFile,
+                        StandardCharsets.UTF_8,
+                        StandardOpenOption.CREATE,
+                        StandardOpenOption.TRUNCATE_EXISTING),
+                CSVFormat.DEFAULT)) {
+
+            if (!filas.isEmpty()) {
+                List<String> columnas = new ArrayList<>(filas.get(0).keySet());
+                csv.printRecord(columnas);
+
+                for (Map<String, Object> fila : filas) {
+                    List<Object> valores = columnas.stream()
+                            .map(fila::get)
+                            .collect(Collectors.toList());
+                    csv.printRecord(valores);
+                }
+            }
+        }
     }
 }
