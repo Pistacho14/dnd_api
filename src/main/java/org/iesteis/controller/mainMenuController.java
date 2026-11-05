@@ -8,6 +8,8 @@ import java.io.IOException;
 import org.iesteis.database.DatabaseService;
 import org.iesteis.repository.BaseRepository;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -18,10 +20,12 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.animation.PauseTransition;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Window;
 import javafx.util.Duration;
+import javafx.collections.transformation.FilteredList;
 
 public class MainMenuController {
 
@@ -37,6 +41,15 @@ public class MainMenuController {
     @FXML
     private TableView<Map<String, Object>> tableContent;
 
+    // Campo de texto usado para filtrar las filas visibles de la tabla seleccionada.
+    @FXML
+    private TextField tableSearch;
+
+    // Conserva las filas cargadas para poder aplicar y quitar el filtro sin repetir la consulta.
+    private final ObservableList<Map<String, Object>> allTableRows =
+            FXCollections.observableArrayList();
+    private FilteredList<Map<String, Object>> filteredTableRows;
+
     // Servicio usado para consultar las tablas y sus datos en la base de datos.
     private final DatabaseService databaseService = new DatabaseService();
 
@@ -46,6 +59,10 @@ public class MainMenuController {
         tables.getItems().setAll(databaseService.listTables().stream()
                 .map(this::formatTableName)
                 .toList());
+        filteredTableRows = new FilteredList<>(allTableRows);
+        tableContent.setItems(filteredTableRows);
+        tableSearch.textProperty().addListener((observable, oldValue, newValue) ->
+                updateTableFilter(newValue));
         tables.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldTable, newTable) -> loadTable(newTable));
     }
@@ -67,6 +84,7 @@ public class MainMenuController {
         // Elimina la vista anterior antes de construir las columnas de la nueva tabla.
         selectedTableName.setText(tableName);
         tableContent.getColumns().clear();
+        tableSearch.clear();
 
         // Crea una columna JavaFX por cada columna existente en la tabla seleccionada.
         List<String> columns = databaseService.listTableColumns(databaseTableName);
@@ -102,10 +120,23 @@ public class MainMenuController {
             tableContent.getColumns().add(column);
         }
 
-        // Protege el nombre de tabla y limita la carga inicial a 100 registros.
+        // Protege el nombre de tabla antes de consultar todos sus registros.
         String safeTableName = databaseTableName.replace("`", "``");
-        tableContent.getItems().setAll(
-                databaseService.select("SELECT * FROM `" + safeTableName + "` LIMIT 100"));
+        // Sustituye las filas base; el FilteredList actualiza automáticamente la vista.
+        allTableRows.setAll(
+                databaseService.select("SELECT * FROM `" + safeTableName + "`"));
+    }
+
+    private void updateTableFilter(String searchText) {
+        // Busca el texto introducido en cualquier valor de la fila, ignorando mayúsculas.
+        String normalizedSearch = searchText == null
+                ? ""
+                : searchText.trim().toLowerCase(Locale.ROOT);
+        filteredTableRows.setPredicate(row -> normalizedSearch.isEmpty()
+                || row.values().stream()
+                        .anyMatch(value -> value != null
+                                && String.valueOf(value).toLowerCase(Locale.ROOT)
+                                        .contains(normalizedSearch)));
     }
 
     @FXML
