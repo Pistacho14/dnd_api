@@ -309,10 +309,9 @@ public class MainMenuController {
     }
 
     private void recargarDatos(String tableName) {
-        ObservableList<Map<String, Object>> nuevasFilas = FXCollections.observableArrayList(
-                databaseService.select("SELECT * FROM `" + tableName + "`"));
-
-        tableContent.setItems(nuevasFilas);
+        String safeTableName = tableName.replace("`", "``");
+        allTableRows.setAll(
+                databaseService.select("SELECT * FROM `" + safeTableName + "`"));
     }
 
     private String formatTableName(String tableName) {
