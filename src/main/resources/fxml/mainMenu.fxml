@@ -31,7 +31,7 @@
           <children>
             <!-- Cada botón representa un formato; su exportación se implementará después. -->
             <Button text="Exportar CSV" onAction="#exportSelectedTableAsCsv" />
-            <Button text="Exportar JSON" />
+            <Button text="Exportar JSON" onAction="#exportAsJSON" />
             <Button text="Añadir" />
             <Button text="Borrar seleccionado" styleClass="delete-button" />
           </children>
