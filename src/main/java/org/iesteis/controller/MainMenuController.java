@@ -1,45 +1,48 @@
 package org.iesteis.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.io.IOException;
-import java.util.LinkedHashMap;
 
 import org.iesteis.database.DatabaseService;
 import org.iesteis.repository.BaseRepository;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
+import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
-import javafx.animation.PauseTransition;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Window;
 import javafx.util.Duration;
-import javafx.collections.transformation.FilteredList;
 
-public class MainMenuController {
+public final class MainMenuController {
 
-        // Define las columnas más útiles para mostrar en cada tabla.
-        private static final Map<String, List<String>> RELEVANT_COLUMNS = Map.ofEntries(
+    private static final String STYLESHEET_PATH = "/styles/Styles.css";
+
+    // Define las columnas más útiles para mostrar en cada tabla.
+    private static final Map<String, List<String>> RELEVANT_COLUMNS = Map.ofEntries(
             Map.entry("ability_scores", List.of("name", "full_name", "description")),
             Map.entry("alignments", List.of("name", "abbreviation", "description")),
             Map.entry("backgrounds", List.of("name", "ability_scores", "feat", "proficiencies")),
@@ -85,86 +88,102 @@ public class MainMenuController {
 
     // Conserva las filas cargadas para poder aplicar y quitar el filtro sin repetir
     // la consulta.
-    private final ObservableList<Map<String, Object>> allTableRows = FXCollections.observableArrayList();
-    private FilteredList<Map<String, Object>> filteredTableRows;
+    private final ObservableList<Map<String, Object>> allTableRows =
+            FXCollections.observableArrayList();
+    private final FilteredList<Map<String, Object>> filteredTableRows =
+            new FilteredList<>(allTableRows);
 
     // Servicio usado para consultar las tablas y sus datos en la base de datos.
     private final DatabaseService databaseService = new DatabaseService();
 
     @FXML
     private void initialize() {
-        // Carga las tablas al iniciar la pantalla y escucha los cambios de selección.
+        // Configura las tablas, el filtro y la interacción de la vista principal.
+        loadAvailableTables();
+        tableContent.setItems(filteredTableRows);
+        configureListeners();
+    }
+
+    private void loadAvailableTables() {
+        // Carga los nombres visibles de las tablas disponibles en la base de datos.
         tables.getItems().setAll(databaseService.listTables().stream()
                 .map(this::formatTableName)
                 .toList());
-        filteredTableRows = new FilteredList<>(allTableRows);
-        tableContent.setItems(filteredTableRows);
-        tableSearch.textProperty().addListener((observable, oldValue, newValue) -> updateTableFilter(newValue));
+    }
+
+    private void configureListeners() {
+        // Centraliza los listeners para evitar lógica de interacción en initialize.
+        tableSearch.textProperty().addListener(
+                (observable, oldValue, newValue) -> updateTableFilter(newValue));
         tables.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldTable, newTable) -> loadTable(newTable));
     }
 
     private void loadTable(String tableName) {
-        // Convierte el nombre visible al nombre real antes de consultar la base de
-        // datos.
-        String databaseTableName = tableName == null
-                ? null
-                : databaseService.listTables().stream()
-                        .filter(name -> formatTableName(name).equals(tableName))
-                        .findFirst()
-                        .orElse(null);
-
-        // Ignora selecciones inválidas para evitar consultar una tabla no disponible.
+        String databaseTableName = resolveDatabaseTableName(tableName);
         if (databaseTableName == null) {
             return;
         }
 
-        // Elimina la vista anterior antes de construir las columnas de la nueva tabla.
         selectedTableName.setText(tableName);
-        tableContent.getColumns().clear();
         tableSearch.clear();
-
-        // Muestra solo las columnas configuradas; las demás tablas conservan todas sus columnas.
-        List<String> columns = databaseService.listTableColumns(databaseTableName);
-        List<String> visibleColumns = RELEVANT_COLUMNS.getOrDefault(
-                databaseTableName, columns);
-        for (String columnName : visibleColumns) {
-            TableColumn<Map<String, Object>, String> column = new TableColumn<>(columnName);
-            column.setCellValueFactory(cellData -> {
-                // Convierte el valor de cada celda a texto para mostrarlo en la tabla.
-                Object value = cellData.getValue().get(columnName);
-                return new javafx.beans.property.SimpleStringProperty(
-                        value == null ? "" : String.valueOf(value));
-            });
-            column.setCellFactory(tableColumn -> {
-                // Permite varias líneas y hace que la altura de la fila se adapte al contenido.
-                return new TableCell<>() {
-                    private final Label valueLabel = new Label();
-
-                    {
-                        valueLabel.setWrapText(true);
-                        valueLabel.getStyleClass().add("table-cell-value");
-                        valueLabel.maxWidthProperty().bind(widthProperty().subtract(16));
-                    }
-
-                    @Override
-                    protected void updateItem(String value, boolean empty) {
-                        super.updateItem(value, empty);
-                        valueLabel.setText(value == null ? "" : value);
-                        setGraphic(empty ? null : valueLabel);
-                        setText(null);
-                    }
-                };
-            });
-            column.setPrefWidth(160);
-            tableContent.getColumns().add(column);
-        }
-
-        // Protege el nombre de tabla antes de consultar todos sus registros.
+        configureTableColumns(databaseTableName);
         String safeTableName = databaseTableName.replace("`", "``");
-        // Sustituye las filas base; el FilteredList actualiza automáticamente la vista.
         allTableRows.setAll(
                 databaseService.select("SELECT * FROM `" + safeTableName + "`"));
+    }
+
+    private String resolveDatabaseTableName(String visibleTableName) {
+        // Convierte el nombre mostrado en la lista al nombre real de la tabla.
+        if (visibleTableName == null) {
+            return null;
+        }
+        return databaseService.listTables().stream()
+                .filter(name -> formatTableName(name).equals(visibleTableName))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private void configureTableColumns(String tableName) {
+        // Genera las columnas visibles usando la configuración de cada tabla.
+        tableContent.getColumns().clear();
+        List<String> columns = databaseService.listTableColumns(tableName);
+        List<String> visibleColumns = RELEVANT_COLUMNS.getOrDefault(tableName, columns);
+        visibleColumns.forEach(columnName -> tableContent.getColumns().add(createTableColumn(columnName)));
+    }
+
+    private TableColumn<Map<String, Object>, String> createTableColumn(String columnName) {
+        // Crea una columna con texto ajustable para valores largos.
+        TableColumn<Map<String, Object>, String> column = new TableColumn<>(columnName);
+        column.setCellValueFactory(cellData -> {
+            Object value = cellData.getValue().get(columnName);
+            return new javafx.beans.property.SimpleStringProperty(
+                    value == null ? "" : String.valueOf(value));
+        });
+        column.setCellFactory(tableColumn -> createWrappedCell());
+        column.setPrefWidth(160);
+        return column;
+    }
+
+    private TableCell<Map<String, Object>, String> createWrappedCell() {
+        // Permite varias líneas y adapta la altura de la fila al contenido.
+        return new TableCell<>() {
+            private final Label valueLabel = new Label();
+
+            {
+                valueLabel.setWrapText(true);
+                valueLabel.getStyleClass().add("table-cell-value");
+                valueLabel.maxWidthProperty().bind(widthProperty().subtract(16));
+            }
+
+            @Override
+            protected void updateItem(String value, boolean empty) {
+                super.updateItem(value, empty);
+                valueLabel.setText(value == null ? "" : value);
+                setGraphic(empty ? null : valueLabel);
+                setText(null);
+            }
+        };
     }
 
     private void updateTableFilter(String searchText) {
@@ -183,7 +202,7 @@ public class MainMenuController {
     @FXML
     private void openAddDialog() {
         // Comprueba que exista una tabla seleccionada antes de construir el formulario.
-        String visibleTableName = tables.getSelectionModel().getSelectedItem();
+        String visibleTableName = getSelectedVisibleTableName();
         String databaseTableName = getSelectedDatabaseTableName();
         if (visibleTableName == null || databaseTableName == null) {
             showMessage(AlertType.WARNING, "Añadir registro",
@@ -197,8 +216,8 @@ public class MainMenuController {
     @FXML
     private void openEditDialog() {
         // Comprueba que exista una fila seleccionada antes de abrir la edición.
-        Map<String, Object> selectedRow = tableContent.getSelectionModel().getSelectedItem();
-        String visibleTableName = tables.getSelectionModel().getSelectedItem();
+        Map<String, Object> selectedRow = getSelectedRow();
+        String visibleTableName = getSelectedVisibleTableName();
         String databaseTableName = getSelectedDatabaseTableName();
         if (selectedRow == null || visibleTableName == null || databaseTableName == null) {
             showMessage(AlertType.WARNING, "Modificar registro",
@@ -261,7 +280,7 @@ public class MainMenuController {
         dialog.setResizable(true);
         // Los diálogos tienen una escena independiente y necesitan cargar el estilo manualmente.
         dialog.getDialogPane().getStylesheets().add(
-                getClass().getResource("/styles/Styles.css").toExternalForm());
+                getClass().getResource(STYLESHEET_PATH).toExternalForm());
         ButtonType saveButton = new ButtonType("Guardar", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(saveButton, ButtonType.CANCEL);
 
@@ -295,7 +314,7 @@ public class MainMenuController {
 
         int affectedRows = databaseService.insert(sql, parameters);
         if (affectedRows == 1) {
-            recargarDatos(tableName);
+            reloadTableData(tableName);
             showMessage(AlertType.INFORMATION, "Registro guardado",
                     "El registro se ha añadido correctamente.");
         } else {
@@ -322,7 +341,7 @@ public class MainMenuController {
 
         int affectedRows = databaseService.update(sql, parameters);
         if (affectedRows == 1) {
-            recargarDatos(tableName);
+            reloadTableData(tableName);
             showMessage(AlertType.INFORMATION, "Registro modificado",
                     "El registro se ha modificado correctamente.");
         } else {
@@ -333,11 +352,21 @@ public class MainMenuController {
 
     private String getSelectedDatabaseTableName() {
         // Traduce el nombre visible de la lista al nombre real de la tabla.
-        String visibleTableName = tables.getSelectionModel().getSelectedItem();
+        String visibleTableName = getSelectedVisibleTableName();
         return databaseService.listTables().stream()
                 .filter(name -> formatTableName(name).equals(visibleTableName))
                 .findFirst()
                 .orElse(null);
+    }
+
+    private String getSelectedVisibleTableName() {
+        // Encapsula el acceso al nombre seleccionado en la vista de navegación.
+        return tables.getSelectionModel().getSelectedItem();
+    }
+
+    private Map<String, Object> getSelectedRow() {
+        // Encapsula el acceso a la fila seleccionada en la tabla principal.
+        return tableContent.getSelectionModel().getSelectedItem();
     }
 
     private Object databaseValue(String value) {
@@ -368,168 +397,118 @@ public class MainMenuController {
 
     @FXML
     private void exportSelectedTableAsCsv() {
-        // Impide exportar si todavía no se ha seleccionado ninguna tabla.
-        String visibleTableName = tables.getSelectionModel().getSelectedItem();
-        if (visibleTableName == null) {
-            return;
-        }
-
-        // Abre el selector para que el usuario indique dónde guardar el archivo CSV.
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle("Seleccionar directorio de exportación");
-        Window window = tables.getScene().getWindow();
-        java.io.File selectedDirectory = directoryChooser.showDialog(window);
-        if (selectedDirectory == null) {
-            return;
-        }
-
-        String databaseTableName = databaseService.listTables().stream()
-                .filter(name -> formatTableName(name).equals(visibleTableName))
-                .findFirst()
-                .orElse(null);
+        String databaseTableName = getSelectedDatabaseTableName();
         if (databaseTableName == null) {
             return;
         }
 
+        Window window = tables.getScene().getWindow();
+        File selectedDirectory = chooseExportDirectory(window);
+        if (selectedDirectory == null) {
+            return;
+        }
+
         try {
-            // Reutiliza la exportación CSV común y genera el archivo dentro del directorio
-            // elegido.
             BaseRepository.exportTableAsCsv(
                     databaseService, databaseTableName, selectedDirectory.toPath());
-
-            // Informa al usuario cuando el archivo CSV se ha creado correctamente.
-            Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
-            successAlert.setTitle("Exportación completada");
-            successAlert.setHeaderText(null);
-            successAlert.setContentText(
-                    "La tabla se ha exportado correctamente como "
-                            + databaseTableName + ".csv.");
-            successAlert.initOwner(window);
-            successAlert.setOnShown(event -> {
-                // Coloca el aviso en la esquina inferior derecha de la ventana principal.
-                Window alertWindow = successAlert.getDialogPane().getScene().getWindow();
-                // Parte de una ventana completamente visible antes de iniciar el aviso.
-                alertWindow.setOpacity(1.0);
-                alertWindow.setX(window.getX() + window.getWidth()
-                        - alertWindow.getWidth() - 20);
-                alertWindow.setY(window.getY() + window.getHeight()
-                        - alertWindow.getHeight() - 20);
-
-                // Mantiene el aviso visible dos segundos antes de comenzar a ocultarlo.
-                PauseTransition closeTimer = new PauseTransition(Duration.seconds(1));
-                closeTimer.setOnFinished(closeEvent -> {
-                    // Reduce la opacidad de toda la ventana durante el último segundo.
-                    Timeline fadeOut = new Timeline(
-                            new KeyFrame(Duration.ZERO, new KeyValue(alertWindow.opacityProperty(), 1.0)),
-                            new KeyFrame(Duration.seconds(1), new KeyValue(alertWindow.opacityProperty(), 0.0)));
-                    fadeOut.setOnFinished(fadeEvent -> alertWindow.hide());
-                    fadeOut.play();
-                });
-                closeTimer.play();
-            });
-            successAlert.show();
+            showExportSuccess(window, databaseTableName + ".csv");
         } catch (IOException exception) {
-            throw new IllegalStateException("No se pudo exportar la tabla a CSV", exception);
+            showMessage(AlertType.ERROR, "Error de exportación",
+                    "No se pudo exportar la tabla a CSV.");
         }
     }
 
     @FXML
     private void exportAsJSON() {
-        // Impide exportar si todavía no se ha seleccionado ninguna tabla.
-        String visibleTableName = tables.getSelectionModel().getSelectedItem();
-        if (visibleTableName == null) {
-            return;
-        }
-
-        // Abre el selector para que el usuario indique dónde guardar el archivo CSV.
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle("Seleccionar directorio de exportación");
-        Window window = tables.getScene().getWindow();
-        java.io.File selectedDirectory = directoryChooser.showDialog(window);
-        if (selectedDirectory == null) {
-            return;
-        }
-
-        String databaseTableName = databaseService.listTables().stream()
-                .filter(name -> formatTableName(name).equals(visibleTableName))
-                .findFirst()
-                .orElse(null);
+        String databaseTableName = getSelectedDatabaseTableName();
         if (databaseTableName == null) {
             return;
         }
 
+        Window window = tables.getScene().getWindow();
+        File selectedDirectory = chooseExportDirectory(window);
+        if (selectedDirectory == null) {
+            return;
+        }
+
         try {
-            // Reutiliza la exportación CSV común y genera el archivo dentro del directorio
-            // elegido.
             BaseRepository.exportAsJSON(
                     databaseService, databaseTableName, selectedDirectory.toPath());
-
-            // Informa al usuario cuando el archivo CSV se ha creado correctamente.
-            Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
-            successAlert.setTitle("Exportación completada");
-            successAlert.setHeaderText(null);
-            successAlert.setContentText(
-                    "La tabla se ha exportado correctamente como "
-                            + databaseTableName + ".JSON.");
-            successAlert.initOwner(window);
-            successAlert.setOnShown(event -> {
-                // Coloca el aviso en la esquina inferior derecha de la ventana principal.
-                Window alertWindow = successAlert.getDialogPane().getScene().getWindow();
-                // Parte de una ventana completamente visible antes de iniciar el aviso.
-                alertWindow.setOpacity(1.0);
-                alertWindow.setX(window.getX() + window.getWidth()
-                        - alertWindow.getWidth() - 20);
-                alertWindow.setY(window.getY() + window.getHeight()
-                        - alertWindow.getHeight() - 20);
-
-                // Mantiene el aviso visible dos segundos antes de comenzar a ocultarlo.
-                PauseTransition closeTimer = new PauseTransition(Duration.seconds(1));
-                closeTimer.setOnFinished(closeEvent -> {
-                    // Reduce la opacidad de toda la ventana durante el último segundo.
-                    Timeline fadeOut = new Timeline(
-                            new KeyFrame(Duration.ZERO, new KeyValue(alertWindow.opacityProperty(), 1.0)),
-                            new KeyFrame(Duration.seconds(1), new KeyValue(alertWindow.opacityProperty(), 0.0)));
-                    fadeOut.setOnFinished(fadeEvent -> alertWindow.hide());
-                    fadeOut.play();
-                });
-                closeTimer.play();
-            });
-            successAlert.show();
-        } catch (Exception exception) {
-            throw new IllegalStateException("No se pudo exportar la tabla a JSON", exception);
+            showExportSuccess(window, databaseTableName + ".json");
+        } catch (RuntimeException exception) {
+            showMessage(AlertType.ERROR, "Error de exportación",
+                    "No se pudo exportar la tabla a JSON.");
         }
+    }
+
+    private File chooseExportDirectory(Window owner) {
+        // Abre el selector común para las exportaciones CSV y JSON.
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Seleccionar directorio de exportación");
+        return directoryChooser.showDialog(owner);
+    }
+
+    private void showExportSuccess(Window owner, String fileName) {
+        // Muestra un aviso temporal de éxito en la esquina inferior derecha.
+        Alert successAlert = new Alert(AlertType.INFORMATION);
+        successAlert.setTitle("Exportación completada");
+        successAlert.setHeaderText(null);
+        successAlert.setContentText("La tabla se ha exportado correctamente como " + fileName + ".");
+        successAlert.initOwner(owner);
+        successAlert.setOnShown(event -> {
+            Window alertWindow = successAlert.getDialogPane().getScene().getWindow();
+            alertWindow.setOpacity(1.0);
+            alertWindow.setX(owner.getX() + owner.getWidth() - alertWindow.getWidth() - 20);
+            alertWindow.setY(owner.getY() + owner.getHeight() - alertWindow.getHeight() - 20);
+
+            PauseTransition closeTimer = new PauseTransition(Duration.seconds(1));
+            closeTimer.setOnFinished(closeEvent -> {
+                Timeline fadeOut = new Timeline(
+                        new KeyFrame(Duration.ZERO,
+                                new KeyValue(alertWindow.opacityProperty(), 1.0)),
+                        new KeyFrame(Duration.seconds(1),
+                                new KeyValue(alertWindow.opacityProperty(), 0.0)));
+                fadeOut.setOnFinished(fadeEvent -> alertWindow.hide());
+                fadeOut.play();
+            });
+            closeTimer.play();
+        });
+        successAlert.show();
     }
 
     @FXML
     private void deleteFromTable() {
-
-        Map<String, Object> selectedRow = tableContent.getSelectionModel().getSelectedItem();
-        String selectedTable =
-        tables.getSelectionModel().getSelectedItem();
-        String databaseTableName = databaseService.listTables().stream()
-        .filter(name -> formatTableName(name).equals(selectedTable))
-        .findFirst()
-        .orElse(null);
-
-        try {
-            if (selectedRow == null) {
-            Alert successAlert = new Alert(Alert.AlertType.ERROR);
-            successAlert.setTitle("Error en el borrado");
-            successAlert.setHeaderText(null);
-            successAlert.setContentText(
-                    "Selecciona una fila para poder borrarla");
+        Map<String, Object> selectedRow = getSelectedRow();
+        String databaseTableName = getSelectedDatabaseTableName();
+        if (selectedRow == null || databaseTableName == null) {
+            showMessage(AlertType.WARNING, "Borrar registro",
+                    "Selecciona una fila antes de borrarla.");
+            return;
         }
-        else {
-            System.out.println((String) selectedRow.get("index"));
-            databaseService.delete("DELETE FROM `" + databaseTableName + "` WHERE `index` = ?",(String) selectedRow.get("index"));
-            recargarDatos(databaseTableName);
+
+        Object index = selectedRow.get("index");
+        if (index == null) {
+            showMessage(AlertType.ERROR, "Borrar registro",
+                    "El registro seleccionado no tiene un índice válido.");
+            return;
         }
-        } catch (Exception e) {
-            // TODO: handle exception, display window
+
+        int affectedRows = databaseService.delete(
+                "DELETE FROM " + quoteIdentifier(databaseTableName)
+                        + " WHERE `index` = ?",
+                index);
+        if (affectedRows == 1) {
+            reloadTableData(databaseTableName);
+            showMessage(AlertType.INFORMATION, "Registro borrado",
+                    "El registro se ha borrado correctamente.");
+        } else {
+            showMessage(AlertType.ERROR, "Error al borrar",
+                    "No se pudo borrar el registro.");
         }
     }
 
-    private void recargarDatos(String tableName) {
+    private void reloadTableData(String tableName) {
+        // Recarga las filas después de una operación de escritura.
         String safeTableName = tableName.replace("`", "``");
         allTableRows.setAll(
                 databaseService.select("SELECT * FROM `" + safeTableName + "`"));
