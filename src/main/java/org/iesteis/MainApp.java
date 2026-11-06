@@ -36,10 +36,10 @@ public class MainApp extends Application {
                 stage.setMaximized(true);
                 stage.show();
 
-                //iniciarImportacion();
+                iniciarImportacion();
         }
 
-        /* private void iniciarImportacion() {
+        private void iniciarImportacion() {
 
                 Task<Void> importacion = new Task<>() {
                         @Override
@@ -50,7 +50,7 @@ public class MainApp extends Application {
                 };
 
                 executor.submit(importacion);
-        }*/
+        }
 
         @Override
         public void stop() {
