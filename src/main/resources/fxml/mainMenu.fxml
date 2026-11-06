@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<SplitPane dividerPositions="0.25" minHeight="0.0" minWidth="0.0" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesteis.controller.MainMenuController">
+  <items>
+    <!-- Panel izquierdo con la lista de tablas disponibles. -->
+    <VBox spacing="12.0" styleClass="table-navigation" minWidth="220.0" prefWidth="280.0">
+      <children>
+        <Label text="Tablas de la base de datos" styleClass="section-title" />
+        <ListView fx:id="tables" VBox.vgrow="ALWAYS" />
+      </children>
+    </VBox>
+    <!-- Panel derecho con el contenido de la tabla seleccionada. -->
+    <!-- Panel derecho con margen para separar la tabla de los bordes. -->
+    <VBox styleClass="table-content" spacing="12.0" minHeight="0.0" minWidth="0.0">
+      <children>
+        <Label fx:id="selectedTableName" text="Selecciona una tabla" styleClass="section-title" />
+        <!-- Barra para filtrar las filas cargadas de la tabla actual. -->
+        <TextField fx:id="tableSearch" promptText="Buscar en la tabla..." />
+        <TableView fx:id="tableContent" VBox.vgrow="ALWAYS" />
+        <!-- Barra de acciones para las operaciones disponibles sobre la tabla. -->
+        <HBox spacing="8.0" styleClass="table-actions">
+          <children>
+            <!-- Cada botón representa un formato; su exportación se implementará después. -->
+            <Button text="Exportar CSV" onAction="#exportSelectedTableAsCsv" />
+            <Button text="Exportar JSON" onAction="#exportAsJSON" />
+            <Button text="Añadir" onAction="#openAddDialog" />
+            <Button text="Modificar" onAction="#openEditDialog" />
+            <Button text="Borrar seleccionado" onAction="#deleteFromTable" styleClass="delete-button" />
+          </children>
+        </HBox>
+      </children>
+    </VBox>
+  </items>
+</SplitPane>
