@@ -11,6 +11,7 @@
 }
 
 .label {
+    -fx-background-color: transparent;
     -fx-text-fill: #f3ead4;
 }
 
@@ -36,6 +37,19 @@
 .date-picker:focused {
     -fx-border-color: #d7ad55;
     -fx-effect: dropshadow(gaussian, rgba(215, 173, 85, 0.25), 8, 0, 0, 0);
+}
+
+.text-area .content {
+    -fx-background-color: #25222d;
+    -fx-background-radius: 5px;
+}
+
+.text-area .viewport {
+    -fx-background-color: #25222d;
+}
+
+.text-area {
+    -fx-control-inner-background: #25222d;
 }
 
 .button {
@@ -94,6 +108,74 @@
 
 .delete-button {
     -fx-background-color: linear-gradient(to bottom, #6f2630, #501a25);
+}
+
+.add-record-scroll {
+    -fx-background-color: #1d1a24;
+    -fx-border-color: #51465a;
+}
+
+.add-record-scroll > .viewport {
+    -fx-background-color: #1d1a24;
+}
+
+.add-record-scroll .scroll-bar {
+    -fx-background-color: #1b1821;
+}
+
+.add-record-scroll .scroll-bar .thumb {
+    -fx-background-color: #6d5943;
+    -fx-background-radius: 8px;
+}
+
+.dialog-pane {
+    -fx-background-color: #1d1a24;
+    -fx-border-color: #806238;
+    -fx-border-width: 1px;
+}
+
+.dialog-pane > .content {
+    -fx-background-color: #1d1a24;
+}
+
+.dialog-pane > .content.label {
+    -fx-background-color: transparent;
+}
+
+.dialog-pane .header-panel {
+    -fx-background-color: linear-gradient(to bottom, #403229, #2c2525);
+    -fx-border-color: transparent transparent #806238 transparent;
+}
+
+.dialog-pane .header-panel .label {
+    -fx-background-color: transparent;
+    -fx-text-fill: #e8bd67;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.dialog-pane .label {
+    -fx-background-color: transparent;
+    -fx-text-fill: #f3ead4;
+}
+
+.dialog-pane > .button-bar {
+    -fx-background-color: #1d1a24;
+    -fx-border-color: #51465a transparent transparent transparent;
+    -fx-padding: 10px 0 0 0;
+}
+
+.add-record-form {
+    -fx-padding: 12px;
+    -fx-background-color: #1d1a24;
+}
+
+.add-record-form .label {
+    -fx-min-width: 150px;
+    -fx-background-color: transparent;
+    -fx-text-fill: #e8bd67;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 0;
 }
 
 .section-title {
