@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS ability_scores (
     name VARCHAR(255) NOT NULL,
     full_name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
-    skills JSON NOT NULL,
+    skills JSON NULL,
     url VARCHAR(255) NOT NULL
 );
 
