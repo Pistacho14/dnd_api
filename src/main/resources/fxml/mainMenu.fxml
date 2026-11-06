@@ -33,6 +33,7 @@
             <Button text="Exportar CSV" onAction="#exportSelectedTableAsCsv" />
             <Button text="Exportar JSON" onAction="#exportAsJSON" />
             <Button text="Añadir" onAction="#openAddDialog" />
+            <Button text="Modificar" onAction="#openEditDialog" />
             <Button text="Borrar seleccionado" onAction="#deleteFromTable" styleClass="delete-button" />
           </children>
         </HBox>
