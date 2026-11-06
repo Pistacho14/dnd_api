@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.io.IOException;
-import java.sql.SQLException;
+import java.util.LinkedHashMap;
 
 import org.iesteis.database.DatabaseService;
 import org.iesteis.repository.BaseRepository;
@@ -22,14 +22,27 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.TextArea;
 import javafx.animation.PauseTransition;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Window;
 import javafx.util.Duration;
 import javafx.collections.transformation.FilteredList;
 
 public class MainMenuController {
+
+    // Define las columnas más útiles para mostrar las tres primeras tablas al usuario.
+    private static final Map<String, List<String>> RELEVANT_COLUMNS = Map.of(
+            "ability_scores", List.of("name", "full_name", "description"),
+            "alignments", List.of("name", "abbreviation", "description"),
+            "backgrounds", List.of("name", "ability_scores", "feat", "proficiencies"));
 
     // Lista de tablas disponibles para seleccionar en el panel izquierdo.
     @FXML
@@ -89,9 +102,11 @@ public class MainMenuController {
         tableContent.getColumns().clear();
         tableSearch.clear();
 
-        // Crea una columna JavaFX por cada columna existente en la tabla seleccionada.
+        // Muestra solo las columnas configuradas; las demás tablas conservan todas sus columnas.
         List<String> columns = databaseService.listTableColumns(databaseTableName);
-        for (String columnName : columns) {
+        List<String> visibleColumns = RELEVANT_COLUMNS.getOrDefault(
+                databaseTableName, columns);
+        for (String columnName : visibleColumns) {
             TableColumn<Map<String, Object>, String> column = new TableColumn<>(columnName);
             column.setCellValueFactory(cellData -> {
                 // Convierte el valor de cada celda a texto para mostrarlo en la tabla.
@@ -141,6 +156,92 @@ public class MainMenuController {
                         .anyMatch(value -> value != null
                                 && String.valueOf(value).toLowerCase(Locale.ROOT)
                                         .contains(normalizedSearch)));
+    }
+
+    @FXML
+    private void openAddDialog() {
+        // Comprueba que exista una tabla seleccionada antes de construir el formulario.
+        String visibleTableName = tables.getSelectionModel().getSelectedItem();
+        if (visibleTableName == null) {
+            showMessage(AlertType.WARNING, "Añadir registro",
+                    "Selecciona una tabla antes de añadir un registro.");
+            return;
+        }
+
+        String databaseTableName = databaseService.listTables().stream()
+                .filter(name -> formatTableName(name).equals(visibleTableName))
+                .findFirst()
+                .orElse(null);
+        if (databaseTableName == null) {
+            return;
+        }
+
+        // Crea un campo de formulario por cada columna de la tabla seleccionada.
+        GridPane form = new GridPane();
+        form.setHgap(10);
+        form.setVgap(10);
+        form.getStyleClass().add("add-record-form");
+
+        Map<String, TextArea> fields = new LinkedHashMap<>();
+        List<String> columns = databaseService.listTableColumns(databaseTableName);
+        for (int row = 0; row < columns.size(); row++) {
+            String columnName = columns.get(row);
+            Label label = new Label(columnName);
+            TextArea input = new TextArea();
+            input.setPromptText("Introduce " + formatColumnName(columnName));
+            input.setPrefRowCount(1);
+            input.setWrapText(true);
+            GridPane.setHgrow(input, Priority.ALWAYS);
+            form.add(label, 0, row);
+            form.add(input, 1, row);
+            fields.put(columnName, input);
+        }
+
+        // Permite recorrer formularios grandes sin hacer crecer indefinidamente la ventana.
+        ScrollPane formScrollPane = new ScrollPane(form);
+        formScrollPane.setFitToWidth(true);
+        formScrollPane.setPrefViewportWidth(760);
+        formScrollPane.setPrefViewportHeight(520);
+        formScrollPane.getStyleClass().add("add-record-scroll");
+
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Añadir registro");
+        dialog.setHeaderText("Nueva ocurrencia en " + visibleTableName);
+        dialog.getDialogPane().setContent(formScrollPane);
+        dialog.getDialogPane().setPrefSize(820, 650);
+        dialog.setResizable(true);
+        // Los diálogos tienen una escena independiente y necesitan cargar el estilo manualmente.
+        dialog.getDialogPane().getStylesheets().add(
+                getClass().getResource("/styles/Styles.css").toExternalForm());
+        ButtonType saveButton = new ButtonType("Guardar", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(saveButton, ButtonType.CANCEL);
+
+        // El formulario solo recoge los valores; la inserción se conectará al back-end.
+        dialog.setResultConverter(button -> button == saveButton ? saveButton : null);
+        dialog.showAndWait().ifPresent(result -> {
+            if (result == saveButton) {
+                Map<String, String> values = new LinkedHashMap<>();
+                fields.forEach((column, input) -> values.put(column, input.getText()));
+                showMessage(AlertType.INFORMATION, "Formulario preparado",
+                        "Los datos se han recogido. Falta conectarlos con el back-end.");
+            }
+        });
+    }
+
+    private String formatColumnName(String columnName) {
+        // Hace más legible el nombre de cada columna dentro del formulario.
+        String formattedName = columnName.replace('_', ' ').toLowerCase(Locale.ROOT);
+        return formattedName.substring(0, 1).toUpperCase(Locale.ROOT)
+                + formattedName.substring(1);
+    }
+
+    private void showMessage(AlertType type, String title, String message) {
+        // Muestra mensajes breves reutilizables para acciones del formulario.
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     @FXML
@@ -304,8 +405,6 @@ public class MainMenuController {
         } catch (Exception e) {
             // TODO: handle exception, display window
         }
-        
-
     }
 
     private void recargarDatos(String tableName) {
