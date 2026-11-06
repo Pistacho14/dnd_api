@@ -38,11 +38,33 @@ import javafx.collections.transformation.FilteredList;
 
 public class MainMenuController {
 
-    // Define las columnas más útiles para mostrar las tres primeras tablas al usuario.
-    private static final Map<String, List<String>> RELEVANT_COLUMNS = Map.of(
-            "ability_scores", List.of("name", "full_name", "description"),
-            "alignments", List.of("name", "abbreviation", "description"),
-            "backgrounds", List.of("name", "ability_scores", "feat", "proficiencies"));
+        // Define las columnas más útiles para mostrar en cada tabla.
+        private static final Map<String, List<String>> RELEVANT_COLUMNS = Map.ofEntries(
+            Map.entry("ability_scores", List.of("name", "full_name", "description")),
+            Map.entry("alignments", List.of("name", "abbreviation", "description")),
+            Map.entry("backgrounds", List.of("name", "ability_scores", "feat", "proficiencies")),
+            Map.entry("classes", List.of("name", "primary_ability", "hit_die", "class_levels")),
+            Map.entry("conditions", List.of("name", "description")),
+            Map.entry("damage_types", List.of("name", "description")),
+            Map.entry("equipment_categories", List.of("name", "equipment")),
+            Map.entry("equipment", List.of("name", "equipment_categories", "cost", "weight", "description")),
+            Map.entry("feats", List.of("name", "type", "description", "prerequisites")),
+            Map.entry("features", List.of("name", "level", "class", "subclass", "description")),
+            Map.entry("languages", List.of("name", "is_rare", "note")),
+            Map.entry("levels", List.of("name", "level", "prof_bonus", "class", "subclass")),
+            Map.entry("magic_items", List.of("name", "equipment_category", "rarity", "attunement", "variant")),
+            Map.entry("magic_schools", List.of("name", "description")),
+            Map.entry("monsters", List.of("name", "size", "type", "alignment", "hit_points", "challenge_rating", "xp")),
+            Map.entry("poisons", List.of("name", "type", "cost", "description")),
+            Map.entry("proficiencies", List.of("name", "type", "backgrounds", "classes", "reference")),
+            Map.entry("skills", List.of("name", "description", "ability_score_index")),
+            Map.entry("species", List.of("name", "type", "size", "speed")),
+            Map.entry("spells", List.of("name", "level", "range", "duration", "casting_time", "school")),
+            Map.entry("subclasses", List.of("name", "class", "summary", "description")),
+            Map.entry("subspecies", List.of("name", "species", "traits", "damage_type")),
+            Map.entry("traits", List.of("name", "species", "subspecies", "description")),
+            Map.entry("weapon_mastery_properties", List.of("name", "description")),
+            Map.entry("weapon_properties", List.of("name", "description")));
 
     // Lista de tablas disponibles para seleccionar en el panel izquierdo.
     @FXML
@@ -162,21 +184,42 @@ public class MainMenuController {
     private void openAddDialog() {
         // Comprueba que exista una tabla seleccionada antes de construir el formulario.
         String visibleTableName = tables.getSelectionModel().getSelectedItem();
-        if (visibleTableName == null) {
+        String databaseTableName = getSelectedDatabaseTableName();
+        if (visibleTableName == null || databaseTableName == null) {
             showMessage(AlertType.WARNING, "Añadir registro",
                     "Selecciona una tabla antes de añadir un registro.");
             return;
         }
 
-        String databaseTableName = databaseService.listTables().stream()
-                .filter(name -> formatTableName(name).equals(visibleTableName))
-                .findFirst()
-                .orElse(null);
-        if (databaseTableName == null) {
+        openRecordDialog(visibleTableName, databaseTableName, null, null);
+    }
+
+    @FXML
+    private void openEditDialog() {
+        // Comprueba que exista una fila seleccionada antes de abrir la edición.
+        Map<String, Object> selectedRow = tableContent.getSelectionModel().getSelectedItem();
+        String visibleTableName = tables.getSelectionModel().getSelectedItem();
+        String databaseTableName = getSelectedDatabaseTableName();
+        if (selectedRow == null || visibleTableName == null || databaseTableName == null) {
+            showMessage(AlertType.WARNING, "Modificar registro",
+                    "Selecciona una fila antes de modificar un registro.");
             return;
         }
 
-        // Crea un campo de formulario por cada columna de la tabla seleccionada.
+        Object originalIndex = selectedRow.get("index");
+        if (originalIndex == null) {
+            showMessage(AlertType.ERROR, "Modificar registro",
+                    "El registro seleccionado no tiene un índice válido.");
+            return;
+        }
+
+        openRecordDialog(visibleTableName, databaseTableName, selectedRow,
+                String.valueOf(originalIndex));
+    }
+
+    private void openRecordDialog(String visibleTableName, String databaseTableName,
+            Map<String, Object> existingRow, String originalIndex) {
+        // Crea el mismo formulario para añadir y modificar registros.
         GridPane form = new GridPane();
         form.setHgap(10);
         form.setVgap(10);
@@ -188,9 +231,13 @@ public class MainMenuController {
             String columnName = columns.get(row);
             Label label = new Label(columnName);
             TextArea input = new TextArea();
-            input.setPromptText("Introduce " + formatColumnName(columnName));
+            input.setPromptText((existingRow == null ? "Introduce " : "Modifica ")
+                    + formatColumnName(columnName));
             input.setPrefRowCount(1);
             input.setWrapText(true);
+            if (existingRow != null && existingRow.get(columnName) != null) {
+                input.setText(String.valueOf(existingRow.get(columnName)));
+            }
             GridPane.setHgrow(input, Priority.ALWAYS);
             form.add(label, 0, row);
             form.add(input, 1, row);
@@ -205,8 +252,10 @@ public class MainMenuController {
         formScrollPane.getStyleClass().add("add-record-scroll");
 
         Dialog<ButtonType> dialog = new Dialog<>();
-        dialog.setTitle("Añadir registro");
-        dialog.setHeaderText("Nueva ocurrencia en " + visibleTableName);
+        boolean editing = existingRow != null;
+        dialog.setTitle(editing ? "Modificar registro" : "Añadir registro");
+        dialog.setHeaderText((editing ? "Modificar ocurrencia en " : "Nueva ocurrencia en ")
+                + visibleTableName);
         dialog.getDialogPane().setContent(formScrollPane);
         dialog.getDialogPane().setPrefSize(820, 650);
         dialog.setResizable(true);
@@ -216,16 +265,89 @@ public class MainMenuController {
         ButtonType saveButton = new ButtonType("Guardar", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(saveButton, ButtonType.CANCEL);
 
-        // El formulario solo recoge los valores; la inserción se conectará al back-end.
         dialog.setResultConverter(button -> button == saveButton ? saveButton : null);
         dialog.showAndWait().ifPresent(result -> {
             if (result == saveButton) {
                 Map<String, String> values = new LinkedHashMap<>();
                 fields.forEach((column, input) -> values.put(column, input.getText()));
-                showMessage(AlertType.INFORMATION, "Formulario preparado",
-                        "Los datos se han recogido. Falta conectarlos con el back-end.");
+                if (editing) {
+                    updateRecord(databaseTableName, values, originalIndex);
+                } else {
+                    saveNewRecord(databaseTableName, values);
+                }
             }
         });
+    }
+
+    private void saveNewRecord(String tableName, Map<String, String> values) {
+        // Inserta todos los campos mediante parámetros JDBC.
+        List<String> columns = databaseService.listTableColumns(tableName);
+        String columnSql = columns.stream()
+                .map(this::quoteIdentifier)
+                .collect(java.util.stream.Collectors.joining(", "));
+        String placeholders = String.join(", ",
+                java.util.Collections.nCopies(columns.size(), "?"));
+        String sql = "INSERT INTO " + quoteIdentifier(tableName) + " ("
+                + columnSql + ") VALUES (" + placeholders + ")";
+        Object[] parameters = columns.stream()
+                .map(column -> databaseValue(values.get(column)))
+                .toArray();
+
+        int affectedRows = databaseService.insert(sql, parameters);
+        if (affectedRows == 1) {
+            recargarDatos(tableName);
+            showMessage(AlertType.INFORMATION, "Registro guardado",
+                    "El registro se ha añadido correctamente.");
+        } else {
+            showMessage(AlertType.ERROR, "Error al guardar",
+                    "No se pudo añadir el registro. Comprueba los campos obligatorios.");
+        }
+    }
+
+    private void updateRecord(String tableName, Map<String, String> values,
+            String originalIndex) {
+        // Actualiza el registro usando el índice original como identificador.
+        List<String> columns = databaseService.listTableColumns(tableName);
+        String assignments = columns.stream()
+                .map(this::quoteIdentifier)
+                .map(column -> column + " = ?")
+                .collect(java.util.stream.Collectors.joining(", "));
+        String sql = "UPDATE " + quoteIdentifier(tableName) + " SET "
+                + assignments + " WHERE `index` = ?";
+        Object[] parameters = new Object[columns.size() + 1];
+        for (int i = 0; i < columns.size(); i++) {
+            parameters[i] = databaseValue(values.get(columns.get(i)));
+        }
+        parameters[columns.size()] = originalIndex;
+
+        int affectedRows = databaseService.update(sql, parameters);
+        if (affectedRows == 1) {
+            recargarDatos(tableName);
+            showMessage(AlertType.INFORMATION, "Registro modificado",
+                    "El registro se ha modificado correctamente.");
+        } else {
+            showMessage(AlertType.ERROR, "Error al modificar",
+                    "No se pudo modificar el registro. Comprueba los campos obligatorios.");
+        }
+    }
+
+    private String getSelectedDatabaseTableName() {
+        // Traduce el nombre visible de la lista al nombre real de la tabla.
+        String visibleTableName = tables.getSelectionModel().getSelectedItem();
+        return databaseService.listTables().stream()
+                .filter(name -> formatTableName(name).equals(visibleTableName))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private Object databaseValue(String value) {
+        // Envía NULL para campos vacíos, permitiendo omitir columnas opcionales.
+        return value == null || value.isBlank() ? null : value;
+    }
+
+    private String quoteIdentifier(String identifier) {
+        // Protege nombres dinámicos de tablas y columnas para las consultas SQL.
+        return "`" + identifier.replace("`", "``") + "`";
     }
 
     private String formatColumnName(String columnName) {
