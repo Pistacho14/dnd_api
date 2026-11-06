@@ -302,7 +302,7 @@ public class MainMenuController {
             recargarDatos(databaseTableName);
         }
         } catch (Exception e) {
-            // TODO: handle exception
+            // TODO: handle exception, display window
         }
         
 
