@@ -32,14 +32,14 @@ public class SkillsRepositoryImpl extends BaseRepository<Skills>
         logger.debug("Guardando skill: " + skill.getIndex());
 
         String sql = "INSERT INTO skills "
-                + "(`index`, name, description, url, ability_score_index) VALUES (?, ?, ?, ?, ?, ?)";
+                + "(`index`, name, description, url, ability_score_index) VALUES (?, ?, ?, ?, ?)";
         int result = db.insert(
                 sql,
                 skill.getIndex(),
                 skill.getName(),
                 skill.getDescription(),
                 skill.getUrl(),
-                skill.getAbilityScore() != null ? skill.getAbilityScore().getName() : null);
+                skill.getAbilityScore() != null ? skill.getAbilityScore().getIndex() : null);
         if (result <= 0) {
             return null;
         }
