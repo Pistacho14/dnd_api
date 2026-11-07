@@ -8,6 +8,9 @@ import org.iesteis.model.weaponMasteryProperties.WeaponMasteryProperties;
 import org.iesteis.repository.BaseRepository;
 import tools.jackson.databind.ObjectMapper;
 
+/**
+ * Persiste y reconstruye propiedades de maestría de armas en {@code weapon_mastery_properties}.
+ */
 public class WeaponMasteryPropertiesRepositoryImpl extends BaseRepository<WeaponMasteryProperties> implements WeaponMasteryPropertiesRepository {
 
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();

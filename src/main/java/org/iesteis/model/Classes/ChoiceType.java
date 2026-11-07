@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.io.IOException;
-
+/**
+ * Tipo de elección indicado para las opciones de equipo de una clase.
+ */
 public enum ChoiceType {
     EQUIPMENT;
 

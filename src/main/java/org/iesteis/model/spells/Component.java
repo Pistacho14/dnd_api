@@ -4,7 +4,9 @@ package org.iesteis.model.spells;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.IOException;
-
+/**
+ * Componentes verbales, somáticos y materiales de un conjuro.
+ */
 public enum Component {
     M, S, V;
 

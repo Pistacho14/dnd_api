@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.io.IOException;
-
+/**
+ * Nombres de las secciones de información de lanzamiento de conjuros.
+ */
 public enum Name {
     CANTRIPS, CHANGING_YOUR_PREPARED_SPELLS, PREPARED_SPELLS_OF_LEVEL_1, SPELLCASTING_ABILITY, SPELLCASTING_FOCUS, SPELL_SLOTS;
 

@@ -16,6 +16,9 @@ import org.iesteis.model.classes.Classes;
 import org.iesteis.repository.BaseRepository;
 import tools.jackson.databind.ObjectMapper;
 
+/**
+ * Persiste y reconstruye clases de personaje en la tabla {@code classes}.
+ */
 public class ClassesRepositoryImpl extends BaseRepository<Classes> implements ClassesRepository {
 
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();

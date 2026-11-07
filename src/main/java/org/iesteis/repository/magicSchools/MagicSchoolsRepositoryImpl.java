@@ -8,6 +8,9 @@ import org.iesteis.model.magicSchools.MagicSchools;
 import org.iesteis.repository.BaseRepository;
 import tools.jackson.databind.ObjectMapper;
 
+/**
+ * Persiste y reconstruye escuelas de magia en la tabla {@code magic_schools}.
+ */
 public class MagicSchoolsRepositoryImpl extends BaseRepository<MagicSchools> implements MagicSchoolsRepository {
 
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();

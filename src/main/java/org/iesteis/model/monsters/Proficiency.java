@@ -4,6 +4,9 @@ package org.iesteis.model.monsters;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Valor de una competencia de monstruo y la referencia correspondiente.
+ */
 public class Proficiency {
     @JsonProperty("value")
     private long value;

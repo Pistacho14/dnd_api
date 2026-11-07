@@ -1,7 +1,9 @@
 package org.iesteis.model.classes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Elección de equipo inicial de una clase y sus alternativas.
+ */
 public class StartingEquipmentOption {
     @JsonProperty("desc")
     private String desc;

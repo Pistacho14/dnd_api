@@ -4,6 +4,9 @@ package org.iesteis.model.monsters;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Límites de uso de una acción, incluidos frecuencia, cantidad y dados.
+ */
 public class ActionUsage {
     @JsonProperty("type")
     private TentacledType type;

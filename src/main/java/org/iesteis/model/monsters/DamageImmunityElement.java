@@ -6,7 +6,9 @@ package org.iesteis.model.monsters;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.IOException;
-
+/**
+ * Tipos de daño enumerados para resistencias e inmunidades de monstruos.
+ */
 public enum DamageImmunityElement {
     ACID, BLUDGEONING, COLD, DAMAGE_TYPE_CHOSEN_FOR_THE_DRACONIC_ORIGIN_TRAIT_BELOW, FIRE, LIGHTNING, NECROTIC, PIERCING, POISON, PSYCHIC, RADIANT, SLASHING, THUNDER;
 

@@ -6,7 +6,9 @@ package org.iesteis.model.monsters;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.IOException;
-
+/**
+ * Valores de dados usados en las expresiones de monstruos.
+ */
 public enum Dice {
     THE_1_D6;
 

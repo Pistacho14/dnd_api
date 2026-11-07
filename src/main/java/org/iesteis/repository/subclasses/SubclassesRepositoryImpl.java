@@ -12,6 +12,9 @@ import org.iesteis.model.subclasses.Subclasses;
 import org.iesteis.repository.BaseRepository;
 import tools.jackson.databind.ObjectMapper;
 
+/**
+ * Persiste y reconstruye subclases en la tabla {@code subclasses}.
+ */
 public class SubclassesRepositoryImpl extends BaseRepository<Subclasses> implements SubclassesRepository {
 
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();

@@ -1,7 +1,9 @@
 package org.iesteis.model.background;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Elemento de equipo de un trasfondo, expresado como referencia, cantidad o elección.
+ */
 public class Item {
     @JsonProperty("option_type")
     private OptionType optionType;

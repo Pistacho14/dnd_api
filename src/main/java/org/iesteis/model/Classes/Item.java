@@ -1,7 +1,9 @@
 package org.iesteis.model.classes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Elemento del equipo inicial, expresado como referencia, cantidad o elección.
+ */
 public class Item {
     @JsonProperty("option_type")
     private ItemOptionType optionType;

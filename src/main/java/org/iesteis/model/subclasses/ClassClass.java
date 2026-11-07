@@ -2,6 +2,9 @@ package org.iesteis.model.subclasses;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Referencia a la clase principal de una subclase.
+ */
 public class ClassClass {
     @JsonProperty("index")
     private String index;

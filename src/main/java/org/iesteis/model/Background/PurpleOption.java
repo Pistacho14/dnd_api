@@ -1,7 +1,9 @@
 package org.iesteis.model.background;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Alternativa de equipo que puede contener elementos, cantidad y unidad.
+ */
 public class PurpleOption {
     @JsonProperty("option_type")
     private String optionType;

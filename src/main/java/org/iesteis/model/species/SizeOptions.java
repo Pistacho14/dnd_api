@@ -2,6 +2,9 @@ package org.iesteis.model.species;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Elección de tamaño de una especie y sus alternativas.
+ */
 public class SizeOptions {
     @JsonProperty("desc")
     private String desc;

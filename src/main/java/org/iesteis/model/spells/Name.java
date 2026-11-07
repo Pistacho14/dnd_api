@@ -4,7 +4,9 @@ package org.iesteis.model.spells;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.IOException;
-
+/**
+ * Nombres de escuelas, daños y clases incluidos en los datos de conjuros.
+ */
 public enum Name {
     ABJURATION, ACID, BARD, BLUDGEONING, CLERIC, COLD, CONJURATION, DIVINATION, DRUID, ENCHANTMENT, EVOCATION, FIRE, FORCE, ILLUSION, LIGHTNING, NECROMANCY, NECROTIC, PALADIN, PIERCING, POISON, PSYCHIC, RADIANT, RANGER, SLASHING, SORCERER, THUNDER, TRANSMUTATION, WARLOCK, WIZARD;
 

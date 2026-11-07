@@ -1,7 +1,9 @@
 package org.iesteis.model.classes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Alternativa que referencia una competencia o una elección de característica.
+ */
 public class TentacledOption {
     @JsonProperty("option_type")
     private PurpleOptionType optionType;

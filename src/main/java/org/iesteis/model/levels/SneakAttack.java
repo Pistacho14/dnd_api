@@ -2,6 +2,9 @@ package org.iesteis.model.levels;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Progresión del ataque furtivo expresada en cantidad y valor de dados.
+ */
 public class SneakAttack {
     @JsonProperty("dice_count")
     private long diceCount;

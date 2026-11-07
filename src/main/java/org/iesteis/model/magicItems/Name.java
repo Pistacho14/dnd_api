@@ -4,7 +4,9 @@ package org.iesteis.model.magicItems;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.IOException;
-
+/**
+ * Valores de rareza usados por los objetos mágicos.
+ */
 public enum Name {
     ARTIFACT, COMMON, LEGENDARY, RARE, RARE_1_VERY_RARE_2_OR_LEGENDARY_3, RARE_2, RARE_SILVER_OR_BRASS_VERY_RARE_BRONZE_OR_LEGENDARY_IRON, RARITY_VARIES, UNCOMMON, UNCOMMON_1, UNCOMMON_1_RARE_2_OR_VERY_RARE_3, VERY_RARE, VERY_RARE_3;
 

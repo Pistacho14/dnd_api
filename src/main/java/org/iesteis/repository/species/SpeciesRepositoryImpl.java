@@ -12,6 +12,9 @@ import org.iesteis.model.species.Species;
 import org.iesteis.repository.BaseRepository;
 import tools.jackson.databind.ObjectMapper;
 
+/**
+ * Persiste y reconstruye especies en la tabla {@code species}.
+ */
 public class SpeciesRepositoryImpl extends BaseRepository<Species> implements SpeciesRepository {
 
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();

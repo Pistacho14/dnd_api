@@ -2,6 +2,9 @@ package org.iesteis.model.traits;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Conjunto de alternativas de competencia para un rasgo.
+ */
 public class From {
     @JsonProperty("option_set_type")
     private String optionSetType;

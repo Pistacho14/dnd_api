@@ -1,7 +1,9 @@
 package org.iesteis.model.background;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Origen de una elección de equipo, identificado por su categoría.
+ */
 public class ChoiceFrom {
     @JsonProperty("option_set_type")
     private String optionSetType;

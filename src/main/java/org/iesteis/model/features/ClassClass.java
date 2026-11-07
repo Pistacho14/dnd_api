@@ -2,6 +2,9 @@ package org.iesteis.model.features;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Referencia a una clase o nivel vinculada a un rasgo.
+ */
 public class ClassClass {
     @JsonProperty("index")
     private String index;

@@ -1,7 +1,9 @@
 package org.iesteis.model.classes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Conjunto de opciones de competencia para una elección de clase.
+ */
 public class FluffyFrom {
     @JsonProperty("option_set_type")
     private OptionSetType optionSetType;

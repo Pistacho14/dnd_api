@@ -2,6 +2,9 @@ package org.iesteis.model.magicItems;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Referencia a la categoría de equipo de un objeto mágico.
+ */
 public class EquipmentCategory {
     @JsonProperty("index")
     private String index;

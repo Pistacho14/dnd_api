@@ -8,6 +8,9 @@ import org.iesteis.model.equipmentCategories.EquipmentCategories;
 import org.iesteis.repository.BaseRepository;
 import tools.jackson.databind.ObjectMapper;
 
+/**
+ * Persiste y reconstruye categorías de equipo en la tabla {@code equipment_categories}.
+ */
 public class EquipmentCategoriesRepositoryImpl extends BaseRepository<EquipmentCategories>
         implements EquipmentCategoriesRepository {
 

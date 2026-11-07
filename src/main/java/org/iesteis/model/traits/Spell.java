@@ -2,6 +2,9 @@ package org.iesteis.model.traits;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Conjuro concedido por un rasgo y sus condiciones de uso y recuperación.
+ */
 public class Spell {
     @JsonProperty("spell")
     private Species spell;

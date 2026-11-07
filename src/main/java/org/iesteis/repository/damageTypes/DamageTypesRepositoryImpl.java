@@ -7,6 +7,9 @@ import org.iesteis.database.DatabaseManager;
 import org.iesteis.model.damageTypes.DamageTypes;
 import org.iesteis.repository.BaseRepository;
 
+/**
+ * Persiste y reconstruye tipos de daño en la tabla {@code damage_types}.
+ */
 public class DamageTypesRepositoryImpl extends BaseRepository<DamageTypes> implements DamageTypesRepository {
 
     public DamageTypesRepositoryImpl() { super(); }

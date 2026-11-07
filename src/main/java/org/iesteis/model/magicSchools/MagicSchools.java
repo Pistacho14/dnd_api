@@ -2,6 +2,9 @@ package org.iesteis.model.magicSchools;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Modelo de una escuela de magia con su nombre y descripción.
+ */
 public class MagicSchools {
     @JsonProperty("index")
     private String index;

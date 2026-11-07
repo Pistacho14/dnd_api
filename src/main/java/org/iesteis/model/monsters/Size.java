@@ -6,7 +6,9 @@ package org.iesteis.model.monsters;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.IOException;
-
+/**
+ * Tamaños posibles para los monstruos.
+ */
 public enum Size {
     GARGANTUAN, HUGE, LARGE, MEDIUM, MEDIUM_OR_SMALL, SMALL, TINY;
 

@@ -1,7 +1,9 @@
 package org.iesteis.model.classes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Referencia a una competencia con su identificador y nombre.
+ */
 public class Proficiency {
     @JsonProperty("index")
     private String index;

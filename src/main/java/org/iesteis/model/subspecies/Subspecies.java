@@ -2,6 +2,9 @@ package org.iesteis.model.subspecies;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Modelo de una subespecie, su especie y sus rasgos.
+ */
 public class Subspecies {
     @JsonProperty("index")
     private String index;

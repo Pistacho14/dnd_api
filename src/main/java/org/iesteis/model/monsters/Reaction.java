@@ -4,6 +4,9 @@ package org.iesteis.model.monsters;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Reacción de un monstruo y sus efectos o condiciones de uso.
+ */
 public class Reaction {
     @JsonProperty("name")
     private String name;

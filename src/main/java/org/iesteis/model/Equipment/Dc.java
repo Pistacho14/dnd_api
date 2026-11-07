@@ -1,7 +1,9 @@
 package org.iesteis.model.equipment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Clase de dificultad y resultado asociado a un uso de equipo.
+ */
 public class Dc {
     @JsonProperty("dc_type")
     private Ability dcType;

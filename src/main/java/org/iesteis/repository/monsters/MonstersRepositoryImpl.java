@@ -25,6 +25,9 @@ import org.iesteis.repository.BaseRepository;
 
 import tools.jackson.databind.ObjectMapper;
 
+/**
+ * Persiste y reconstruye monstruos en la tabla {@code monsters}.
+ */
 public class MonstersRepositoryImpl extends BaseRepository<Monster> implements MonstersRepository {
 
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();

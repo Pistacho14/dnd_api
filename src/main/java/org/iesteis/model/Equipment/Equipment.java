@@ -1,7 +1,9 @@
 package org.iesteis.model.equipment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Modelo de un objeto de equipo, con coste, peso, descripción y propiedades relacionadas.
+ */
 public class Equipment {
     @JsonProperty("index")
     private String index;

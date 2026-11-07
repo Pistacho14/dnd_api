@@ -8,6 +8,9 @@ import org.iesteis.model.poisons.Poisons;
 import org.iesteis.repository.BaseRepository;
 import tools.jackson.databind.ObjectMapper;
 
+/**
+ * Persiste y reconstruye venenos en la tabla {@code poisons}.
+ */
 public class PoisonsRepositoryImpl extends BaseRepository<Poisons> implements PoisonsRepository {
 
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();

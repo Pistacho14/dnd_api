@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.io.IOException;
-
+/**
+ * Tipo de conjunto que agrupa alternativas de clase.
+ */
 public enum OptionSetType {
     OPTIONS_ARRAY;
 

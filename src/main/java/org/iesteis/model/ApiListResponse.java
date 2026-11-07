@@ -3,7 +3,9 @@ package org.iesteis.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
-
+/**
+ * Respuesta de una colección de resultados con el número de elementos.
+ */
 public class ApiListResponse<T> {
     @JsonProperty("count")
     private int count;

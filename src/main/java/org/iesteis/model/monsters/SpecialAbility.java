@@ -4,6 +4,9 @@ package org.iesteis.model.monsters;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Aptitud especial de un monstruo y sus efectos asociados.
+ */
 public class SpecialAbility {
     @JsonProperty("name")
     private String name;

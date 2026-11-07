@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.io.IOException;
-
+/**
+ * Tipos de opción para los elementos de equipo inicial.
+ */
 public enum ItemOptionType {
     CHOICE, COUNTED_REFERENCE, MONEY;
 

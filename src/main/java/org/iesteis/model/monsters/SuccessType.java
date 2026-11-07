@@ -6,7 +6,9 @@ package org.iesteis.model.monsters;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.IOException;
-
+/**
+ * Resultados de Éxito de las pruebas de monstruo.
+ */
 public enum SuccessType {
     HALF, NONE;
 

@@ -1,7 +1,9 @@
 package org.iesteis.model.classes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Alternativa que asocia un tipo de opción con una competencia.
+ */
 public class FluffyOption {
     @JsonProperty("option_type")
     private PurpleOptionType optionType;

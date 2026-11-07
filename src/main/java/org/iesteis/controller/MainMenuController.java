@@ -37,6 +37,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Window;
 import javafx.util.Duration;
 
+/** Controla la consulta, edición y exportación de los datos mostrados en el menú principal. */
 public final class MainMenuController {
 
     private static final String STYLESHEET_PATH = "/styles/Styles.css";
@@ -94,7 +95,7 @@ public final class MainMenuController {
             new FilteredList<>(allTableRows);
 
     // Servicio usado para consultar las tablas y sus datos en la base de datos.
-    private final DatabaseService databaseService = new DatabaseService();
+    private final DatabaseService databaseService = DatabaseService.getInstance();
 
     @FXML
     private void initialize() {

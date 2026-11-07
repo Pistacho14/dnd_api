@@ -1,7 +1,9 @@
 package org.iesteis.model.feats;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Modelo de una dote, con descripción, tipo y requisitos asociados.
+ */
 public class Feats {
     @JsonProperty("index")
     private String index;

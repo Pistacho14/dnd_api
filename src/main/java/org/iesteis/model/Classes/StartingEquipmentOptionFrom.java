@@ -1,7 +1,9 @@
 package org.iesteis.model.classes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Conjunto de alternativas de equipo inicial de una clase.
+ */
 public class StartingEquipmentOptionFrom {
     @JsonProperty("option_set_type")
     private OptionSetType optionSetType;

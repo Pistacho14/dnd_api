@@ -4,6 +4,9 @@ package org.iesteis.model.monsters;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Frecuencia y límites de uso de una aptitud especial.
+ */
 public class SpecialAbilityUsage {
     @JsonProperty("type")
     private FluffyType type;

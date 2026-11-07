@@ -1,7 +1,9 @@
 package org.iesteis.model.classes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Requisitos y competencias asociados al multiclase.
+ */
 public class MultiClassing {
     @JsonProperty("prerequisites")
     private Prerequisite[] prerequisites;

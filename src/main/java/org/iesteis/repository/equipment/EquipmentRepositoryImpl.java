@@ -18,6 +18,9 @@ import org.iesteis.model.equipment.Equipment;
 import org.iesteis.repository.BaseRepository;
 import tools.jackson.databind.ObjectMapper;
 
+/**
+ * Persiste y reconstruye equipo en la tabla {@code equipment}.
+ */
 public class EquipmentRepositoryImpl extends BaseRepository<Equipment> implements EquipmentRepository {
 
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();

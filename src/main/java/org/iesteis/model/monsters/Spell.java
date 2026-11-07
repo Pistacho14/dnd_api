@@ -4,6 +4,9 @@ package org.iesteis.model.monsters;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Referencia a un conjuro de monstruo y sus notas de uso.
+ */
 public class Spell {
     @JsonProperty("index")
     private String index;

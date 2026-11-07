@@ -8,6 +8,9 @@ import org.iesteis.model.languages.Languages;
 import org.iesteis.repository.BaseRepository;
 import tools.jackson.databind.ObjectMapper;
 
+/**
+ * Persiste y reconstruye idiomas en la tabla {@code languages}.
+ */
 public class LanguagesRepositoryImpl extends BaseRepository<Languages> implements LanguagesRepository {
 
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();

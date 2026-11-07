@@ -1,7 +1,9 @@
 package org.iesteis.model.classes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Datos de lanzamiento de conjuros de una clase para un nivel dado.
+ */
 public class Spellcasting {
     @JsonProperty("level")
     private long level;

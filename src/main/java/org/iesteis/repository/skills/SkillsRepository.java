@@ -5,6 +5,9 @@ import java.util.List;
 import org.iesteis.model.skills.Skills;
 import org.iesteis.repository.CrudRepository;
 
+/**
+ * Define el acceso a datos de las habilidades y sus búsquedas específicas.
+ */
 public interface SkillsRepository extends CrudRepository<Skills> {
     List<Skills> findByName(String name);
 

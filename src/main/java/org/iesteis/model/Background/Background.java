@@ -1,7 +1,9 @@
 package org.iesteis.model.background;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Modelo de un trasfondo y de las elecciones y competencias que concede.
+ */
 public class Background {
     @JsonProperty("index")
     private String index;

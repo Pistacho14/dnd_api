@@ -6,7 +6,9 @@ package org.iesteis.model.monsters;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.IOException;
-
+/**
+ * Alineaciones posibles para los monstruos.
+ */
 public enum Alignment {
     CHAOTIC_EVIL, CHAOTIC_GOOD, CHAOTIC_NEUTRAL, LAWFUL_EVIL, LAWFUL_GOOD, LAWFUL_NEUTRAL, NEUTRAL, NEUTRAL_EVIL, NEUTRAL_GOOD, UNALIGNED;
 

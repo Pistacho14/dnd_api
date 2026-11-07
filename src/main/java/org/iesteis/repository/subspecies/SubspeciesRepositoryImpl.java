@@ -10,6 +10,9 @@ import org.iesteis.model.subspecies.Subspecies;
 import org.iesteis.repository.BaseRepository;
 import tools.jackson.databind.ObjectMapper;
 
+/**
+ * Persiste y reconstruye subespecies en la tabla {@code subspecies}.
+ */
 public class SubspeciesRepositoryImpl extends BaseRepository<Subspecies> implements SubspeciesRepository {
 
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();

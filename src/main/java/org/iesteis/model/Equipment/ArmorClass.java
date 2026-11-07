@@ -1,7 +1,9 @@
 package org.iesteis.model.equipment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Clase de armadura base de un equipo y sus modificadores de Destreza.
+ */
 public class ArmorClass {
     @JsonProperty("base")
     private long base;

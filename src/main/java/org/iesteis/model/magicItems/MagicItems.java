@@ -2,6 +2,9 @@ package org.iesteis.model.magicItems;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Modelo de un objeto mágico con categoría, rareza, sintonización y descripción.
+ */
 public class MagicItems {
     @JsonProperty("index")
     private String index;

@@ -22,17 +22,27 @@ import org.iesteis.config.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/** Implementa el acceso JDBC a la base de datos y su inicialización. */
 public class DatabaseService implements DatabaseManager {
+
+    /** Proporciona la instancia única de forma diferida. */
+    private static class InstanceHolder {
+        private static final DatabaseService INSTANCE = new DatabaseService();
+    }
 
     private final Logger logger = LoggerFactory.getLogger(DatabaseService.class.getName());
 
     private Connection connection = null;
 
-    public DatabaseService() {
+    private DatabaseService() {
         initConexion();
         if (Config.getDatabaseInitTables()) {
             initTablas();
         }
+    }
+
+    public static DatabaseService getInstance() {
+        return InstanceHolder.INSTANCE;
     }
 
     private void initConexion() {

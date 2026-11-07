@@ -11,6 +11,7 @@ import org.iesteis.model.Response;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
 
+/** Cliente HTTP para consultar y deserializar recursos de la API de D&amp;D 5e. */
 public class DndApiClient {
 
     private static final String API_URL = "https://www.dnd5eapi.co";

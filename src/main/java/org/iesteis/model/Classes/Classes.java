@@ -1,7 +1,9 @@
 package org.iesteis.model.classes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Modelo de una clase de personaje, con sus competencias, equipo, niveles y lanzamiento de conjuros.
+ */
 public class Classes {
     @JsonProperty("index")
     private String index;

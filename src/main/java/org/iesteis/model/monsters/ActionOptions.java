@@ -4,6 +4,9 @@ package org.iesteis.model.monsters;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Elección entre opciones de acción de un monstruo.
+ */
 public class ActionOptions {
     @JsonProperty("choose")
     private long choose;

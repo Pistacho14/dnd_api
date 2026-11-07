@@ -12,6 +12,9 @@ import org.iesteis.repository.BaseRepository;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
 
+/**
+ * Persiste y reconstruye niveles de clase en la tabla {@code levels}.
+ */
 public class LevelsRepositoryImpl extends BaseRepository<Levels> implements LevelsRepository {
 
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();

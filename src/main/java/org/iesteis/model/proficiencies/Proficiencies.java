@@ -2,6 +2,9 @@ package org.iesteis.model.proficiencies;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Modelo de una competencia y sus asociaciones con clases y trasfondos.
+ */
 public class Proficiencies {
     @JsonProperty("index")
     private String index;

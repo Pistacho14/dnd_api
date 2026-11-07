@@ -2,6 +2,9 @@ package org.iesteis.model.traits;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Elección de competencias concedidas por un rasgo.
+ */
 public class ProficiencyChoices {
     @JsonProperty("desc")
     private String desc;

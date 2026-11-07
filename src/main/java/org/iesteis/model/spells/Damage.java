@@ -3,7 +3,9 @@ package org.iesteis.model.spells;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
-
+/**
+ * Tipos de daño de un conjuro y su daño según el nivel de espacio.
+ */
 public class Damage {
     @JsonProperty("damage_type")
     private School damageType;

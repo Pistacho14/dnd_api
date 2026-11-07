@@ -4,6 +4,9 @@ package org.iesteis.model.monsters;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Acción legendaria de un monstruo y sus efectos asociados.
+ */
 public class LegendaryAction {
     @JsonProperty("name")
     private String name;

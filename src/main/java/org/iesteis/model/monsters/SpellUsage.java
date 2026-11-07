@@ -4,6 +4,9 @@ package org.iesteis.model.monsters;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Frecuencia y cantidad de usos de un conjuro de monstruo.
+ */
 public class SpellUsage {
     @JsonProperty("type")
     private FluffyType type;

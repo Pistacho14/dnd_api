@@ -6,7 +6,9 @@ package org.iesteis.model.monsters;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.IOException;
-
+/**
+ * Tipo de conjunto que agrupa opciones de acciones de monstruo.
+ */
 public enum OptionSetType {
     OPTIONS_ARRAY;
 

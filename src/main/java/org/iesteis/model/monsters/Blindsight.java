@@ -6,7 +6,9 @@ package org.iesteis.model.monsters;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.IOException;
-
+/**
+ * Alcances de sentidos especiales de los monstruos.
+ */
 public enum Blindsight {
     THE_10_FT, THE_120_FT, THE_120_FT_UNIMPEDED_BY_MAGICAL_DARKNESS, THE_150_FT, THE_150_FT_UNIMPEDED_BY_MAGICAL_DARKNESS, THE_30_FT, THE_60_FT, THE_90_FT;
 

@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.io.IOException;
-
+/**
+ * Tipo de elección de competencia disponible para una clase.
+ */
 public enum ProficiencyChoiceType {
     PROFICIENCIES;
 

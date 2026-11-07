@@ -1,7 +1,9 @@
 package org.iesteis.model.classes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Alternativa de competencia o requisito con su puntuación mínima.
+ */
 public class PurpleOption {
     @JsonProperty("option_type")
     private String optionType;

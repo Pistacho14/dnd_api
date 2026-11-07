@@ -1,7 +1,9 @@
 package org.iesteis.model.alignments;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Modelo de una alineación con su nombre, abreviatura y descripción.
+ */
 public class Alignments {
     @JsonProperty("index")
     private String index;

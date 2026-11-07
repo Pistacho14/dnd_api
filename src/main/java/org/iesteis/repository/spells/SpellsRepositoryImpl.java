@@ -14,6 +14,9 @@ import org.iesteis.model.spells.Spells;
 import org.iesteis.repository.BaseRepository;
 import tools.jackson.databind.ObjectMapper;
 
+/**
+ * Persiste y reconstruye conjuros en la tabla {@code spells}.
+ */
 public class SpellsRepositoryImpl extends BaseRepository<Spells> implements SpellsRepository {
 
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();

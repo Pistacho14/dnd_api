@@ -2,6 +2,9 @@ package org.iesteis.model.weaponMasteryProperties;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Propiedad de maestría de armas con su nombre y descripción.
+ */
 public class WeaponMasteryProperties {
     @JsonProperty("index")
     private String index;

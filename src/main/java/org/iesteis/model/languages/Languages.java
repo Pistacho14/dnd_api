@@ -2,6 +2,9 @@ package org.iesteis.model.languages;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Modelo de un idioma con su rareza y nota descriptiva.
+ */
 public class Languages {
     @JsonProperty("index")
     private String index;

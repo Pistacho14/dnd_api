@@ -1,7 +1,9 @@
 package org.iesteis.model.classes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Bloque informativo de lanzamiento de conjuros con título y descripción.
+ */
 public class Info {
     @JsonProperty("name")
     private Name name;

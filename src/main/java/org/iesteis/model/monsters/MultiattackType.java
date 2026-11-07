@@ -6,7 +6,9 @@ package org.iesteis.model.monsters;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.IOException;
-
+/**
+ * Formas de describir las opciones de un multiataque.
+ */
 public enum MultiattackType {
     ACTIONS, ACTION_OPTIONS;
 

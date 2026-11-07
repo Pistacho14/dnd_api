@@ -1,7 +1,9 @@
 package org.iesteis.model.background;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Conjunto de opciones disponibles para elegir una competencia.
+ */
 public class ProficiencyChoiceFrom {
     @JsonProperty("option_set_type")
     private String optionSetType;

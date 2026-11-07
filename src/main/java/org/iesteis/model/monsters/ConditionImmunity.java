@@ -4,6 +4,9 @@ package org.iesteis.model.monsters;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Referencia a una condición, competencia o característica usada en los datos de monstruos.
+ */
 public class ConditionImmunity {
     @JsonProperty("index")
     private String index;

@@ -1,7 +1,9 @@
 package org.iesteis.model.classes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Elección de competencias de una clase y su conjunto de alternativas.
+ */
 public class ProficiencyChoice {
     @JsonProperty("desc")
     private String desc;
