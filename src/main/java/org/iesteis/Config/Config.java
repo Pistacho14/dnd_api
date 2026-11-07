@@ -3,6 +3,7 @@ package org.iesteis.config;
 import java.io.InputStream;
 import java.util.Properties;
 
+/** Carga la configuración de conexión y de inicialización de la base de datos. */
 public class Config {
     private static String databaseUrl = "jdbc:mysql:dnddatabase.db";
     private static boolean databaseInitTables = true;

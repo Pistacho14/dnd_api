@@ -4,6 +4,9 @@ package org.iesteis.model.monsters;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Cantidad y tipo de daño producidos por una acción de monstruo.
+ */
 public class Damage {
     @JsonProperty("damage_type")
     private ConditionImmunity damageType;

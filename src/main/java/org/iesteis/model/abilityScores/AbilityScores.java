@@ -1,7 +1,9 @@
 package org.iesteis.model.abilityScores;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Modelo de una característica, con su descripción y las habilidades asociadas.
+ */
 public class AbilityScores {
     @JsonProperty("index")
     private String index;

@@ -3,7 +3,9 @@ package org.iesteis.model.levels;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
-
+/**
+ * Datos de un nivel de clase, con rasgos, bonificaciones y progresión de conjuros.
+ */
 public class Levels {
     @JsonProperty("index")
     private String index;

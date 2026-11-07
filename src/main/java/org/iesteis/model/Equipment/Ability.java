@@ -1,7 +1,9 @@
 package org.iesteis.model.equipment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Referencia a una característica usada en los datos de equipo.
+ */
 public class Ability {
     @JsonProperty("index")
     private String index;

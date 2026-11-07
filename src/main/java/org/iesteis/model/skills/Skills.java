@@ -1,7 +1,9 @@
 package org.iesteis.model.skills;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Modelo de una habilidad con su descripción y característica asociada.
+ */
 public class Skills {
     @JsonProperty("index")
     private String index;

@@ -1,7 +1,9 @@
 package org.iesteis.model.classes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Elección de una cantidad de opciones de una clase.
+ */
 public class OptionChoice {
     @JsonProperty("desc")
     private String desc;

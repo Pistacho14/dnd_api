@@ -6,6 +6,9 @@ import java.util.List;
 
 import org.iesteis.repository.CrudRepository;
 
+/**
+ * Define el acceso a datos de las puntuaciones de característica y sus búsquedas específicas.
+ */
 public interface AbilityScoresRepository extends CrudRepository<AbilityScores> {
     List<AbilityScores> findByName(String name);
 

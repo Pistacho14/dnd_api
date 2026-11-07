@@ -11,6 +11,9 @@ import org.iesteis.repository.BaseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Persiste y reconstruye habilidades en la tabla {@code skills}.
+ */
 public class SkillsRepositoryImpl extends BaseRepository<Skills>
         implements SkillsRepository {
 

@@ -1,7 +1,9 @@
 package org.iesteis.model.background;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Referencia a un elemento del trasfondo, con nombre, URL y nota opcional.
+ */
 public class Feat {
     @JsonProperty("index")
     private String index;

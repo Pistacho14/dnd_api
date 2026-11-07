@@ -2,6 +2,9 @@ package org.iesteis.repository;
 
 import java.util.List;
 
+/**
+ * Define las operaciones CRUD básicas disponibles para un repositorio de entidades.
+ */
 public interface CrudRepository<T> {
     List<T> findAll();
     T findById(String id);

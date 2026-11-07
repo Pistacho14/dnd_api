@@ -6,7 +6,9 @@ package org.iesteis.model.monsters;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.IOException;
-
+/**
+ * Valores de distancia usados para velocidades y sentidos de monstruos.
+ */
 public enum Walk {
     THE_10_FT, THE_120_FT, THE_150_FT, THE_15_FT, THE_20_FT, THE_25_FT, THE_30_FT, THE_40_FT, THE_50_FT, THE_5_FT, THE_60_FT, THE_80_FT, THE_90_FT;
 

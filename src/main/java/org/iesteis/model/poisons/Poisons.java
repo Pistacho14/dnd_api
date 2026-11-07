@@ -2,6 +2,9 @@ package org.iesteis.model.poisons;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Modelo de un veneno con coste, tipo y descripción.
+ */
 public class Poisons {
     @JsonProperty("index")
     private String index;

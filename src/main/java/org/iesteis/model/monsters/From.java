@@ -4,6 +4,9 @@ package org.iesteis.model.monsters;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Conjunto de alternativas disponible para una elección de acción de monstruo.
+ */
 public class From {
     @JsonProperty("option_set_type")
     private OptionSetType optionSetType;

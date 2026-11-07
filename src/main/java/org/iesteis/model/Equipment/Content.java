@@ -1,7 +1,9 @@
 package org.iesteis.model.equipment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Contenido de un recipiente de equipo y la cantidad correspondiente.
+ */
 public class Content {
     @JsonProperty("item")
     private Ability item;

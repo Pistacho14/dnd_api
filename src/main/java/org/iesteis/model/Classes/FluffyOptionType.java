@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.io.IOException;
-
+/**
+ * Tipos de opción usados en las alternativas de equipo de clase.
+ */
 public enum FluffyOptionType {
     MONEY, MULTIPLE;
 

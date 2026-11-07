@@ -1,7 +1,9 @@
 package org.iesteis.model.abilityScores;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Referencia a una habilidad vinculada a una característica.
+ */
 public class Skill {
     @JsonProperty("index")
     private String index;

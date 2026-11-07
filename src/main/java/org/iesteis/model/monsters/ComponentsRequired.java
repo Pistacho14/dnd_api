@@ -6,7 +6,9 @@ package org.iesteis.model.monsters;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.IOException;
-
+/**
+ * Componentes de conjuro requeridos en el lanzamiento de un monstruo.
+ */
 public enum ComponentsRequired {
     M, S, V;
 

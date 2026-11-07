@@ -1,7 +1,9 @@
 package org.iesteis.model.background;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Elección de una cantidad de opciones de equipo desde un conjunto.
+ */
 public class Choice {
     @JsonProperty("choose")
     private long choose;

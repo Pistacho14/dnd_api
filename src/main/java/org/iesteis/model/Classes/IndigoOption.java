@@ -1,7 +1,9 @@
 package org.iesteis.model.classes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Alternativa de una elección de clase, incluida una posible elección anidada.
+ */
 public class IndigoOption {
     @JsonProperty("option_type")
     private PurpleOptionType optionType;

@@ -4,6 +4,9 @@ package org.iesteis.model.monsters;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Información de lanzamiento de conjuros asociada a una acción legendaria.
+ */
 public class LegendaryActionSpellcasting {
     @JsonProperty("ability")
     private ConditionImmunity ability;

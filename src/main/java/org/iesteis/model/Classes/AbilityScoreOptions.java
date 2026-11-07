@@ -1,7 +1,9 @@
 package org.iesteis.model.classes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Elección de características con su cantidad y conjunto de opciones.
+ */
 public class AbilityScoreOptions {
     @JsonProperty("desc")
     private String desc;

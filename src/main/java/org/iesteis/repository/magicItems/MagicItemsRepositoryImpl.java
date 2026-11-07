@@ -11,6 +11,9 @@ import org.iesteis.model.magicItems.MagicItems;
 import org.iesteis.repository.BaseRepository;
 import tools.jackson.databind.ObjectMapper;
 
+/**
+ * Persiste y reconstruye objetos mágicos en la tabla {@code magic_items}.
+ */
 public class MagicItemsRepositoryImpl extends BaseRepository<MagicItems> implements MagicItemsRepository {
 
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();

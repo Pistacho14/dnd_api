@@ -7,6 +7,9 @@ import java.util.Map;
 import org.iesteis.database.DatabaseManager;
 import org.iesteis.repository.BaseRepository;
 
+/**
+ * Persiste y reconstruye alineamientos en la tabla {@code alignments}.
+ */
 public class AlignmentsRepositoryImpl extends BaseRepository<Alignments> implements AlignmentsRepository {
 
     public AlignmentsRepositoryImpl() { super(); }

@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.io.IOException;
-
+/**
+ * Duraciones de uso de equipo admitidas por estos datos.
+ */
 public enum Time {
     THE_10_MINUTES, THE_1_MINUTE, THE_5_MINUTES;
 

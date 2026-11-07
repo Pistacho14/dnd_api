@@ -4,6 +4,9 @@ package org.iesteis.model.monsters;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Clase de armadura de un monstruo y sus componentes.
+ */
 public class ArmorClass {
     @JsonProperty("value")
     private long value;

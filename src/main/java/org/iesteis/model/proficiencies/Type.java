@@ -4,7 +4,9 @@ package org.iesteis.model.proficiencies;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.IOException;
-
+/**
+ * Categorías de competencias, como armas, armaduras, herramientas y habilidades.
+ */
 public enum Type {
     ARMOR, ARTISAN_S_TOOLS, MUSICAL_INSTRUMENTS, OTHER, SAVING_THROWS, SKILLS, TOOLS, WEAPONS;
 

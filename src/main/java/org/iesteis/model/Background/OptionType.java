@@ -3,7 +3,9 @@ package org.iesteis.model.background;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import java.util.Locale;
-
+/**
+ * Tipos de opción de equipo admitidos en los datos de trasfondos.
+ */
 public enum OptionType {
     MONEY,
     CHOICE,

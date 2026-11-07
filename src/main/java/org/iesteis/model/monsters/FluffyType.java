@@ -6,7 +6,9 @@ package org.iesteis.model.monsters;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.IOException;
-
+/**
+ * Frecuencias de uso de rasgos especiales de monstruos.
+ */
 public enum FluffyType {
     AT_WILL, PER_DAY;
 

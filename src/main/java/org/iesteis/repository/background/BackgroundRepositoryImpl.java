@@ -13,6 +13,9 @@ import org.iesteis.database.DatabaseManager;
 import org.iesteis.repository.BaseRepository;
 import tools.jackson.databind.ObjectMapper;
 
+/**
+ * Persiste y reconstruye trasfondos en la tabla {@code backgrounds}.
+ */
 public class BackgroundRepositoryImpl extends BaseRepository<Background> implements BackgroundRepository {
 
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();

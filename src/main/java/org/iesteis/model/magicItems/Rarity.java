@@ -2,6 +2,9 @@ package org.iesteis.model.magicItems;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Rareza de un objeto mágico.
+ */
 public class Rarity {
     @JsonProperty("name")
     private Name name;

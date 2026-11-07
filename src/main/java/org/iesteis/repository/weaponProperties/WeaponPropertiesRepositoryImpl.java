@@ -8,6 +8,9 @@ import org.iesteis.model.weaponProperties.WeaponProperties;
 import org.iesteis.repository.BaseRepository;
 import tools.jackson.databind.ObjectMapper;
 
+/**
+ * Persiste y reconstruye propiedades de armas en la tabla {@code weapon_properties}.
+ */
 public class WeaponPropertiesRepositoryImpl extends BaseRepository<WeaponProperties> implements WeaponPropertiesRepository {
 
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();

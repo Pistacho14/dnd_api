@@ -1,7 +1,9 @@
 package org.iesteis.model.classes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Conjunto de opciones utilizado por una elección de clase.
+ */
 public class PurpleFrom {
     @JsonProperty("option_set_type")
     private OptionSetType optionSetType;

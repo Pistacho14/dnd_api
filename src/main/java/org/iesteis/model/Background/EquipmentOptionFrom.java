@@ -1,7 +1,9 @@
 package org.iesteis.model.background;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Conjunto de alternativas disponibles para una opción de equipo.
+ */
 public class EquipmentOptionFrom {
     @JsonProperty("option_set_type")
     private String optionSetType;

@@ -1,7 +1,9 @@
 package org.iesteis.model.equipment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Alcance normal y largo de un equipo.
+ */
 public class Range {
     @JsonProperty("normal")
     private long normal;

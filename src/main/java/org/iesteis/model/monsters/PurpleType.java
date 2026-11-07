@@ -6,7 +6,9 @@ package org.iesteis.model.monsters;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.IOException;
-
+/**
+ * Tipos de ataque o acción enumerados para las opciones de monstruo.
+ */
 public enum PurpleType {
     MELEE, RANGED, SPECIAL;
 

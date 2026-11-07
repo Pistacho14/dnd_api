@@ -2,6 +2,9 @@ package org.iesteis.model.subclasses;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Rasgo de subclase con su nivel y descripción.
+ */
 public class Feature {
     @JsonProperty("name")
     private String name;

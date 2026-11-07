@@ -1,7 +1,9 @@
 package org.iesteis.model.classes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Origen de una elección de clase, incluida la categoría de equipo.
+ */
 public class TentacledFrom {
     @JsonProperty("option_set_type")
     private String optionSetType;

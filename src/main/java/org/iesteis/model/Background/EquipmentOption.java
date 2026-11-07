@@ -2,7 +2,9 @@
 package org.iesteis.model.background;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Opción de equipo de un trasfondo, con cantidad y conjunto de alternativas.
+ */
 public class EquipmentOption {
     @JsonProperty("desc")
     private String desc;

@@ -1,7 +1,9 @@
 package org.iesteis.model.conditions;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Modelo de una condición con su identificador, nombre y descripción.
+ */
 public class Conditions {
     @JsonProperty("index")
     private String index;

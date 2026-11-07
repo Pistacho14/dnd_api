@@ -4,6 +4,9 @@ package org.iesteis.model.monsters;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Acción de un monstruo, con opciones, daño, dificultad y uso.
+ */
 public class MonsterAction {
     @JsonProperty("name")
     private String name;

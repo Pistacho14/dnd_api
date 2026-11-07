@@ -1,7 +1,9 @@
 package org.iesteis.model.classes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Características principales de una clase y las opciones para seleccionarlas.
+ */
 public class PrimaryAbility {
     @JsonProperty("desc")
     private String desc;

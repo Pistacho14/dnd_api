@@ -10,6 +10,9 @@ import org.iesteis.model.features.Features;
 import org.iesteis.repository.BaseRepository;
 import tools.jackson.databind.ObjectMapper;
 
+/**
+ * Persiste y reconstruye rasgos de personaje en la tabla {@code features}.
+ */
 public class FeaturesRepositoryImpl extends BaseRepository<Features> implements FeaturesRepository {
 
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();

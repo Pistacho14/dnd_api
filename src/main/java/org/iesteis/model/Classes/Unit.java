@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.io.IOException;
-
+/**
+ * Unidad monetaria utilizada en las opciones de equipo de clase.
+ */
 public enum Unit {
     GP;
 

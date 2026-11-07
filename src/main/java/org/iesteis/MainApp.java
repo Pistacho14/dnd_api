@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+/** Inicia la interfaz JavaFX y la importación de datos de la API. */
 public class MainApp extends Application {
 
         public static Scene scene;

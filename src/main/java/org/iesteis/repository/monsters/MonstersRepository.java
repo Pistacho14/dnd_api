@@ -5,6 +5,9 @@ import java.util.List;
 import org.iesteis.model.monsters.Monster;
 import org.iesteis.repository.CrudRepository;
 
+/**
+ * Define el acceso a datos de los monstruos y sus búsquedas específicas.
+ */
 public interface MonstersRepository extends CrudRepository<Monster> {
     List<Monster> findByName(String name);
     List<Monster> findByIndex(String index);

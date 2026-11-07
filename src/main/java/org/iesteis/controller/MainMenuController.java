@@ -37,6 +37,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Window;
 import javafx.util.Duration;
 
+/** Controla la consulta, edición y exportación de los datos mostrados en el menú principal. */
 public final class MainMenuController {
 
     private static final String STYLESHEET_PATH = "/styles/Styles.css";

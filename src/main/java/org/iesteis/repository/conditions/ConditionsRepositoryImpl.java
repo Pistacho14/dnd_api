@@ -7,6 +7,9 @@ import org.iesteis.database.DatabaseManager;
 import org.iesteis.model.conditions.Conditions;
 import org.iesteis.repository.BaseRepository;
 
+/**
+ * Persiste y reconstruye condiciones en la tabla {@code conditions}.
+ */
 public class ConditionsRepositoryImpl extends BaseRepository<Conditions> implements ConditionsRepository {
 
     public ConditionsRepositoryImpl() { super(); }

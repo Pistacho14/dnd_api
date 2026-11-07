@@ -1,7 +1,9 @@
 package org.iesteis.model.equipment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Daño de un equipo, con sus dados y tipo de daño.
+ */
 public class Damage {
     @JsonProperty("damage_dice")
     private String damageDice;

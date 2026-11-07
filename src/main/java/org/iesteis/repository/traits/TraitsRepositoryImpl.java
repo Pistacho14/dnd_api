@@ -13,6 +13,9 @@ import org.iesteis.model.traits.Traits;
 import org.iesteis.repository.BaseRepository;
 import tools.jackson.databind.ObjectMapper;
 
+/**
+ * Persiste y reconstruye rasgos en la tabla {@code traits}.
+ */
 public class TraitsRepositoryImpl extends BaseRepository<Traits> implements TraitsRepository {
 
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();

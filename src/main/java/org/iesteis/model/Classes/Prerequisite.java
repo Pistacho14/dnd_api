@@ -1,7 +1,9 @@
 package org.iesteis.model.classes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Requisito de multiclase basado en una característica y una puntuación mínima.
+ */
 public class Prerequisite {
     @JsonProperty("ability_score")
     private Proficiency abilityScore;

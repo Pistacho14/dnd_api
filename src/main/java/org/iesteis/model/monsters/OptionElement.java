@@ -4,6 +4,9 @@ package org.iesteis.model.monsters;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Elemento de una opción de acción, como ataque, cantidad o acciones anidadas.
+ */
 public class OptionElement {
     @JsonProperty("option_type")
     private ActionOptionType optionType;

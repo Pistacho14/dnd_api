@@ -1,7 +1,9 @@
 package org.iesteis.model.background;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Elección de competencias de un trasfondo y sus alternativas.
+ */
 public class ProficiencyChoice {
     @JsonProperty("desc")
     private String desc;

@@ -13,6 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tools.jackson.databind.ObjectMapper;
 
+/**
+ * Persiste y reconstruye puntuaciones de característica en la tabla {@code ability_scores}.
+ */
 public class AbilityScoresRepositoryImpl extends BaseRepository<AbilityScores>
         implements AbilityScoresRepository {
 

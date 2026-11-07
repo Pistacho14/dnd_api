@@ -1,7 +1,9 @@
 package org.iesteis.model.equipment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Uso especial de un equipo y su clase de dificultad.
+ */
 public class Utilize {
     @JsonProperty("name")
     private String name;

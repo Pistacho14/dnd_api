@@ -1,7 +1,9 @@
 package org.iesteis.model.damageTypes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Modelo de un tipo de daño con su identificador y descripción.
+ */
 public class DamageTypes {
     @JsonProperty("index")
     private String index;

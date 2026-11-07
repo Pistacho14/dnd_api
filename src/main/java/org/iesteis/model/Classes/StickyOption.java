@@ -1,7 +1,9 @@
 package org.iesteis.model.classes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Alternativa de equipo inicial con sus elementos y cantidades.
+ */
 public class StickyOption {
     @JsonProperty("option_type")
     private FluffyOptionType optionType;

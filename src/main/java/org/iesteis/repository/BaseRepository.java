@@ -19,6 +19,9 @@ import org.iesteis.database.DatabaseService;
 
 import tools.jackson.databind.ObjectMapper;
 
+/**
+ * Proporciona la implementación SQL común de las operaciones CRUD para entidades persistidas.
+ */
 public abstract class BaseRepository<T> implements CrudRepository<T> {
 
     protected final DatabaseManager db;

@@ -4,7 +4,9 @@ package org.iesteis.model.spells;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.IOException;
-
+/**
+ * Tipos de ataque que puede indicar un conjuro.
+ */
 public enum AttackType {
     MELEE, RANGED;
 

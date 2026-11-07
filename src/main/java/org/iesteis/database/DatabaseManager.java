@@ -3,6 +3,7 @@ package org.iesteis.database;
 import java.util.List;
 import java.util.Map;
 
+/** Define operaciones parametrizadas para consultar y modificar la base de datos. */
 public interface DatabaseManager {
     List<Map<String, Object>> select(String query, Object... params);
     // Devuelve los nombres de las tablas disponibles en la base de datos.

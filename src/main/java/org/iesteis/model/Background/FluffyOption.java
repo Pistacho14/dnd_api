@@ -1,7 +1,9 @@
 package org.iesteis.model.background;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Opción de competencia que referencia el elemento seleccionado.
+ */
 public class FluffyOption {
     @JsonProperty("option_type")
     private String optionType;

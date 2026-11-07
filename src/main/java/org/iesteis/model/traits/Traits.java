@@ -2,6 +2,9 @@ package org.iesteis.model.traits;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Modelo de un rasgo, con asociaciones a especies, conjuros y competencias.
+ */
 public class Traits {
     @JsonProperty("index")
     private String index;

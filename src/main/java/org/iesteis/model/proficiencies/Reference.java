@@ -2,6 +2,9 @@ package org.iesteis.model.proficiencies;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Referencia a una clase o trasfondo asociado a una competencia.
+ */
 public class Reference {
     @JsonProperty("index")
     private String index;

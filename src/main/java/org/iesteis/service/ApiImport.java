@@ -64,6 +64,7 @@ import org.iesteis.repository.weaponProperties.WeaponPropertiesRepositoryImpl;
 
 import tools.jackson.core.type.TypeReference;
 
+/** Descarga los datos de D&amp;D 5e y los persiste mediante sus repositorios. */
 public class ApiImport {
 
 

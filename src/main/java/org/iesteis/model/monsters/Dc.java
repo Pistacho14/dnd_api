@@ -4,6 +4,9 @@ package org.iesteis.model.monsters;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Clase de dificultad de una acción de monstruo y su tipo de salvación.
+ */
 public class Dc {
     @JsonProperty("dc_type")
     private ConditionImmunity dcType;

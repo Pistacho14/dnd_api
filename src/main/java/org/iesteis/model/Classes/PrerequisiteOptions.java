@@ -1,7 +1,9 @@
 package org.iesteis.model.classes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Elección de requisitos de multiclase entre varias alternativas.
+ */
 public class PrerequisiteOptions {
     @JsonProperty("type")
     private String type;

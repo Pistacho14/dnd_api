@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.io.IOException;
-
+/**
+ * Unidades monetarias usadas para expresar costes de equipo.
+ */
 public enum Unit {
     CP, GP, SP;
 

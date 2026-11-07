@@ -11,6 +11,9 @@ import org.iesteis.model.proficiencies.Proficiencies;
 import org.iesteis.repository.BaseRepository;
 import tools.jackson.databind.ObjectMapper;
 
+/**
+ * Persiste y reconstruye competencias en la tabla {@code proficiencies}.
+ */
 public class ProficienciesRepositoryImpl extends BaseRepository<Proficiencies> implements ProficienciesRepository {
 
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();

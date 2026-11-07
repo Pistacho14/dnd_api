@@ -6,7 +6,9 @@ package org.iesteis.model.monsters;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.IOException;
-
+/**
+ * Reglas de frecuencia o recarga de las acciones de monstruo.
+ */
 public enum TentacledType {
     PER_DAY, RECHARGE_AFTER_REST, RECHARGE_ON_ROLL;
 

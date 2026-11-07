@@ -2,6 +2,9 @@ package org.iesteis.model.spells;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Modelo de un conjuro con nivel, escuela, alcance, componentes y duración.
+ */
 public class Spells {
     @JsonProperty("index")
     private String index;

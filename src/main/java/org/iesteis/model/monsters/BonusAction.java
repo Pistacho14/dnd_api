@@ -4,6 +4,9 @@ package org.iesteis.model.monsters;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Acción adicional de un monstruo y sus efectos o límites de uso.
+ */
 public class BonusAction {
     @JsonProperty("name")
     private String name;

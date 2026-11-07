@@ -8,6 +8,9 @@ import org.iesteis.model.feats.Feats;
 import org.iesteis.repository.BaseRepository;
 import tools.jackson.databind.ObjectMapper;
 
+/**
+ * Persiste y reconstruye dotes en la tabla {@code feats}.
+ */
 public class FeatsRepositoryImpl extends BaseRepository<Feats> implements FeatsRepository {
 
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();

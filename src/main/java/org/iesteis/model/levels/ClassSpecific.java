@@ -2,6 +2,9 @@ package org.iesteis.model.levels;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Valores de progresión específicos de clase, como usos, bonificaciones y dados.
+ */
 public class ClassSpecific {
     @JsonProperty("rage_count")
     private Long rageCount;

@@ -6,7 +6,9 @@ package org.iesteis.model.monsters;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.IOException;
-
+/**
+ * Tipos de opción disponibles para las acciones de monstruo.
+ */
 public enum ActionOptionType {
     ACTION, MULTIPLE;
 

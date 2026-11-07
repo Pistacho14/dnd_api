@@ -4,6 +4,9 @@ package org.iesteis.model.monsters;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Velocidades de desplazamiento de un monstruo según el modo.
+ */
 public class Speed {
     @JsonProperty("walk")
     private Walk walk;

@@ -1,7 +1,9 @@
 package org.iesteis.model.equipmentCategories;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Categoría de equipo con las referencias a los objetos incluidos.
+ */
 public class EquipmentCategories {
     @JsonProperty("index")
     private String index;

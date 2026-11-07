@@ -6,6 +6,9 @@ import java.util.List;
 
 import org.iesteis.repository.CrudRepository;
 
+/**
+ * Define el acceso a datos de los alineamientos y sus búsquedas específicas.
+ */
 public interface AlignmentsRepository extends CrudRepository<Alignments> {
     List<Alignments> findByName(String name);
     List<Alignments> findByIndex(String index);

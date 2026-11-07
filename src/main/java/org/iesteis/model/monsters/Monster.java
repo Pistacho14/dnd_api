@@ -4,6 +4,9 @@ package org.iesteis.model.monsters;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Modelo de un monstruo, con estadísticas, sentidos, defensas y acciones.
+ */
 public class Monster {
     @JsonProperty("name")
     private String name;

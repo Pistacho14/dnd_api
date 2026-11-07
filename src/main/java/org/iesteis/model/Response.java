@@ -1,7 +1,9 @@
 package org.iesteis.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Índice de rutas de los recursos disponibles en la respuesta de la API.
+ */
 public class Response {
     @JsonProperty("ability-scores")
     private String abilityScores;

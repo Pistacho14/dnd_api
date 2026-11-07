@@ -1,7 +1,9 @@
 package org.iesteis.model.equipment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * Coste de un equipo expresado como cantidad y unidad monetaria.
+ */
 public class Cost {
     @JsonProperty("quantity")
     private long quantity;

@@ -2,6 +2,9 @@ package org.iesteis.model.spells;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+/**
+ * Escuela de magia de un conjuro, con identificador y URL.
+ */
 public class School {
     @JsonProperty("index")
     private Index index;
