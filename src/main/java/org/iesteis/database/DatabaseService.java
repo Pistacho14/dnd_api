@@ -24,15 +24,23 @@ import org.slf4j.LoggerFactory;
 
 public class DatabaseService implements DatabaseManager {
 
+    private static class InstanceHolder {
+        private static final DatabaseService INSTANCE = new DatabaseService();
+    }
+
     private final Logger logger = LoggerFactory.getLogger(DatabaseService.class.getName());
 
     private Connection connection = null;
 
-    public DatabaseService() {
+    private DatabaseService() {
         initConexion();
         if (Config.getDatabaseInitTables()) {
             initTablas();
         }
+    }
+
+    public static DatabaseService getInstance() {
+        return InstanceHolder.INSTANCE;
     }
 
     private void initConexion() {
