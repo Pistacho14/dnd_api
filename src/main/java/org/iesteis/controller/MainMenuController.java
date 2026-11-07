@@ -94,7 +94,7 @@ public final class MainMenuController {
             new FilteredList<>(allTableRows);
 
     // Servicio usado para consultar las tablas y sus datos en la base de datos.
-    private final DatabaseService databaseService = new DatabaseService();
+    private final DatabaseService databaseService = DatabaseService.getInstance();
 
     @FXML
     private void initialize() {
