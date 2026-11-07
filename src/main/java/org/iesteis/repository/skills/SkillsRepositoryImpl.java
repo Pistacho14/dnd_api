@@ -10,12 +10,9 @@ import org.iesteis.model.skills.Skills;
 import org.iesteis.repository.BaseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tools.jackson.databind.ObjectMapper;
 
 public class SkillsRepositoryImpl extends BaseRepository<Skills>
         implements SkillsRepository {
-
-    private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
 
     private final Logger logger = LoggerFactory.getLogger(SkillsRepositoryImpl.class.getName());
 
@@ -56,13 +53,13 @@ public class SkillsRepositoryImpl extends BaseRepository<Skills>
         }
 
         String sql = "UPDATE skills SET `index` = ?, name = ?, description = ?, "
-                + "ability_score = ?, url = ? WHERE `index` = ?";
+                + "ability_score_index = ?, url = ? WHERE `index` = ?";
         int result = db.update(
                 sql,
                 skill.getIndex(),
                 skill.getName(),
                 skill.getDescription(),
-                JSON_MAPPER.writeValueAsString(skill.getAbilityScore()),
+                skill.getAbilityScore() != null ? skill.getAbilityScore().getIndex() : null,
                 skill.getUrl(),
                 index);
         if (result <= 0) {
@@ -121,13 +118,15 @@ public class SkillsRepositoryImpl extends BaseRepository<Skills>
 
     @Override
     protected Skills toModel(Map<String, Object> entity) {
-        Object abilityScore = entity.get("ability_score");
+        Object abilityScoreIndex = entity.get("ability_score_index");
 
         return new Skills(
                 (String) entity.get("index"),
                 (String) entity.get("name"),
                 (String) entity.get("description"),
-                abilityScore == null ? null : JSON_MAPPER.readValue((String) abilityScore, AbilityScore.class),
+                abilityScoreIndex == null
+                        ? null
+                        : new AbilityScore(abilityScoreIndex.toString(), null, null),
                 (String) entity.get("url")
         );
     }
