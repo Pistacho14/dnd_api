@@ -24,7 +24,7 @@ public abstract class BaseRepository<T> implements CrudRepository<T> {
     protected final DatabaseManager db;
 
     protected BaseRepository() {
-        this.db = new DatabaseService();
+        this.db = DatabaseService.getInstance();
     }
 
     protected BaseRepository(DatabaseManager db) {

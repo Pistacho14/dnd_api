@@ -24,14 +24,50 @@ import org.slf4j.LoggerFactory;
 
 public class DatabaseService implements DatabaseManager {
 
+    private static class InstanceHolder {
+        private static final DatabaseService INSTANCE = new DatabaseService();
+    }
+
     private final Logger logger = LoggerFactory.getLogger(DatabaseService.class.getName());
 
     private Connection connection = null;
 
-    public DatabaseService() {
+    private DatabaseService() {
+        initBaseDeDatos();
         initConexion();
         if (Config.getDatabaseInitTables()) {
             initTablas();
+        }
+    }
+
+    public static DatabaseService getInstance() {
+        return InstanceHolder.INSTANCE;
+    }
+
+    private void initBaseDeDatos() {
+        String databaseUrl = Config.getDatabaseUrl();
+        int queryStart = databaseUrl.indexOf('?');
+        String urlWithoutQuery = queryStart >= 0 ? databaseUrl.substring(0, queryStart) : databaseUrl;
+        String query = queryStart >= 0 ? databaseUrl.substring(queryStart) : "";
+        int databaseSeparator = urlWithoutQuery.indexOf('/', "jdbc:mysql://".length());
+
+        if (databaseSeparator < 0 || databaseSeparator == urlWithoutQuery.length() - 1) {
+            return;
+        }
+
+        String databaseName = urlWithoutQuery.substring(databaseSeparator + 1);
+        String serverUrl = urlWithoutQuery.substring(0, databaseSeparator + 1) + query;
+        String quotedDatabaseName = "`" + databaseName.replace("`", "``") + "`";
+
+        // Crea el esquema antes de abrir la conexión que apunta a él.
+        try (Connection serverConnection = DriverManager.getConnection(
+                serverUrl, Config.getDatabaseUser(), Config.getDatabasePassword());
+                Statement statement = serverConnection.createStatement()) {
+            statement.executeUpdate("CREATE DATABASE IF NOT EXISTS " + quotedDatabaseName);
+            logger.debug("Base de datos '{}' inicializada", databaseName);
+        } catch (SQLException e) {
+            logger.error("Error al crear la base de datos '" + databaseName + "': " + e.getMessage());
+            throw new IllegalStateException("No se pudo crear la base de datos '" + databaseName + "'", e);
         }
     }
 

@@ -238,7 +238,13 @@ CREATE TABLE IF NOT EXISTS skills (
     `index` VARCHAR(100) NOT NULL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
-    url VARCHAR(255) NOT NULL
+    url VARCHAR(255) NOT NULL,
+    ability_score_index VARCHAR(100) NOT NULL,
+
+    FOREIGN KEY (ability_score_index)
+        REFERENCES ability_scores(`index`)
+        ON DELETE RESTRICT
+        ON UPDATE CASCADE
 );
 
 -- Tabla de especies (Species).
@@ -328,12 +334,3 @@ CREATE TABLE IF NOT EXISTS weapon_properties (
     description TEXT NOT NULL,
     url VARCHAR(255) NOT NULL
 );
-
-ALTER TABLE skills
-    ADD COLUMN ability_score_index VARCHAR(255) NOT NULL,
-
-    ADD CONSTRAINT skills_ability_scores
-    FOREIGN KEY (ability_score_index)
-        REFERENCES ability_scores(name)
-        ON DELETE RESTRICT
-        ON UPDATE CASCADE;
